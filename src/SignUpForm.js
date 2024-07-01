@@ -7,6 +7,7 @@ function SignUpForm() {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [userBirthday, setUserBirthday] = useState('');
+    const [userPhone, setUserPhone] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -17,6 +18,7 @@ function SignUpForm() {
             userEmail,
             userPassword,
             userBirthday,
+            userPhone
         };
 
         try {
@@ -59,7 +61,12 @@ function SignUpForm() {
                 <input type="date" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} required />
             </label>
             <br />
-            <button type="submit">Sign Up</button>
+            <label>
+                휴대폰 번호:
+                <input type="tel" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} required />
+            </label>
+            <br />
+            <button type="submit">가입</button>
         </form>
     );
 }

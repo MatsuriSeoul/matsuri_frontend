@@ -4,12 +4,21 @@ import { AuthProvider } from './AuthContext';
 import SignUpForm from "./SignUpForm";
 import MainNavigation from "./MainNavigation";
 import LoginForm from "./LoginForm";
+import UserIdRecoveryForm from "./UserIdRecoveryForm";
+import PasswordRecoveryForm from "./PasswordRecoveryForm";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
+    const [isUserIdRecoveryOpen, setUserIdRecoveryOpen] = useState(false);
+    const [isPasswordRecoveryOpen, setPasswordRecoveryOpen] = useState(false);
 
     const openLoginModal = () => setLoginOpen(true);
     const closeLoginModal = () => setLoginOpen(false);
+    const openUserIdRecoveryModal = () => setUserIdRecoveryOpen(true);
+    const closeUserIdRecoveryModal = () => setUserIdRecoveryOpen(false);
+    const openPasswordRecoveryModal = () => setPasswordRecoveryOpen(true);
+    const closePasswordRecoveryModal = () => setPasswordRecoveryOpen(false);
+
     useEffect(() => {
         // 서버 실행시 초기화
         localStorage.removeItem('token');
@@ -21,11 +30,30 @@ function App() {
         <Router>
             <AuthProvider>
                 <div>
-                    <MainNavigation openLoginModal={openLoginModal} />
+                    <MainNavigation
+                        openLoginModal={openLoginModal}
+                        openUserIdRecoveryModal={openUserIdRecoveryModal}
+                        openPasswordRecoveryModal={openPasswordRecoveryModal}
+                    />
                     <Switch>
-                        <Route path="/signUp" component={SignUpForm} />
+                        <Route path="/signUp" component={SignUpForm} /> {/*회원가입*/}
+                        <Route path="/userid-recovery" component={UserIdRecoveryForm} /> {/* 아이디 찾기 폼 */}
+                        <Route path="/password-recovery" component={PasswordRecoveryForm} /> {/* 비밀번호 찾기 폼 */}
                     </Switch>
-                    <LoginForm isOpen={isLoginOpen} onClose={closeLoginModal} />
+                    <LoginForm
+                        isOpen={isLoginOpen}
+                        onClose={closeLoginModal}
+                        onNavigateToUserIdRecovery={openUserIdRecoveryModal}
+                        onNavigateToPasswordRecovery={openPasswordRecoveryModal}
+                    />
+                    <UserIdRecoveryForm
+                        isOpen={isUserIdRecoveryOpen}
+                        onClose={closeUserIdRecoveryModal}
+                    />
+                    <PasswordRecoveryForm
+                        isOpen={isPasswordRecoveryOpen}
+                        onClose={closePasswordRecoveryModal}
+                    />
                 </div>
             </AuthProvider>
         </Router>
