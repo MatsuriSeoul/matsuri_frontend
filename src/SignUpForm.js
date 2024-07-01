@@ -33,6 +33,7 @@ function SignUpForm() {
 
     return (
         <form onSubmit={handleSubmit}>
+            <h1>회원가입</h1>
             <label>
                 아이디:
                 <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} required />
