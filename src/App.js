@@ -1,24 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import SignUpForm from './SignUpForm';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          성공했나?
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <h1>회원가입</h1>
+        <SignUpForm />
+      </div>
   );
 }
 
