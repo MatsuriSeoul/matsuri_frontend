@@ -28,6 +28,7 @@ function MainNavigation() {
                         <li>
                             <button onClick={openLoginModal}>로그인</button>
                         </li>
+                        <li><Link to ="/event-search">검색</Link></li>
                         <LoginForm
                             isOpen={isLoginOpen}
                             onClose={closeLoginModal}

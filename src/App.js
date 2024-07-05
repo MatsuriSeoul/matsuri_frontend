@@ -6,6 +6,7 @@ import MainNavigation from "./MainNavigation";
 import LoginForm from "./LoginForm";
 import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
+import EventSearch from "./EventSearch";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -36,9 +37,10 @@ function App() {
                         openPasswordRecoveryModal={openPasswordRecoveryModal}
                     />
                     <Switch>
-                        <Route path="/signUp" component={SignUpForm} /> {/*회원가입*/}
-                        <Route path="/userid-recovery" component={UserIdRecoveryForm} /> {/* 아이디 찾기 폼 */}
-                        <Route path="/password-recovery" component={PasswordRecoveryForm} /> {/* 비밀번호 찾기 폼 */}
+                        <Route path="/signUp" component={SignUpForm}/> {/*회원가입*/}
+                        <Route path="/userid-recovery" component={UserIdRecoveryForm}/> {/* 아이디 찾기 폼 */}
+                        <Route path="/password-recovery" component={PasswordRecoveryForm}/> {/* 비밀번호 찾기 폼 */}
+                        <Route path="/event-search" component={EventSearch} />  {/*행사 검색 기능*/}
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
