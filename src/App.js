@@ -8,7 +8,11 @@ import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
 import EventSearch from "./EventSearch";
 import TourList from "./TourList";
-//test
+import CreateNotice from "./CreateNotice";
+import CommentList from "./CommentList";
+import NoticeDetail from "./NoticeDetail";
+import NoticeTable from "./NoticeTable";
+
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
     const [isUserIdRecoveryOpen, setUserIdRecoveryOpen] = useState(false);
@@ -37,7 +41,11 @@ function App() {
                         openUserIdRecoveryModal={openUserIdRecoveryModal}
                         openPasswordRecoveryModal={openPasswordRecoveryModal}
                     />
+                    <NoticeTable/>
                     <Switch>
+                        <Route path="/notice/:noticeId" component={NoticeDetail}/> {/* 공지사항 상세 */}
+                        <Route path="/notice/:noticeId/comment" component={CommentList}/> {/* 댓글 목록 */}
+                        <Route path="/notice" component={CreateNotice} /> {/* 공지사항 작성 */}
                         <Route path="/signUp" component={SignUpForm}/> {/*회원가입*/}
                         <Route path="/userid-recovery" component={UserIdRecoveryForm}/> {/* 아이디 찾기 폼 */}
                         <Route path="/password-recovery" component={PasswordRecoveryForm}/> {/* 비밀번호 찾기 폼 */}

@@ -5,6 +5,7 @@ import LogoutButton from './LogoutButton';
 import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import LoginForm from "./LoginForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
+import CreateNotice from "./CreateNotice";
 
 function MainNavigation() {
     const { auth } = useContext(AuthContext);
@@ -47,6 +48,7 @@ function MainNavigation() {
                     </>
                 ) : (
                     <li>
+                        <CreateNotice />
                         <LogoutButton />
                     </li>
                 )}
