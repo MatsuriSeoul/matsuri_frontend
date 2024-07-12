@@ -8,7 +8,7 @@ import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
 import EventSearch from "./EventSearch";
 import TourList from "./TourList";
-//1212
+
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
     const [isUserIdRecoveryOpen, setUserIdRecoveryOpen] = useState(false);
