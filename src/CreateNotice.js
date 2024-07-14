@@ -12,7 +12,7 @@ const CreateNotice = () => {
         try {
             await axios.post('/api/notice', {title, content});
             alert("공지사항 업로드 완료.");
-            history.push('/notice');
+            history.push('/');
         } catch (error) {
             console.log('공지사항 업로드 에러',error);
         }
