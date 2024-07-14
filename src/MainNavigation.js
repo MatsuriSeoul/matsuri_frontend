@@ -30,6 +30,7 @@ function MainNavigation() {
                         </li>
                         <li><Link to ="/event-search">검색</Link></li>
                         <li><Link to ="/event-fetch">api 테스트</Link></li>
+                        <li><Link to ="/event-fetch-detail">행사상세정보</Link></li>
                         <LoginForm
                             isOpen={isLoginOpen}
                             onClose={closeLoginModal}

@@ -8,6 +8,7 @@ import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
 import EventSearch from "./EventSearch";
 import TourList from "./TourList";
+import TourEventDetail from "./TourEventDetail";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -43,6 +44,7 @@ function App() {
                         <Route path="/password-recovery" component={PasswordRecoveryForm}/> {/* 비밀번호 찾기 폼 */}
                         <Route path="/event-search" component={EventSearch} />  {/*행사 검색 기능*/}
                         <Route path="/event-fetch" component={TourList} /> {/*여행 정보 api 불러오기 테스트*/}
+                        <Route path="/event-fetch-detail" component={TourEventDetail} />
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
