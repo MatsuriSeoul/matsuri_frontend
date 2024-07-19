@@ -23,38 +23,41 @@ function MainNavigation() {
     return (
         <nav>
             <ul>
-                {!auth.token ? (
-                    <>
-                        <li><Link to="/signUp">회원가입</Link></li>
-                        <li>
-                            <button onClick={openLoginModal}>로그인</button>
-                        </li>
-                        <li><Link to ="/event-search">검색</Link></li>
-                        <li><Link to ="/event-fetch">api 테스트</Link></li>
-                        <li><Link to ="/event-fetch-detail">행사상세정보</Link></li>
-                        <li><Link to ="/create-notice">공지사항 작성</Link></li>
-                        <li><Link to ="/api/notice">공지사항 보기</Link></li>
-                        <LoginForm
-                            isOpen={isLoginOpen}
-                            onClose={closeLoginModal}
-                            onNavigateToUserIdRecovery={openUserIdRecoveryModal}
-                            onNavigateToPasswordRecovery={openPasswordRecoveryModal}
-                        />
-                        <UserIdRecoveryForm
-                            isOpen={isUserIdRecoveryOpen}
-                            onClose={closeUserIdRecoveryModal}
-                        />
-                        <PasswordRecoveryForm
-                            isOpen={isPasswordRecoveryOpen}
-                            onClose={closePasswordRecoveryModal}
-                        />
-                    </>
-                ) : (
+                <li><Link to="/signUp">회원가입</Link></li>
+                {!auth.token && (
                     <li>
-                        <CreateNotice />
-                        <LogoutButton />
+                        <button onClick={openLoginModal}>로그인</button>
                     </li>
                 )}
+                <li><Link to="/event-search">검색</Link></li>
+                <li><Link to="/event-fetch">api 테스트</Link></li>
+                <li><Link to="/event-fetch-detail">행사상세정보</Link></li>
+                <li><Link to="/create-notice">공지사항 작성</Link></li>
+                <li><Link to="/api/notice">공지사항 보기</Link></li>
+                {auth.token && (
+                    <>
+                        <li>
+                            <CreateNotice />
+                        </li>
+                        <li>
+                            <LogoutButton />
+                        </li>
+                    </>
+                )}
+                <LoginForm
+                    isOpen={isLoginOpen}
+                    onClose={closeLoginModal}
+                    onNavigateToUserIdRecovery={openUserIdRecoveryModal}
+                    onNavigateToPasswordRecovery={openPasswordRecoveryModal}
+                />
+                <UserIdRecoveryForm
+                    isOpen={isUserIdRecoveryOpen}
+                    onClose={closeUserIdRecoveryModal}
+                />
+                <PasswordRecoveryForm
+                    isOpen={isPasswordRecoveryOpen}
+                    onClose={closePasswordRecoveryModal}
+                />
             </ul>
         </nav>
     );
