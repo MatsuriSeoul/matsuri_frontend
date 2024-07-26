@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 import SignUpForm from "./SignUpForm";
@@ -14,6 +14,8 @@ import NoticeTable from "./NoticeTable";
 import NoticeDetail from "./NoticeDetail";
 import CreateComment from "./CreateComment";
 import CommentList from "./CommentList";
+import Category from "./Category";
+import LocalSave from "./LocalSave";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -47,14 +49,17 @@ function App() {
                         <Route path="/signUp" component={SignUpForm}/> {/*회원가입*/}
                         <Route path="/userid-recovery" component={UserIdRecoveryForm}/> {/* 아이디 찾기 폼 */}
                         <Route path="/password-recovery" component={PasswordRecoveryForm}/> {/* 비밀번호 찾기 폼 */}
-                        <Route path="/event-search" component={EventSearch} />  {/*행사 검색 기능*/}
-                        <Route path="/event-fetch" component={TourList} /> {/*여행 정보 api 불러오기 테스트*/}
-                        <Route path="/event-fetch-detail" component={TourEventDetail} />  {/*id에 해당하는 상세 내용 확인 테스트*/}
+                        <Route path="/event-search" component={EventSearch}/> {/*행사 검색 기능*/}
+                        <Route path="/event-fetch" component={TourList}/> {/*여행 정보 api 불러오기 테스트*/}
+                        <Route path="/event-fetch-detail" component={TourEventDetail}/> {/*id에 해당하는 상세 내용 확인 테스트*/}
                         <Route path="/create-notice" component={CreateNotice}/> {/*공지사항 작성*/}
-                        <Route path="/api/notice" component={NoticeTable} /> {/*공지사항 보기*/}
-                        <Route path="/notice/:noticeId" component={NoticeDetail} /> {/*공지사항 상세 내용*/}
-                        <Route path="/comment" component={CreateComment} />{/*공지사항에 댓글 작성 */}
+                        <Route path="/api/notice" component={NoticeTable}/> {/*공지사항 보기*/}
+                        <Route path="/notice/:noticeId" component={NoticeDetail}/> {/*공지사항 상세 내용*/}
+                        <Route path="/comment" component={CreateComment}/>{/*공지사항에 댓글 작성 */}
                         <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
+                        <Route path="/category/:category" component={Category}/>
+                        <Route path="/category" component={Category} />
+                        <Route path="/localSave" component={LocalSave} /> {/* 지역 API 저장*/}
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
