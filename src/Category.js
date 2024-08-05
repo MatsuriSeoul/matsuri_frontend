@@ -35,8 +35,8 @@ const CategoryEvents = () => {
     React.useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/events/category/${category}`);
-                console.log('Fetched Events:', response.data); // 디버깅을 위해 데이터 로그 출력
+                const response = await axios.get(`http://localhost:8080/api/tourist-attractions/category/${category}`);
+                console.log('Fetched Events:', response.data);
                 setEvents(response.data);
             } catch (error) {
                 console.error('Error fetching events', error);
@@ -52,8 +52,10 @@ const CategoryEvents = () => {
             <ul>
                 {events.slice(0, 6).map(event => (
                     <li key={event.contentid}>
-                        <h2>{event.title}</h2>
-                        <img src={event.firstimage} alt={event.title} width="200" />
+                        <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
+                            <h2>{event.title}</h2>
+                            <img src={event.firstimage} alt={event.title} width="200" />
+                        </Link>
                     </li>
                 ))}
             </ul>

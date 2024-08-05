@@ -16,6 +16,7 @@ import CreateComment from "./CreateComment";
 import CommentList from "./CommentList";
 import Category from "./Category";
 import LocalSave from "./LocalSave";
+import TouristAttractionDetail from "./TouristAttractionDetail";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -60,6 +61,7 @@ function App() {
                         <Route path="/category/:category" component={Category}/>
                         <Route path="/category" component={Category} />
                         <Route path="/localSave" component={LocalSave} /> {/* 지역 API 저장*/}
+                        <Route path="/tourist-attraction/:contentid/:contenttypeid/detail" component={TouristAttractionDetail} />
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
