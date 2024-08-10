@@ -1,0 +1,171 @@
+.main_sec1{
+    margin-top: 80px;
+    padding: 0px 100px;
+    display: flex;
+    justify-content: space-between;
+}
+.main_sec1 .recommend{
+    width: 954px;
+}
+.main_sec1 .recommend .category-title{
+    display: flex;
+    align-items: center;
+    margin-left: 18px;
+    margin: 20px;
+}
+.main_sec1 .recommend .category-title .area{
+    font-size: 14px;
+    font-weight: 700;
+}
+.main_sec1 .recommend .category-title .wall{
+    margin: 0px 22px;
+    width: 1px;
+    height: 24px;
+    background-color: #567FF2;
+}
+.main_sec1 .recommend .category-title .right{
+    color: #567FF2;
+    font-size: 14px;
+    font-weight: 600;
+}
+.main_sec1 .recommend .area-category{
+    width: 100%;
+    height: 50px;
+    background-color: #567FF2;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+}
+.main_sec1 .recommend .area-category .left{
+    width: calc(50% - 1px);
+}
+.main_sec1 .recommend .area-category .right{
+    width: calc(50% - 1px);
+}
+.main_sec1 .recommend .area-category .wall{
+    width: 1px;
+    height: 16px;
+    background-color: #A3B9F5;
+}
+.main_sec1 .recommend .area-category p{
+    text-align: center;
+    font-size: 17px;
+    font-weight: 400;
+    color: #ffffff;
+}
+.main_sec1 .recommend .comment{
+    text-align: center;
+    margin: 26px 0px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #333333;
+}
+.main_sec1 .recommend .area-info-box{
+    width: 100%;
+    height: 330px;
+    display: flex;
+    justify-content: space-between;
+}
+.main_sec1 .recommend .area-info-box .box{
+    width: calc(25% - 20px);
+    background-color: #fac5f4;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+.main_sec1 .recommend .area-info-box .box::after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block;
+    z-index: 0;
+    background: linear-gradient(rgba(0,0,0,0) 60%, rgba(0,0,0,0.5));
+}
+.main_sec1 .recommend .area-info-box .box .like-btn{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 16px;
+    top: 14px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main_sec1 .recommend .area-info-box .box .like-btn img{
+    width: 25px;
+    height: 25px;
+    margin-left: 1px;
+}
+.main_sec1 .recommend .area-info-box .box .txt{
+    z-index: 1;
+    margin: 16px;
+    color: #ffffff;
+}
+.main_sec1 .recommend .area-info-box .box .txt .title{
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 6px;
+}
+.main_sec1 .recommend .area-info-box .box .txt .address{
+    font-size: 14px;
+    font-weight: 400;
+}
+.main_sec1 .announcement{
+    margin-top: 16px;
+    width: 620px;
+}
+.main_sec1 .announcement .title{
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+}
+.main_sec1 .announcement .title .icon{
+    width: 28px;
+    height: 28px;
+    margin-right: 6px;
+    transform: rotate(-25deg);
+}
+.main_sec1 .announcement .title h3{
+    color: #21252F;
+    font-size: 20px;
+    /* text-decoration: underline; */
+    padding: 1px 0px;
+    border-bottom: 1px solid #111111;
+}
+.main_sec1 .announcement .announcement-list{
+    width: 100%;
+    border-radius: 6px 50px 50px;
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+.main_sec1 .announcement .announcement-list li{
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #cecece;
+} 
+.main_sec1 .announcement .announcement-list .last-li{
+    border-bottom: none;
+}
+.main_sec1 .announcement .announcement-list li .icon{
+    padding: 16px 26px;
+    background-color: #4563FF;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-left: 22px;
+    margin-right: 16px;
+}
+.main_sec1 .announcement .announcement-list li .announcement-info{
+    font-size: 16px;
+    font-weight: 500;
+}
