@@ -17,6 +17,8 @@ import CommentList from "./CommentList";
 import Category from "./Category";
 import LocalSave from "./LocalSave";
 import TouristAttractionDetail from "./TouristAttractionDetail";
+import EventDetailPage from "./eventDetailPage";
+import './css/reset.css';
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -41,6 +43,7 @@ function App() {
         <Router>
             <AuthProvider>
                 <div>
+                    <EventDetailPage/>
                     <MainNavigation
                         openLoginModal={openLoginModal}
                         openUserIdRecoveryModal={openUserIdRecoveryModal}
