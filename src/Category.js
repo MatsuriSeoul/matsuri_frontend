@@ -50,7 +50,7 @@ const CategoryEvents = () => {
         <div>
             <h1>{category} 관련 이벤트</h1>
             <ul>
-                {events.slice(0, 6).map(event => (
+                {events.slice(0, 99).map(event => (
                     <li key={event.contentid}>
                         <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
                             <h2>{event.title}</h2>
