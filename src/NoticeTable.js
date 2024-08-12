@@ -28,6 +28,10 @@ const NoticeTable = () => {
                     <th>게시일자</th>
                     <th>작성자</th>
                     <th>조회수</th>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Created Time</th>
+                    <th>View Count</th>
                 </tr>
                 </thead>
                 <tbody>

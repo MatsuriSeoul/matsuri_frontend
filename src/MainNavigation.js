@@ -6,6 +6,7 @@ import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import LoginForm from "./LoginForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
 import CreateNotice from "./CreateNotice";
+import CreateInquiry from "./CreateInquiry";
 
 function MainNavigation() {
     const { auth } = useContext(AuthContext);
@@ -55,6 +56,36 @@ function MainNavigation() {
                     isOpen={isPasswordRecoveryOpen}
                     onClose={closePasswordRecoveryModal}
                 />
+                {!auth.token ? (
+                    <>
+                        <li><Link to="/signUp">회원가입</Link></li>
+                        <li>
+                            <button onClick={openLoginModal}>로그인</button>
+                        </li>
+                        <li><Link to ="/event-search">검색</Link></li>
+                        <li><Link to ="/event-fetch">api 테스트</Link></li>
+                        <LoginForm
+                            isOpen={isLoginOpen}
+                            onClose={closeLoginModal}
+                            onNavigateToUserIdRecovery={openUserIdRecoveryModal}
+                            onNavigateToPasswordRecovery={openPasswordRecoveryModal}
+                        />
+                        <UserIdRecoveryForm
+                            isOpen={isUserIdRecoveryOpen}
+                            onClose={closeUserIdRecoveryModal}
+                        />
+                        <PasswordRecoveryForm
+                            isOpen={isPasswordRecoveryOpen}
+                            onClose={closePasswordRecoveryModal}
+                        />
+                    </>
+                ) : (
+                    <li>
+                        <CreateInquiry/>
+                        <CreateNotice />
+                        <LogoutButton />
+                    </li>
+                )}
             </ul>
         </nav>
     );

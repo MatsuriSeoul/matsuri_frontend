@@ -18,6 +18,8 @@ import InquiryList from "./InquiryList";
 import CreateInquiry from "./CreateInquiry";
 import NoticePage from "./NoticePage";
 import EditNotice from "./EditNotice";
+import CreateInquiry from "./CreateInquiry";
+import InquiryList from "./InquiryList";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
