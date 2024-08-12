@@ -6,7 +6,6 @@ import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import LoginForm from "./LoginForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
 import CreateNotice from "./CreateNotice";
-import CreateInquiry from "./CreateInquiry";
 
 function MainNavigation() {
     const { auth } = useContext(AuthContext);
@@ -35,9 +34,14 @@ function MainNavigation() {
                 <li><Link to="/event-fetch-detail">행사상세정보</Link></li>
                 <li><Link to="/create-notice">공지사항 작성</Link></li>
                 <li><Link to="/api/notice">공지사항 페이지</Link></li>
+                <li><Link to="/category">카테고리 선택</Link></li>
+                <li><Link to="/localSave">지역 API 불러오기</Link></li>
                 {auth.token && (
                     <>
                         <li>
+                            <CreateNotice/>
+                            </li>
+                            <li>
                             <LogoutButton />
                         </li>
                     </>
@@ -56,36 +60,6 @@ function MainNavigation() {
                     isOpen={isPasswordRecoveryOpen}
                     onClose={closePasswordRecoveryModal}
                 />
-                {!auth.token ? (
-                    <>
-                        <li><Link to="/signUp">회원가입</Link></li>
-                        <li>
-                            <button onClick={openLoginModal}>로그인</button>
-                        </li>
-                        <li><Link to ="/event-search">검색</Link></li>
-                        <li><Link to ="/event-fetch">api 테스트</Link></li>
-                        <LoginForm
-                            isOpen={isLoginOpen}
-                            onClose={closeLoginModal}
-                            onNavigateToUserIdRecovery={openUserIdRecoveryModal}
-                            onNavigateToPasswordRecovery={openPasswordRecoveryModal}
-                        />
-                        <UserIdRecoveryForm
-                            isOpen={isUserIdRecoveryOpen}
-                            onClose={closeUserIdRecoveryModal}
-                        />
-                        <PasswordRecoveryForm
-                            isOpen={isPasswordRecoveryOpen}
-                            onClose={closePasswordRecoveryModal}
-                        />
-                    </>
-                ) : (
-                    <li>
-                        <CreateInquiry/>
-                        <CreateNotice />
-                        <LogoutButton />
-                    </li>
-                )}
             </ul>
         </nav>
     );
