@@ -6,30 +6,64 @@ const TouristAttractionDetail = () => {
     const { contentid, contenttypeid } = useParams();
     const [detail, setDetail] = useState(null);
     const [intro, setIntro] = useState(null);
+    const [firstImage, setFirstImage] = useState(null);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        // 관광지 상세 정보 불러오기 (로컬 DB에서)
+        // 관광지 상세 정보 api 불러오기 (로컬 DB에서)
         const fetchDetail = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/tourist-attractions/${contentid}/detail`);
                 setDetail(response.data);
             } catch (error) {
-                console.error('Error fetching detail', error);
+                console.error('상세 정보 불러오기 실패', error);
             }
         };
 
-        // 소개 정보 불러오기 (외부 API에서)
+        // 소개 정보 api 불러오기 (외부 API에서)
         const fetchIntro = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/tourist-attractions/${contentid}/${contenttypeid}/intro`);
                 setIntro(response.data);
             } catch (error) {
-                console.error('Error fetching intro', error);
+                console.error('소개 정보 불러오기 실패', error);
+            }
+        };
+
+        // 첫 번째 이미지를 가져오기 위한 fetchAndSaveTouristAttractions 호출
+        const fetchFirstImage = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/events/fetchAndSaveTouristAttractions`, {
+                    params: {
+                        numOfRows: '1',
+                        pageNo: '1'
+                    }
+                });
+                if (response.data.length > 0) {
+                    const attraction = response.data.find(attraction => attraction.contentid === contentid);
+                    if (attraction) {
+                        setFirstImage(attraction.firstimage);
+                    }
+                }
+            } catch (error) {
+                console.error('첫 번째 이미지 가져오기 실패', error);
+            }
+        };
+
+        // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
+        const fetchImages = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/tourist-attractions/${contentid}/images`);
+                setImages(response.data);
+            } catch (error) {
+                console.error('이미지 정보 불러오기 실패', error);
             }
         };
 
         fetchDetail();
         fetchIntro();
+        fetchFirstImage();
+        fetchImages();
     }, [contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
@@ -37,7 +71,9 @@ const TouristAttractionDetail = () => {
     return (
         <div>
             <h1>{detail.title}</h1>
-            <img src={detail.firstimage} alt={detail.title} width="300" />
+            {firstImage && (
+                <img src={firstImage} alt={detail.title} width="300" />
+            )}
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
@@ -45,7 +81,19 @@ const TouristAttractionDetail = () => {
             <p>홈페이지: <a href={intro.homepage}>{intro.homepage}</a></p>
             <p>이용 시간: {intro.usetime}</p>
             <p>주차 정보: {intro.parking}</p>
-            {/* 필요한 다른 소개 정보들 추가 */}
+
+            {/* 이미지 정보 api 출력 */}
+            <h2>이미지 갤러리</h2>
+            <div>
+                {images.map((image, index) => (
+                    <div key={index} style={{ marginBottom: '20px' }}>
+                        <p>원본 이미지:</p>
+                        <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300" />
+                        <p>썸네일 이미지:</p>
+                        <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150" />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
