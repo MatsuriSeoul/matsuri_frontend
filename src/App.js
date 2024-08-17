@@ -16,6 +16,9 @@ import Category from "./Category";
 import LocalSave from "./LocalSave";
 import TouristAttractionDetail from "./TouristAttractionDetail";
 import CulturalFacilityDetail from "./CulturalFacilityDetail";
+import NoticePage from "./NoticePage";
+import NoticeDetail from "./NoticeDetail";
+import EditNotice from "./EditNotice";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -53,6 +56,9 @@ function App() {
                         <Route path="/event-fetch" component={TourList}/> {/*여행 정보 api 불러오기 테스트*/}
                         <Route path="/event-fetch-detail" component={TourEventDetail}/> {/*id에 해당하는 상세 내용 확인 테스트*/}
                         <Route path="/create-notice" component={CreateNotice}/> {/*공지사항 작성*/}
+                        <Route path="/notice/:noticeId" component={NoticeDetail}/> {/*공지사항 디테일*/}
+                        <Route path="/edit/:noticeId" component={EditNotice}/> {/*공지사항 수정*/}
+                        <Route path="/api/notice" component={NoticePage}/> {/*공지사항 테이블*/}
                         <Route path="/comment" component={CreateComment} />{/*공지사항에 댓글 작성 */}
                         <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
                         <Route path="/category/:category" component={Category}/>
