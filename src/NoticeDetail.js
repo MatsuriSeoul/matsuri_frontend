@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
-import CreateComment from "./CreateComment";
-import './NoticeDetail.css';
 import CommentList from "./CommentList";
 
 const NoticeDetail = () => {

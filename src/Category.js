@@ -35,11 +35,29 @@ const CategoryEvents = () => {
     React.useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/tourist-attractions/category/${category}`);
-                console.log('Fetched Events:', response.data);
-                setEvents(response.data);
+                let response;
+
+                if (category === '관광지') {
+                    response = await axios.get(`http://localhost:8080/api/tourist-attractions/category/${category}`);
+                } else if (category === '문화시설') {
+                    response = await axios.get(`http://localhost:8080/api/cultural-facilities/fetchAndSaveCulturalFacilities`, {
+                        params: {
+                            numOfRows: '10',
+                            pageNo: '1'
+                        }
+                    });
+                } else {
+                    // 다른 카테고리들의 기본 처리
+                    response = await axios.get(`http://localhost:8080/api/tourist-attractions/category/${category}`);
+                }
+
+                const uniqueEvents = response.data.filter((event, index, self) =>
+                    index === self.findIndex((e) => e.contentid === event.contentid)
+                );
+
+                setEvents(uniqueEvents);
             } catch (error) {
-                console.error('Error fetching events', error);
+                console.error('행사 정보 불러오기 실패 ', error);
             }
         };
 
@@ -50,11 +68,11 @@ const CategoryEvents = () => {
         <div>
             <h1>{category} 관련 이벤트</h1>
             <ul>
-                {events.slice(0, 99).map(event => (
+                {events.map(event => (
                     <li key={event.contentid}>
-                        <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
+                        <Link to={`/${category === '관광지' ? 'tourist-attraction' : 'cultural-facility'}/${event.contentid}/${event.contenttypeid}/detail`}>
                             <h2>{event.title}</h2>
-                            <img src={event.firstimage} alt={event.title} width="200" />
+                            <img src={event.firstimage} alt={event.title} width="200"/>
                         </Link>
                     </li>
                 ))}
@@ -64,10 +82,10 @@ const CategoryEvents = () => {
 };
 
 const Category = () => {
-    const { category } = useParams();
+    const {category} = useParams();
     return (
         <div>
-            {category ? <CategoryEvents /> : <CategorySelection />}
+            {category ? <CategoryEvents/> : <CategorySelection/>}
         </div>
     );
 };

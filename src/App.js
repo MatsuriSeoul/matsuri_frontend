@@ -10,19 +10,12 @@ import EventSearch from "./EventSearch";
 import TourList from "./TourList";
 import TourEventDetail from "./TourEventDetail";
 import CreateNotice from "./CreateNotice";
-import NoticeTable from "./NoticeTable";
-import NoticeDetail from "./NoticeDetail";
 import CreateComment from "./CreateComment";
 import CommentList from "./CommentList";
-import InquiryList from "./InquiryList";
-import CreateInquiry from "./CreateInquiry";
-import NoticePage from "./NoticePage";
-import EditNotice from "./EditNotice";
-import CreateInquiry from "./CreateInquiry";
-import InquiryList from "./InquiryList";
 import Category from "./Category";
 import LocalSave from "./LocalSave";
 import TouristAttractionDetail from "./TouristAttractionDetail";
+import CulturalFacilityDetail from "./CulturalFacilityDetail";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -60,16 +53,13 @@ function App() {
                         <Route path="/event-fetch" component={TourList}/> {/*여행 정보 api 불러오기 테스트*/}
                         <Route path="/event-fetch-detail" component={TourEventDetail}/> {/*id에 해당하는 상세 내용 확인 테스트*/}
                         <Route path="/create-notice" component={CreateNotice}/> {/*공지사항 작성*/}
-                        <Route path="/edit/:noticeId" component={EditNotice}/> {/*공지사항 수정*/}
-                        <Route path="/api/notice" component={NoticePage} /> {/*공지사항 페이지*/}
-                        {/*<Route path="/api/notice" component={NoticeTable} /> /!*공지사항 보기*!/*/}
-                        <Route path="/notice/:noticeId" component={NoticeDetail} /> {/*공지사항 상세 내용*/}
                         <Route path="/comment" component={CreateComment} />{/*공지사항에 댓글 작성 */}
                         <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
                         <Route path="/category/:category" component={Category}/>
                         <Route path="/category" component={Category} />
                         <Route path="/localSave" component={LocalSave} /> {/* 지역 API 저장*/}
                         <Route path="/tourist-attraction/:contentid/:contenttypeid/detail" component={TouristAttractionDetail} />
+                        <Route path="/cultural-facilities/:contentid/:contenttypeid/detail" component={CulturalFacilityDetail} />
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
