@@ -29,11 +29,16 @@ const NoticePage = ({ token }) => {
         fetchUserRole();
     }, [token]);
 
+    const handleCreateNotice = () => {
+        // CreateNotice 페이지로 이동
+        history.push('/create-notice');
+    };
+
     return (
         <div className="notice-page">
             <div className="notice-header">
                 <h2>공지사항</h2>
-                    <button className="write-button" onClick={() => history.push('/api/notice')}>글쓰기</button>
+                    <button className="write-button" onClick={handleCreateNotice}>글쓰기</button>
             </div>
             <table className="notice-table">
                 <thead>

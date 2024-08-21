@@ -7,7 +7,7 @@ const CreateNotice = () => {
     const [content, setContent] = useState("");
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
-    const [attachment, setAttachment] = useState(null);
+    const [attachment, setAttachment] = useState([]);
     const history = useHistory();
 
     useEffect(() => {
@@ -24,9 +24,9 @@ const CreateNotice = () => {
         setImages(Array.from(event.target.files));
     };
 
-    // const handleAttachmentChange = (e) => {
-    //     setAttachment(e.target.files[0]);
-    // };
+    const handleAttachmentChange = (e) => {
+        setAttachment(Array.from(e.target.files)); // 다중 첨부파일 허용
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,9 +38,9 @@ const CreateNotice = () => {
         images.forEach((image,index) => {
             formData.append(`images`, image); // `images` 배열로 다중 이미지 추가
         });
-        if (attachment) {
-            formData.append('attachment', attachment);
-        }
+        attachment.forEach((file) => {
+            formData.append("files", file); // 첨부파일 추가
+        });
 
         try {
             await axios.post('/api/notice', formData,
@@ -85,11 +85,14 @@ const CreateNotice = () => {
                         ))}
                     </div>
                 </div>
-                {/*<div>*/}
-                {/*    <label>첨부파일 업로드:</label>*/}
-                {/*    <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"*/}
-                {/*           onChange={handleAttachmentChange}/>*/}
-                {/*</div>*/}
+                <div>
+                    <label>첨부파일 업로드:</label>
+                    <input
+                        type="file"
+                        multiple
+                        onChange={handleAttachmentChange}
+                    />
+                </div>
                 <button type="submit">작성</button>
             </form>
         </div>

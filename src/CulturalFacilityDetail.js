@@ -8,29 +8,29 @@ const CulturalFacilityDetail = () => {
     const [intro, setIntro] = useState(null);
     const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
+    const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
     useEffect(() => {
-        // 문화시설 상세 정보 api 불러오기 (로컬 DB에서)
         const fetchDetail = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/${contentid}/detail`);
+                console.log('Detail Response:', response.data);
                 setDetail(response.data);
             } catch (error) {
                 console.error('상세 정보 불러오기 실패', error);
             }
         };
 
-        // 소개 정보 api 불러오기 (외부 API에서)
         const fetchIntro = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/${contentid}/${contenttypeid}/intro`);
+                console.log('Intro Response:', response.data);
                 setIntro(response.data);
             } catch (error) {
                 console.error('소개 정보 불러오기 실패', error);
             }
         };
 
-        // 첫 번째 이미지를 가져오기 위한 fetchAndSaveCulturalFacilities 호출
         const fetchFirstImage = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/fetchAndSaveCulturalFacilities`, {
@@ -39,6 +39,7 @@ const CulturalFacilityDetail = () => {
                         pageNo: '1'
                     }
                 });
+                console.log('First Image Response:', response.data);
                 if (response.data.length > 0) {
                     const facility = response.data.find(facility => facility.contentid === contentid);
                     if (facility) {
@@ -50,23 +51,30 @@ const CulturalFacilityDetail = () => {
             }
         };
 
-        // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
         const fetchImages = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/${contentid}/images`);
+                console.log('Images Response:', response.data);
                 setImages(response.data);
             } catch (error) {
                 console.error('이미지 정보 불러오기 실패', error);
             }
         };
 
-        fetchDetail();
-        fetchIntro();
-        fetchFirstImage();
-        fetchImages();
+        const fetchData = async () => {
+            await fetchDetail();
+            await fetchIntro();
+            await fetchFirstImage();
+            await fetchImages();
+            setLoading(false); // 모든 데이터 로드 후 로딩 상태 해제
+        };
+
+        fetchData();
     }, [contentid, contenttypeid]);
 
-    if (!detail || !intro) return <div>Loading...</div>;
+    if (loading) return <div>Loading...</div>; // 로딩 중 표시
+
+    if (!detail || !intro) return <div>데이터가 없습니다.</div>; // 데이터가 없는 경우
 
     return (
         <div>
@@ -104,3 +112,4 @@ const CulturalFacilityDetail = () => {
 };
 
 export default CulturalFacilityDetail;
+
