@@ -54,22 +54,27 @@ const NoticeDetail = () => {
             <div>
                 <h3>본문 :</h3>
                 <p>{notice.content}</p>
-                    <div>
-                        {notice.images.map((image, index) => (
-                            <img
-                                key={index}
-                                src={image.imagePath}
-                                alt={`Notice Image ${index}`}
-                                style={{width: "200px", margin: "10px 0"}}
-                            />
-                        ))}
-                    </div>
-            </div>
                 <div>
-                    {notice.attachmentPath &&
-                        <a href={`/uploads/${notice.attachmentPath}`} download>첨부파일 다운로드</a>}
+                    {notice.images.map((image, index) => (
+                        <img
+                            key={index}
+                            src={image.imagePath}
+                            alt={`Notice Image ${index}`}
+                            style={{width: "200px", margin: "10px 0"}}
+                        />
+                    ))}
                 </div>
-                    <p>작성날짜: {notice.createdTime}</p>
+            </div>
+            <div>
+                {notice.files.map((file, index) => (
+                    <div key={index}>
+                        <a href={`http://localhost:8080/api/notice/download/${file.filePath}`} download>
+                            {file.fileName}
+                        </a>
+                    </div>
+                ))}
+            </div>
+            <p>작성날짜: {notice.createdTime}</p>
             <p>조회수: {notice.viewcnt}</p>
 
             {/*{notice.author === currentUserId && ( // 작성자와 현재 사용자가 동일한지 확인*/}
@@ -84,7 +89,7 @@ const NoticeDetail = () => {
                 <CommentList noticeId={noticeId}/>
             </ul>
         </div>
-);
+    );
 };
 
 export default NoticeDetail;

@@ -11,6 +11,8 @@ const EditNotice = () => {
     const [newImages, setNewImages] = useState([]); // 새로 업로드할 파일을 저장
     const [imagePreviews, setImagePreviews] = useState([]); // 새로 업로드한 이미지의 미리보기
     const [deletedImageIds, setDeletedImageIds] = useState([]); // 삭제된 이미지 ID를 저장
+    const [attachments, setAttachments] = useState([]); // 새로 추가할 첨부파일
+    const [existingAttachments, setExistingAttachments] = useState([]); // 기존 첨부파일
 
     useEffect(() => {
         const fetchNotice = async () => {
@@ -20,6 +22,7 @@ const EditNotice = () => {
                 setTitle(notice.title);
                 setContent(notice.content);
                 setExistingImages(notice.images || []); // 기존 이미지 경로를 저장
+                setExistingAttachments(notice.files || []);
             } catch (error) {
                 console.error('Error fetching notice', error);
             }
@@ -40,6 +43,10 @@ const EditNotice = () => {
         setNewImages(Array.from(event.target.files)); // 새로 선택된 파일을 업데이트
     };
 
+    const handleAttachmentChange = (e) => {
+        setAttachments(Array.from(e.target.files)); // 다중 첨부파일 허용
+    };
+
     const handleDeleteExistingImage = async (index) => {
         const removedImage = existingImages[index];
 
@@ -56,6 +63,17 @@ const EditNotice = () => {
         }
     };
 
+    const handleDeleteExistingAttachment = async (index) => {
+        const removedAttachment = existingAttachments[index];
+
+        try {
+            await axios.delete(`/api/notice/file/${removedAttachment.id}`);
+            setExistingAttachments(existingAttachments.filter((_, fileIndex) => fileIndex !== index));
+        } catch (error) {
+            console.error("첨부파일 삭제 오류:", error);
+        }
+    };
+
     useEffect(() => {
         console.log("삭제된 이미지 ID 목록 업데이트됨:", deletedImageIds);
     }, [deletedImageIds]);
@@ -69,14 +87,22 @@ const EditNotice = () => {
         formData.append('title', title);
         formData.append('content', content);
 
-        // 남아 있는 기존 이미지는 그대로
+        // 남아 있는 기존 이미지, 첨부파일 정보 유지
         existingImages.forEach((image) => {
             formData.append('existingImageIds', image.id);
         });
 
-        // 새로 추가된 이미지 파일 첨부
+        existingAttachments.forEach((file) => {
+            formData.append('existingFileIds', file.id);
+        });
+
+        // 새로 추가된 이미지 및 첨부파일 추가
         newImages.forEach((image) => {
             formData.append('images', image);
+        });
+
+        attachments.forEach((file) => {
+            formData.append('files', file);
         });
 
 
@@ -118,27 +144,43 @@ const EditNotice = () => {
                     <label>기존 이미지:</label>
                     <div>
                         {existingImages.map((image, index) => (
-                            <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                            <div key={index} style={{display: 'inline-block', marginRight: '10px'}}>
                                 <img
                                     src={image.imagePath} // 기존 이미지 경로 사용
                                     alt={`Existing ${index}`}
-                                    style={{ width: '100px', height: '100px', marginRight: '10px' }}
+                                    style={{width: '100px', height: '100px', marginRight: '10px'}}
                                 />
-                                <button type="button" onClick={() => handleDeleteExistingImage(index)}>X</button> {/* 삭제 버튼 */}
+                                <button type="button" onClick={() => handleDeleteExistingImage(index)}>X</button>
+                                {/* 삭제 버튼 */}
                             </div>
                         ))}
                     </div>
                 </div>
                 <div>
                     <label>새 이미지 첨부:</label>
-                    <input type="file" multiple onChange={handleImageChange} />
-                    <br />
+                    <input type="file" multiple onChange={handleImageChange}/>
+                    <br/>
                     <div>
                         {imagePreviews.map((preview, index) => (
                             <img key={index} src={preview} alt={`Preview ${index}`}
-                                 style={{ width: '100px', height: '100px', marginRight: '10px' }} />
+                                 style={{width: '100px', height: '100px', marginRight: '10px'}}/>
                         ))}
                     </div>
+                </div>
+                <div>
+                    <label>기존 첨부파일:</label>
+                    <div>
+                        {existingAttachments.map((file, index) => (
+                            <div key={index}>
+                                <a href={`/uploads/${file.filePath}`} download>{file.fileName}</a>
+                                <button type="button" onClick={() => handleDeleteExistingAttachment(index)}>X</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <label>새 첨부파일:</label>
+                    <input type="file" multiple onChange={handleAttachmentChange}/>
                 </div>
                 <div>
                     <button type="submit">저장</button>
