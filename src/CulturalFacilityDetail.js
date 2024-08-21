@@ -70,27 +70,32 @@ const CulturalFacilityDetail = () => {
 
     return (
         <div>
+            <h2>asdasd</h2>
             <h1>{detail.title}</h1>
             {firstImage && (
-                <img src={firstImage} alt={detail.title} width="300" />
+                <img src={firstImage} alt={detail.title} width="300"/>
             )}
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
             <p>전화: {intro.tel}</p>
             <p>홈페이지: <a href={intro.homepage}>{intro.homepage}</a></p>
-            <p>이용 시간: {intro.usetime}</p>
-            <p>주차 정보: {intro.parking}</p>
+            <p>이용 시간: {intro.usetimeculture}</p>
+            <p>주차 정보: {intro.parkingculture}</p>
+            <p>수용 인원: {intro.accomcountculture}</p>
+            <p>유모차 대여: {intro.chkbabycarriageculture}</p>
+            <p>신용카드 가능: {intro.chkcreditcardculture}</p>
+            <p>애완동물 동반: {intro.chkpetculture}</p>
 
             {/* 이미지 정보 api 출력 */}
             <h2>이미지 갤러리</h2>
             <div>
                 {images.map((image, index) => (
-                    <div key={index} style={{ marginBottom: '20px' }}>
+                    <div key={index} style={{marginBottom: '20px'}}>
                         <p>원본 이미지:</p>
-                        <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300" />
+                        <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300"/>
                         <p>썸네일 이미지:</p>
-                        <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150" />
+                        <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150"/>
                     </div>
                 ))}
             </div>
