@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const CreateComment = ({ noticeId }) => {
+const CreateComment = ({ noticeId, refreshComments }) => {
     const [content, setContent] = useState('');
     const [user, setUser] = useState(null);
     const token = localStorage.getItem('token');  // localStorage에서 토큰을 가져옴
@@ -44,6 +44,7 @@ const CreateComment = ({ noticeId }) => {
             });
             alert("댓글이 작성되었습니다.");
             setContent('');
+            refreshComments();  // 댓글 작성 후 댓글 목록 갱신
         } catch (error) {
             console.log('댓글 작성을 실패하였습니다.', error);
         }
