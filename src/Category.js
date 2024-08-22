@@ -66,6 +66,32 @@ const CategoryEvents = () => {
         fetchEvents();
     }, [category]);
 
+    const renderEventLink = (event) => {
+        if (category === '관광지') {
+            return (
+                <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '문화시설') {
+            return (
+                <Link to={`/cultural-facilities/${event.contentid}/${event.contenttypeid}/detail`}>  {/* 경로 수정 */}
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else {
+            // 기본 처리: 다른 카테고리들이 여기에 포함될 수 있음
+            return (
+                <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        }
+    };
+
     return (
         <div>
             <h1>{category} 관련 이벤트</h1>
@@ -73,11 +99,7 @@ const CategoryEvents = () => {
                 {events.length > 0 ? (
                     events.map(event => (
                         <li key={event.contentid}>
-                            <Link
-                                to={`/${category === '관광지' ? 'tourist-attraction' : 'cultural-facility'}/${event.contentid}/${event.contenttypeid}/detail`}>
-                                <h2>{event.title}</h2>
-                                <img src={event.firstimage} alt={event.title} width="200"/>
-                            </Link>
+                            {renderEventLink(event)}
                         </li>
                     ))
                 ) : (

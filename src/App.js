@@ -15,7 +15,7 @@ import CommentList from "./CommentList";
 import Category from "./Category";
 import LocalSave from "./LocalSave";
 import TouristAttractionDetail from "./TouristAttractionDetail";
-import CulturalFacilityDetail from "./CulturalFacilityDetail";
+import CulturalFacilityDetail from './CulturalFacilityDetail';
 import NoticePage from "./NoticePage";
 import NoticeDetail from "./NoticeDetail";
 import EditNotice from "./EditNotice";
