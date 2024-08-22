@@ -8,29 +8,29 @@ const CulturalFacilityDetail = () => {
     const [intro, setIntro] = useState(null);
     const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
-    const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
     useEffect(() => {
+        // 문화시설 상세 정보 API 불러오기 (로컬 DB에서)
         const fetchDetail = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/${contentid}/detail`);
-                console.log('Detail Response:', response.data);
                 setDetail(response.data);
             } catch (error) {
                 console.error('상세 정보 불러오기 실패', error);
             }
         };
 
+        // 소개 정보 API 불러오기 (외부 API에서)
         const fetchIntro = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/${contentid}/${contenttypeid}/intro`);
-                console.log('Intro Response:', response.data);
                 setIntro(response.data);
             } catch (error) {
                 console.error('소개 정보 불러오기 실패', error);
             }
         };
 
+        // 첫 번째 이미지를 가져오기 위한 fetchAndSaveCulturalFacilities 호출
         const fetchFirstImage = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/fetchAndSaveCulturalFacilities`, {
@@ -39,7 +39,6 @@ const CulturalFacilityDetail = () => {
                         pageNo: '1'
                     }
                 });
-                console.log('First Image Response:', response.data);
                 if (response.data.length > 0) {
                     const facility = response.data.find(facility => facility.contentid === contentid);
                     if (facility) {
@@ -51,59 +50,47 @@ const CulturalFacilityDetail = () => {
             }
         };
 
+        // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
         const fetchImages = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/${contentid}/images`);
-                console.log('Images Response:', response.data);
                 setImages(response.data);
             } catch (error) {
                 console.error('이미지 정보 불러오기 실패', error);
             }
         };
 
-        const fetchData = async () => {
-            await fetchDetail();
-            await fetchIntro();
-            await fetchFirstImage();
-            await fetchImages();
-            setLoading(false); // 모든 데이터 로드 후 로딩 상태 해제
-        };
-
-        fetchData();
+        fetchDetail();
+        fetchIntro();
+        fetchFirstImage();
+        fetchImages();
     }, [contentid, contenttypeid]);
 
-    if (loading) return <div>Loading...</div>; // 로딩 중 표시
-
-    if (!detail || !intro) return <div>데이터가 없습니다.</div>; // 데이터가 없는 경우
+    if (!detail || !intro) return <div>Loading...</div>;
 
     return (
         <div>
-            <h2>asdasd</h2>
             <h1>{detail.title}</h1>
             {firstImage && (
-                <img src={firstImage} alt={detail.title} width="300"/>
+                <img src={firstImage} alt={detail.title} width="300" />
             )}
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
             <p>전화: {intro.tel}</p>
             <p>홈페이지: <a href={intro.homepage}>{intro.homepage}</a></p>
-            <p>이용 시간: {intro.usetimeculture}</p>
-            <p>주차 정보: {intro.parkingculture}</p>
-            <p>수용 인원: {intro.accomcountculture}</p>
-            <p>유모차 대여: {intro.chkbabycarriageculture}</p>
-            <p>신용카드 가능: {intro.chkcreditcardculture}</p>
-            <p>애완동물 동반: {intro.chkpetculture}</p>
+            <p>이용 시간: {intro.usetime}</p>
+            <p>주차 정보: {intro.parking}</p>
 
-            {/* 이미지 정보 api 출력 */}
+            {/* 이미지 정보 API 출력 */}
             <h2>이미지 갤러리</h2>
             <div>
                 {images.map((image, index) => (
-                    <div key={index} style={{marginBottom: '20px'}}>
+                    <div key={index} style={{ marginBottom: '20px' }}>
                         <p>원본 이미지:</p>
-                        <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300"/>
+                        <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300" />
                         <p>썸네일 이미지:</p>
-                        <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150"/>
+                        <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150" />
                     </div>
                 ))}
             </div>
@@ -112,4 +99,3 @@ const CulturalFacilityDetail = () => {
 };
 
 export default CulturalFacilityDetail;
-
