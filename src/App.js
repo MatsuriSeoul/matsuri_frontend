@@ -19,6 +19,9 @@ import CulturalFacilityDetail from './CulturalFacilityDetail';
 import NoticePage from "./NoticePage";
 import NoticeDetail from "./NoticeDetail";
 import EditNotice from "./EditNotice";
+import EventDetail from "./EventDetail";
+import TravelCourseDetail from "./TravelCourseDetail";
+import LeisureSportsDetail from "./LeisureSportsDetail";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -64,8 +67,13 @@ function App() {
                         <Route path="/category/:category" component={Category}/>
                         <Route path="/category" component={Category} />
                         <Route path="/localSave" component={LocalSave} /> {/* 지역 API 저장*/}
+
                         <Route path="/tourist-attraction/:contentid/:contenttypeid/detail" component={TouristAttractionDetail} />
                         <Route path="/cultural-facilities/:contentid/:contenttypeid/detail" component={CulturalFacilityDetail} />
+                        <Route path="/events/:contentid/:contenttypeid/detail" component={EventDetail} />
+                        <Route path="/travel-courses/:contentid/:contenttypeid/detail" component={TravelCourseDetail} />
+                        <Route path="/leisure-sports/:contentid/:contenttypeid/detail" component={LeisureSportsDetail} />
+
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}

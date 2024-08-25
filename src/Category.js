@@ -46,12 +46,32 @@ const CategoryEvents = () => {
                             pageNo: '1'
                         }
                     });
+                } else if (category === '행사') {
+                    response = await axios.get(`http://localhost:8080/api/events/category/${category}`, {
+                        params: {
+                            numOfRows: '10',
+                            pageNo: '1'
+                        }
+                    });
+                } else if (category === '여행코스') {
+                    response = await axios.get(`http://localhost:8080/api/travel-courses/category/${category}`, {
+                        params: {
+                            numOfRows: '10',
+                            pageNo: '1'
+                        }
+                    });
+                } else if (category === '레포츠') {
+                    response = await axios.get(`http://localhost:8080/api/leisure-sports/category/${category}`, {
+                        params: {
+                            numOfRows: '10',
+                            pageNo: '1'
+                        }
+                    });
                 } else {
-                    // 다른 카테고리들의 기본 처리
                     response = await axios.get(`http://localhost:8080/api/tourist-attractions/category/${category}`);
                 }
 
-                console.log('API Response:', response.data);  // 반환된 데이터를 확인하는 로그
+                console.log('API 응답:', response.data);
 
                 const uniqueEvents = response.data.filter((event, index, self) =>
                     index === self.findIndex((e) => e.contentid === event.contentid)
@@ -59,7 +79,7 @@ const CategoryEvents = () => {
 
                 setEvents(uniqueEvents);
             } catch (error) {
-                console.error('행사 정보 불러오기 실패 ', error);
+                console.error('이벤트 정보 불러오기 실패 ', error);
             }
         };
 
@@ -76,13 +96,33 @@ const CategoryEvents = () => {
             );
         } else if (category === '문화시설') {
             return (
-                <Link to={`/cultural-facilities/${event.contentid}/${event.contenttypeid}/detail`}>  {/* 경로 수정 */}
+                <Link to={`/cultural-facilities/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '행사') {
+            return (
+                <Link to={`/events/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '여행코스') {
+            return (
+                <Link to={`/travel-courses/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '레포츠') {
+            return (
+                <Link to={`/leisure-sports/${event.contentid}/${event.contenttypeid}/detail`}>
                     <h2>{event.title}</h2>
                     <img src={event.firstimage} alt={event.title} width="200" />
                 </Link>
             );
         } else {
-            // 기본 처리: 다른 카테고리들이 여기에 포함될 수 있음
             return (
                 <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
                     <h2>{event.title}</h2>
@@ -114,7 +154,7 @@ const Category = () => {
     const { category } = useParams();
     return (
         <div>
-            {category ? <CategoryEvents/> : <CategorySelection/>}
+            {category ? <CategoryEvents /> : <CategorySelection />}
         </div>
     );
 };
