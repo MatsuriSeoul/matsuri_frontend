@@ -23,7 +23,7 @@ function MainNavigation() {
     return (
         <nav>
             <ul>
-                <li><Link to="/signUp">회원가입</Link></li>
+                <li><Link to="/signUp">회원가입 asdfasdf</Link></li>
                 {!auth.token && (
                     <li>
                         <button onClick={openLoginModal}>로그인</button>
