@@ -1,0 +1,42 @@
+.notice-page {
+    padding: 20px;
+}
+
+.notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.write-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.write-button:hover {
+    background-color: #45a049;
+}
+
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.notice-table th, .notice-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.notice-table th {
+    background-color: #f2f2f2;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}

@@ -1,17 +1,61 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
 const CreateNotice = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [images, setImages] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
+    const [attachment, setAttachment] = useState([]);
     const history = useHistory();
+
+    useEffect(() => {
+        if (images.length > 0) {
+            const newImagePreviews = images.map(image => URL.createObjectURL(image));
+            setImagePreviews(newImagePreviews);
+        } else {
+            setImagePreviews([]);
+        }
+    }, [images]);
+
+
+    const handleImageChange = (event) => {
+        setImages(Array.from(event.target.files));
+    };
+
+    const handleAttachmentChange = (e) => {
+        setAttachment(Array.from(e.target.files)); // 다중 첨부파일 허용
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        images.forEach((image,index) => {
+            formData.append(`images`, image); // `images` 배열로 다중 이미지 추가
+        });
+        attachment.forEach((file) => {
+            formData.append("files", file); // 첨부파일 추가
+        });
+
         try {
-            await axios.post('/api/notice', {title, content});
+            await axios.post('/api/notice', formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}` ,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+                );
             alert("공지사항 업로드 완료.");
+            setTitle('');
+            setContent('');
+            setImages([]);
+            setImagePreviews([]);
             history.push('/');
         } catch (error) {
             console.log('공지사항 업로드 에러',error);
@@ -23,14 +67,33 @@ const CreateNotice = () => {
             <h1>Create Notice</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Title :</label>
+                    <label>제목 :</label>
                     <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required/>
                 </div>
                 <div>
-                    <label>Content :</label>
+                    <label>본문 :</label>
                     <textarea value={content} onChange={(e) => setContent(e.target.value)} required/>
                 </div>
-                <button type="submit">Create Notice</button>
+                <div>
+                    <label>이미지 첨부:</label>
+                    <input type="file" multiple onChange={handleImageChange}/>
+                    <br/>
+                    <div>
+                        {imagePreviews.map((preview, index) => (
+                            <img key={index} src={preview} alt={`Preview ${index}`}
+                                 style={{width: '100px', height: '100px'}}/>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <label>첨부파일 업로드:</label>
+                    <input
+                        type="file"
+                        multiple
+                        onChange={handleAttachmentChange}
+                    />
+                </div>
+                <button type="submit">작성</button>
             </form>
         </div>
     );
