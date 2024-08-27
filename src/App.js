@@ -22,6 +22,9 @@ import EditNotice from "./EditNotice";
 import EventDetail from "./EventDetail";
 import TravelCourseDetail from "./TravelCourseDetail";
 import LeisureSportsDetail from "./LeisureSportsDetail";
+import LocalEventDetail from "./LocalEventDetail";
+import ShoppingEventDetail from "./ShoppingEventDetail";
+import FoodEventDetail from "./FoodEventDetail";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -73,7 +76,9 @@ function App() {
                         <Route path="/events/:contentid/:contenttypeid/detail" component={EventDetail} />
                         <Route path="/travel-courses/:contentid/:contenttypeid/detail" component={TravelCourseDetail} />
                         <Route path="/leisure-sports/:contentid/:contenttypeid/detail" component={LeisureSportsDetail} />
-
+                        <Route path="/local-events/:contentid/:contenttypeid/detail" component={LocalEventDetail} />
+                        <Route exact path="/shopping-events/:contentid/:contenttypeid/detail" component={ShoppingEventDetail} />
+                        <Route path="/food-events/:contentid/:contenttypeid/detail" component={FoodEventDetail} />
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
