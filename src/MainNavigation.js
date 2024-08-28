@@ -34,7 +34,7 @@ function MainNavigation() {
                 <li><Link to="/event-fetch-detail">행사상세정보</Link></li>
                 <li><Link to="/api/notice">공지사항 페이지</Link></li>
                 <li><Link to="/category">카테고리 선택</Link></li>
-                <li><Link to="/localSave">지역 API 불러오기</Link></li>
+                <li><Link to="/region-select">지역 선택</Link></li>
                 {auth.token && (
                     <>
                         <li>

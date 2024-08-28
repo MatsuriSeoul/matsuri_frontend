@@ -13,7 +13,6 @@ import CreateNotice from "./CreateNotice";
 import CreateComment from "./CreateComment";
 import CommentList from "./CommentList";
 import Category from "./Category";
-import LocalSave from "./LocalSave";
 import TouristAttractionDetail from "./TouristAttractionDetail";
 import CulturalFacilityDetail from './CulturalFacilityDetail';
 import NoticePage from "./NoticePage";
@@ -25,6 +24,9 @@ import LeisureSportsDetail from "./LeisureSportsDetail";
 import LocalEventDetail from "./LocalEventDetail";
 import ShoppingEventDetail from "./ShoppingEventDetail";
 import FoodEventDetail from "./FoodEventDetail";
+import RegionSelection from "./RegionSelection";
+import GyeonggiEventList from "./GyeonggiEventList";
+import SeoulEventList from "./SeoulEventList";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -67,9 +69,11 @@ function App() {
                         <Route path="/api/notice" component={NoticePage}/> {/*공지사항 테이블*/}
                         <Route path="/comment" component={CreateComment} />{/*공지사항에 댓글 작성 */}
                         <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
+
+
+                        {/*카테고리 라우터 경로*/}
                         <Route path="/category/:category" component={Category}/>
                         <Route path="/category" component={Category} />
-                        <Route path="/localSave" component={LocalSave} /> {/* 지역 API 저장*/}
 
                         <Route path="/tourist-attraction/:contentid/:contenttypeid/detail" component={TouristAttractionDetail} />
                         <Route path="/cultural-facilities/:contentid/:contenttypeid/detail" component={CulturalFacilityDetail} />
@@ -79,6 +83,11 @@ function App() {
                         <Route path="/local-events/:contentid/:contenttypeid/detail" component={LocalEventDetail} />
                         <Route exact path="/shopping-events/:contentid/:contenttypeid/detail" component={ShoppingEventDetail} />
                         <Route path="/food-events/:contentid/:contenttypeid/detail" component={FoodEventDetail} />
+
+                        {/*지역 카테고리 라우터 경로*/}
+                        <Route path="/region-select" component={RegionSelection} />
+                        <Route path="/region/gyeonggi" component={GyeonggiEventList} />
+                        <Route path="/region/seoul" component={SeoulEventList} />
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
