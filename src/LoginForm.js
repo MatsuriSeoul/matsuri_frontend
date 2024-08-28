@@ -14,7 +14,7 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/users/login', {
+            const response = await axios.post('/api/login', {
                 userId: userId,
                 userPassword: userPassword,
             });
@@ -32,6 +32,10 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
                         userNick: response.data.userNick,
                         userId: userIdFromToken
                     });
+                    // 폼 필드 상태 초기화
+                    setUserId('');
+                    setUserPassword('');
+
                     onClose();
                     history.push('/'); // 홈 페이지로 이동
                 } else {
