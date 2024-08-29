@@ -1,12 +1,11 @@
 /*
-* 지역 서울 카테고리 선택
+* 지역 대구 카테고리 선택
 * */
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const SeoulEventList = () => {
-    const [seoulEvents, setSeoulEvents] = useState([]);
+const DaeguEventList = () => {
     const [shoppingEvents, setShoppingEvents] = useState([]);
     const [foodEvents, setFoodEvents] = useState([]);
     const [localEvents, setLocalEvents] = useState([]);
@@ -16,25 +15,15 @@ const SeoulEventList = () => {
     const [travelCourses, setTravelCourses] = useState([]);
 
     useEffect(() => {
-        // 서울 관련 데이터 가져오기
-        const fetchSeoulEvents = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/seoul-events/titles-and-images');
-                setSeoulEvents(response.data);
-            } catch (error) {
-                console.error('Error fetching Seoul events', error);
-            }
-        };
-
         // 쇼핑 이벤트 가져오기
         const fetchShoppingEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/shopping-events/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '대구광역시' }
                 });
                 setShoppingEvents(response.data);
             } catch (error) {
-                console.error('Error fetching Shopping events', error);
+                console.error('쇼핑 이벤트 데이터를 가져오는 중 오류 발생', error);
             }
         };
 
@@ -42,11 +31,11 @@ const SeoulEventList = () => {
         const fetchFoodEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/food-events/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '대구광역시' }
                 });
                 setFoodEvents(response.data);
             } catch (error) {
-                console.error('Error fetching Food events', error);
+                console.error('음식 이벤트 데이터를 가져오는 중 오류 발생', error);
             }
         };
 
@@ -54,11 +43,11 @@ const SeoulEventList = () => {
         const fetchLocalEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/local-events/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '대구광역시' }
                 });
                 setLocalEvents(response.data);
             } catch (error) {
-                console.error('Error fetching Local events', error);
+                console.error('숙박 이벤트 데이터를 가져오는 중 오류 발생', error);
             }
         };
 
@@ -66,11 +55,11 @@ const SeoulEventList = () => {
         const fetchCulturalFacilities = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/cultural-facilities/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '대구광역시' }
                 });
                 setCulturalFacilities(response.data);
             } catch (error) {
-                console.error('Error fetching Cultural Facilities', error);
+                console.error('문화시설 이벤트 데이터를 가져오는 중 오류 발생', error);
             }
         };
 
@@ -78,11 +67,11 @@ const SeoulEventList = () => {
         const fetchTourEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/events/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '대구광역시' }
                 });
                 setTourEvents(response.data);
             } catch (error) {
-                console.error('Error fetching Tour events', error);
+                console.error('축제/공연/행사 데이터를 가져오는 중 오류 발생', error);
             }
         };
 
@@ -90,11 +79,11 @@ const SeoulEventList = () => {
         const fetchTouristAttractions = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/tourist-attractions/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '대구광역시' }
                 });
                 setTouristAttractions(response.data);
             } catch (error) {
-                console.error('Error fetching Tourist Attractions', error);
+                console.error('관광지 데이터를 가져오는 중 오류 발생', error);
             }
         };
 
@@ -102,16 +91,15 @@ const SeoulEventList = () => {
         const fetchTravelCourses = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/travel-courses/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '대구광역시' }
                 });
                 setTravelCourses(response.data);
             } catch (error) {
-                console.error('Error fetching Travel Courses', error);
+                console.error('여행 코스 데이터를 가져오는 중 오류 발생', error);
             }
         };
 
         // 모든 데이터 가져오기 함수 호출
-        fetchSeoulEvents();
         fetchShoppingEvents();
         fetchFoodEvents();
         fetchLocalEvents();
@@ -123,20 +111,6 @@ const SeoulEventList = () => {
 
     return (
         <div>
-            <h1>서울 지역 행사</h1>
-
-            {/* 서울 행사 */}
-            <h2>서울 행사</h2>
-            <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
-                {seoulEvents.map((event, index) => (
-                    <div key={index} style={{flex: '0 0 20%'}}>
-                        <h3>{event.title || event[0]}</h3>
-                        {(event.firstimage || event[1]) &&
-                            <img src={event.firstimage || event[1]} alt={event.title || event[0]} width="100%"/>}
-                    </div>
-                ))}
-            </div>
-
             {/* 쇼핑 행사 */}
             <h2>쇼핑 행사</h2>
             <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
@@ -222,5 +196,6 @@ const SeoulEventList = () => {
             </div>
         </div>
     );
-}
-export default SeoulEventList;
+};
+
+export default DaeguEventList;
