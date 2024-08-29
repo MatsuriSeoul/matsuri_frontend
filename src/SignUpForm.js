@@ -1,23 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function SignUpForm() {
     const [userId, setUserId] = useState('');
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('');
-    const [userBirthday, setUserBirthday] = useState('');
     const [userPhone, setUserPhone] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+    const [userPasswordConfirm, setUserPasswordConfirm] = useState(''); // 비밀번호 확인
+    const [userBirthday, setUserBirthday] = useState('');
     const [idError, setIdError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [passwordError, setPasswordError] = useState(''); // 비밀번호 오류 메시지
     const [isIdValid, setIsIdValid] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isPhoneValid, setIsPhoneValid] = useState(false);
+    const [verificationCode, setVerificationCode] = useState('');
+    const [codeSent, setCodeSent] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
+    const [verificationType, setVerificationType] = useState(''); // 인증 방식 (email 또는 phone)
+
+    // 비밀번호 확인 로직
+    useEffect(() => {
+        if (userPassword && userPasswordConfirm) {
+            if (userPassword === userPasswordConfirm) {
+                setPasswordError('입력한 비밀번호와 일치합니다.');
+            } else {
+                setPasswordError('입력한 비밀번호와 일치하지 않습니다.');
+            }
+        } else {
+            setPasswordError('');
+        }
+    }, [userPassword, userPasswordConfirm]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!isIdValid || !isEmailValid) {
-            alert('아이디와 이메일 중복 확인을 해주세요.');
+        if (userPassword !== userPasswordConfirm) {
+            setPasswordError('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        if (!isIdValid || (!isEmailValid && !isPhoneValid) || !isVerified) {
+            alert('모든 필드를 올바르게 입력해주세요.');
             return;
         }
 
@@ -25,14 +51,14 @@ function SignUpForm() {
             userId,
             userName,
             userEmail,
+            userPhone,
             userPassword,
             userBirthday,
-            userPhone
         };
 
         try {
             const response = await axios.post('/api/users/save', userInfo);
-            alert(response.data);
+            alert('회원가입 성공: ' + response.data);
         } catch (error) {
             if (error.response) {
                 alert(error.response.data);
@@ -43,7 +69,7 @@ function SignUpForm() {
     };
 
     const checkIdAvailability = async () => {
-        if (userId.trim()=== '') {
+        if (userId.trim() === '') {
             setIdError('아이디를 입력하세요');
             setIsIdValid(false);
             return;
@@ -54,7 +80,7 @@ function SignUpForm() {
                 setIdError('이미 사용 중인 아이디입니다.');
                 setIsIdValid(false);
             } else {
-                setIdError('사용 가능한 아이디입니다.')
+                setIdError('사용 가능한 아이디입니다.');
                 setIsIdValid(true);
             }
         } catch (error) {
@@ -81,6 +107,56 @@ function SignUpForm() {
         } catch (error) {
             setEmailError('이메일 중복 검사 오류');
             setIsEmailValid(false);
+        }
+    };
+
+    const checkPhoneAvailability = async () => {
+        if (userPhone.trim() === '') {
+            setPhoneError('휴대폰 번호를 입력하세요.');
+            setIsPhoneValid(false);
+            return;
+        }
+        try {
+            const response = await axios.get(`/api/users/check-phone/${userPhone}`);
+            if (response.data.exists) {
+                setPhoneError('이미 사용 중인 휴대폰 번호입니다.');
+                setIsPhoneValid(false);
+            } else {
+                setPhoneError('사용 가능한 휴대폰 번호입니다.');
+                setIsPhoneValid(true);
+            }
+        } catch (error) {
+            setPhoneError('휴대폰 번호 중복 검사 오류');
+            setIsPhoneValid(false);
+        }
+    };
+
+    const sendVerificationCode = async (type) => {
+        try {
+            setVerificationType(type);
+            const identifier = type === 'email' ? userEmail : userPhone;
+            await axios.post('/api/users/send-verification-code', { identifier, type });
+            setCodeSent(true);
+            alert(`${type === 'email' ? '이메일' : '휴대폰'}로 인증번호가 발송되었습니다.`);
+        } catch (error) {
+            alert('인증번호 발송 오류');
+        }
+    };
+
+    const verifyCode = async () => {
+        try {
+            const identifier = verificationType === 'email' ? userEmail : userPhone;
+            const response = await axios.post('/api/users/verify-code', { identifier, code: verificationCode });
+            if (response.data.verified) {
+                setIsVerified(true);
+                alert('인증번호가 확인되었습니다.');
+            } else {
+                setIsVerified(false);
+                alert('인증번호가 일치하지 않습니다.');
+            }
+        } catch (error) {
+            alert('인증번호 확인 오류');
+            setIsVerified(false);
         }
     };
 
@@ -121,18 +197,47 @@ function SignUpForm() {
             </label>
             <br />
             <label>
+                휴대폰 번호:
+                <input type="tel"
+                       value={userPhone}
+                       onChange={(e) => {
+                           setUserPhone(e.target.value);
+                           setPhoneError('');
+                           setIsPhoneValid(false);
+                       }}
+                       required />
+                <button type="button" onClick={checkPhoneAvailability}>중복 확인</button>
+                {phoneError && <p>{phoneError}</p>}
+            </label>
+            <br />
+            <label>
+                본인 인증:
+                <button type="button" onClick={() => sendVerificationCode('email')} disabled={!isEmailValid || codeSent}>이메일 인증</button>
+                <button type="button" onClick={() => sendVerificationCode('phone')} disabled={!isPhoneValid || codeSent}>휴대폰 인증</button>
+            </label>
+            <br />
+            {codeSent && (
+                <label>
+                    인증번호:
+                    <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+                    <button type="button" onClick={verifyCode}>인증번호 확인</button>
+                </label>
+            )}
+            <br />
+            <label>
                 비밀번호:
                 <input type="password" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} required />
             </label>
             <br />
             <label>
-                생일:
-                <input type="date" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} required />
+                비밀번호 확인:
+                <input type="password" value={userPasswordConfirm} onChange={(e) => setUserPasswordConfirm(e.target.value)} required />
+                {passwordError && <p style={{ color: userPassword === userPasswordConfirm ? 'blue' : 'red' }}>{passwordError}</p>}
             </label>
             <br />
             <label>
-                휴대폰 번호:
-                <input type="tel" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} required />
+                생일:
+                <input type="date" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} required />
             </label>
             <br />
             <button type="submit">가입</button>
