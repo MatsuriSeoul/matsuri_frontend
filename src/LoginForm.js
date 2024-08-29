@@ -7,6 +7,7 @@ import DecodingInfo from "./DecodingInfo";
 const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPasswordRecovery }) => {
     const [userId, setUserId] = useState(''); // 사용자 ID
     const [userPassword, setUserPassword] = useState(''); // 사용자 비밀번호
+    const [userName, setUserName] = useState('');  //  사용자 이름
     const [error, setError] = useState(''); // 에러 메시지
     const history = useHistory(); // 히스토리
     const { updateAuth } = useAuth(); // 인증 상태 업데이트
@@ -26,10 +27,12 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
                     localStorage.setItem('token', response.data.token); // 로컬스토리지에 토큰 저장
                     localStorage.setItem('userId', userIdFromToken); // 로컬스토리지에 사용자 ID 저장
                     localStorage.setItem('userNick', response.data.userNick); // 로컬 스토리지에 사용자 닉네임 저장
+                    localStorage.setItem('userName', response.data.userName); //  로컬 스토리지에 사용자 이름 저장
 
                     updateAuth({
                         token: response.data.token,
                         userNick: response.data.userNick,
+                        userName: response.data.userName,
                         userId: userIdFromToken
                     });
                     // 폼 필드 상태 초기화
