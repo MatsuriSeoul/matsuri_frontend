@@ -7,7 +7,6 @@ import DecodingInfo from "./DecodingInfo";
 const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPasswordRecovery }) => {
     const [userId, setUserId] = useState(''); // 사용자 ID
     const [userPassword, setUserPassword] = useState(''); // 사용자 비밀번호
-    const [userName, setUserName] = useState('');  //  사용자 이름
     const [error, setError] = useState(''); // 에러 메시지
     const history = useHistory(); // 히스토리
     const { updateAuth } = useAuth(); // 인증 상태 업데이트
@@ -21,19 +20,24 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
             });
             if (response.data && response.data.token) { // 응답에 토큰이 있으면
                 const decodedToken = DecodingInfo(response.data.token); // 토큰 디코딩
+                console.log(decodedToken);
+
                 const userIdFromToken = decodedToken ? parseInt(decodedToken.sub, 10) : null;
+                const userRoleFromToken = decodedToken ? decodedToken.role : null; // userRole 가져오기
+
+                console.log("User Role from Token:", userRoleFromToken);
 
                 if (!isNaN(userIdFromToken)) {
                     localStorage.setItem('token', response.data.token); // 로컬스토리지에 토큰 저장
                     localStorage.setItem('userId', userIdFromToken); // 로컬스토리지에 사용자 ID 저장
-                    localStorage.setItem('userNick', response.data.userNick); // 로컬 스토리지에 사용자 닉네임 저장
-                    localStorage.setItem('userName', response.data.userName); //  로컬 스토리지에 사용자 이름 저장
+                    localStorage.setItem('userName', decodedToken.userName); //  로컬 스토리지에 사용자 이름 저장
+                    localStorage.setItem('userRole', userRoleFromToken) ;
 
                     updateAuth({
                         token: response.data.token,
-                        userNick: response.data.userNick,
                         userName: response.data.userName,
-                        userId: userIdFromToken
+                        userId: userIdFromToken,
+                        userRole : userRoleFromToken
                     });
                     // 폼 필드 상태 초기화
                     setUserId('');

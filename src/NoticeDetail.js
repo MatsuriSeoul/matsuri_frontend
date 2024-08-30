@@ -22,12 +22,21 @@ const NoticeDetail = () => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('token'); // JWT 토큰
-        console.log(token);
-        if (token) {
-            const userId = extractUserIdFromToken(token);
-            setCurrentUserId(userId);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('로그인이 필요한 기능입니다.');
+            history.push('/notice');
+            return;
         }
+
+        const userId = extractUserIdFromToken(token);
+        if (!userId) {
+            alert('로그인이 필요한 기능입니다.');
+            history.push('/notice');
+            return;
+        }
+
+        setCurrentUserId(userId);
 
         const fetchNotice = async () => {
             try {
@@ -50,7 +59,7 @@ const NoticeDetail = () => {
         };
 
         fetchNotice();
-    }, [noticeId]);
+    }, [noticeId, history]);
 
     const handleDelete = async () => {
         try {

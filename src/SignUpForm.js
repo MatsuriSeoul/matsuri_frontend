@@ -13,6 +13,7 @@ function SignUpForm() {
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [passwordError, setPasswordError] = useState(''); // 비밀번호 오류 메시지
+    const [birthdayError, setBirthdayError] = useState(''); // 생일 오류 메시지
     const [isIdValid, setIsIdValid] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isPhoneValid, setIsPhoneValid] = useState(false);
@@ -20,6 +21,24 @@ function SignUpForm() {
     const [codeSent, setCodeSent] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [verificationType, setVerificationType] = useState(''); // 인증 방식 (email 또는 phone)
+
+    // 전화번호 형식 검사 함수 (숫자 10~11자리만 허용)
+    const validatePhone = (phone) => {
+        const phonePattern = /^010\d{8}$/;
+        return phonePattern.test(phone);
+    };
+
+    // 나이 검사 함수 (만 14세 이상 여부)
+    const validateBirthday = (birthday) => {
+        const today = new Date();
+        const birthDate = new Date(birthday);
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            return age - 1;
+        }
+        return age;
+    };
 
     // 비밀번호 확인 로직
     useEffect(() => {
@@ -37,13 +56,59 @@ function SignUpForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (userPassword !== userPasswordConfirm) {
-            setPasswordError('비밀번호가 일치하지 않습니다.');
+        const userAge = validateBirthday(userBirthday);
+
+        // 필드별 유효성 검사를 수행하여 해당 필드가 유효하지 않으면 경고 메시지를 표시
+        if (!userId) {
+            alert('아이디를 입력해주세요.');
             return;
         }
-
-        if (!isIdValid || (!isEmailValid && !isPhoneValid) || !isVerified) {
-            alert('모든 필드를 올바르게 입력해주세요.');
+        if (!isIdValid) {
+            alert('아이디 중복 검사를 완료해주세요.');
+            return;
+        }
+        if (!userName) {
+            alert('이름을 입력해주세요.');
+            return;
+        }
+        if (!userEmail) {
+            alert('이메일을 입력해주세요.');
+            return;
+        }
+        if (!isEmailValid) {
+            alert('이메일 중복 검사를 완료해주세요.');
+            return;
+        }
+        if (!userPhone) {
+            alert('휴대폰 번호를 입력해주세요.');
+            return;
+        }
+        if (!validatePhone(userPhone)) {
+            alert('휴대폰 번호 형식이 잘못되었습니다. 010XXXXXXXX 형식으로 입력해주세요.');
+            return;
+        }
+        if (!isPhoneValid) {
+            alert('휴대폰 번호 중복 검사를 완료해주세요.');
+            return;
+        }
+        if (!codeSent || !isVerified) {
+            alert('본인 인증을 완료해주세요.');
+            return;
+        }
+        if (!userPassword) {
+            alert('비밀번호를 입력해주세요.');
+            return;
+        }
+        if (userPassword !== userPasswordConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+        if (!userBirthday) {
+            alert('생일을 입력해주세요.');
+            return;
+        }
+        if (userAge < 14) {
+            setBirthdayError('만 14세 미만은 가입할 수 없습니다.');
             return;
         }
 
@@ -201,10 +266,12 @@ function SignUpForm() {
                 <input type="tel"
                        value={userPhone}
                        onChange={(e) => {
-                           setUserPhone(e.target.value);
-                           setPhoneError('');
+                           const phone = e.target.value;
+                           setUserPhone(phone);
+                           setPhoneError(validatePhone(phone) ? '' : '휴대폰 번호 형식이 잘못되었습니다.');
                            setIsPhoneValid(false);
                        }}
+                       placeholder="010XXXXXXXX"
                        required />
                 <button type="button" onClick={checkPhoneAvailability}>중복 확인</button>
                 {phoneError && <p>{phoneError}</p>}
@@ -237,10 +304,14 @@ function SignUpForm() {
             <br />
             <label>
                 생일:
-                <input type="date" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} required />
+                <input type="date" value={userBirthday} onChange={(e) => {
+                    setUserBirthday(e.target.value);
+                    setBirthdayError(validateBirthday(e.target.value) < 14 ? '만 14세 미만은 가입할 수 없습니다.' : '');
+                }} required />
+                {birthdayError && <p style={{ color: 'red' }}>{birthdayError}</p>}
             </label>
             <br />
-            <button type="submit">가입</button>
+            <button type="submit" disabled={birthdayError !== ''}>가입</button>
         </form>
     );
 }
