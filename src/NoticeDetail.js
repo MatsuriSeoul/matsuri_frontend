@@ -47,7 +47,7 @@ const NoticeDetail = () => {
                 });
                 const noticeData = response.data;
 
-                console.log("Fetched notice data:", noticeData);
+                // console.log("Fetched notice data:", noticeData);
 
                 // 이미지가 없는 경우 빈 배열로 초기화
                 noticeData.images = noticeData.images || [];
@@ -62,6 +62,12 @@ const NoticeDetail = () => {
     }, [noticeId, history]);
 
     const handleDelete = async () => {
+
+        const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+        if (!confirmDelete) {
+            return; // 사용자가 취소를 누르면 삭제 중단
+        }
+
         try {
             await axios.delete(`/api/notice/${noticeId}`, {
                 headers: {
@@ -81,8 +87,8 @@ const NoticeDetail = () => {
 
     if (!notice) return <div>Loading...</div>;
 
-    console.log("Current User ID:", currentUserId);
-    console.log("Notice User ID:", notice.userId);
+    // console.log("Current User ID:", currentUserId);
+    // console.log("Notice User ID:", notice.userId);
 
     return (
         <div>
@@ -97,7 +103,7 @@ const NoticeDetail = () => {
                             key={index}
                             src={image.imagePath}
                             alt={`Notice Image ${index}`}
-                            style={{ width: "200px", margin: "10px 0" }}
+                            style={{width: "200px", margin: "10px 0"}}
                         />
                     ))}
                 </div>

@@ -28,6 +28,12 @@ function SignUpForm() {
         return phonePattern.test(phone);
     };
 
+    // 이메일 형식 검사 함수
+    const validateEmail = (email) => {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.(com|net)$/;
+        return emailPattern.test(email);
+    };
+
     // 나이 검사 함수 (만 14세 이상 여부)
     const validateBirthday = (birthday) => {
         const today = new Date();
@@ -40,11 +46,25 @@ function SignUpForm() {
         return age;
     };
 
+    // 비밀번호 조건 검사 함수 (최소 8자, 대문자와 특수문자 포함)
+    const validatePassword = (password) => {
+        if (password.length < 8) {
+            return '비밀번호는 최소 8자 이상이어야 합니다.';
+        }
+        if (!/[A-Z]/.test(password)) {
+            return '비밀번호는 적어도 하나의 대문자를 포함해야 합니다.';
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            return '비밀번호는 적어도 하나의 특수문자를 포함해야 합니다.';
+        }
+        return '';
+    };
+
     // 비밀번호 확인 로직
     useEffect(() => {
         if (userPassword && userPasswordConfirm) {
             if (userPassword === userPasswordConfirm) {
-                setPasswordError('입력한 비밀번호와 일치합니다.');
+                setPasswordError(validatePassword(userPassword));  // 조건 검증 추가
             } else {
                 setPasswordError('입력한 비밀번호와 일치하지 않습니다.');
             }
@@ -73,6 +93,10 @@ function SignUpForm() {
         }
         if (!userEmail) {
             alert('이메일을 입력해주세요.');
+            return;
+        }
+        if (!validateEmail(userEmail)) {
+            alert('이메일 형식이 잘못되었습니다. ooo@ooo.com 또는 ooo@ooo.net 형식으로 입력해주세요.');
             return;
         }
         if (!isEmailValid) {
@@ -157,6 +181,11 @@ function SignUpForm() {
     const checkEmailAvailability = async () => {
         if (userEmail.trim() === '') {
             setEmailError('이메일을 입력하세요.');
+            setIsEmailValid(false);
+            return;
+        }
+        if (!validateEmail(userEmail)) {
+            setEmailError('이메일 형식이 잘못되었습니다.');
             setIsEmailValid(false);
             return;
         }

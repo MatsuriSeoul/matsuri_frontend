@@ -40,6 +40,8 @@ import ChungbukEventList from "./ChungbukEventList";
 import GyeongnamEventList from "./GyeongnamEventList";
 import GyeongbukEventList from "./GyeongbukEventList";
 import JejuEventList from "./JejuEventList";
+import MyPage from "./MyPage";
+import PasswordChange from "./PasswordChange";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -76,6 +78,8 @@ function App() {
                         <Route path="/event-search" component={EventSearch}/> {/*행사 검색 기능*/}
                         <Route path="/event-fetch" component={TourList}/> {/*여행 정보 api 불러오기 테스트*/}
                         <Route path="/event-fetch-detail" component={TourEventDetail}/> {/*id에 해당하는 상세 내용 확인 테스트*/}
+
+                        {/*공지사항 관련 라우터 경로*/}
                         <Route path="/create-notice" component={CreateNotice}/> {/*공지사항 작성*/}
                         <Route path="/notice/:noticeId" component={NoticeDetail}/> {/*공지사항 디테일*/}
                         <Route path="/edit/:noticeId" component={EditNotice}/> {/*공지사항 수정*/}
@@ -83,6 +87,9 @@ function App() {
                         <Route path="/comment" component={CreateComment}/>{/*공지사항에 댓글 작성 */}
                         <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
 
+                        {/*마이페이지 관련 라우터 경로*/}
+                        <Route path="/userProfile" component={MyPage}/>{/*유저 프로필*/}
+                        <Route path="/change-password" component={PasswordChange} /> {/*비밀번호 변경*/}
 
                         {/*카테고리 라우터 경로*/}
                         <Route path="/category/:category" component={Category}/>

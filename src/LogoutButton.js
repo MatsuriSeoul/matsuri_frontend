@@ -10,20 +10,20 @@ function LogoutButton() {
     const handleLogout = async () => {
         // 서버에 로그아웃 이벤트를 알림
         try {
-            await axios.post('/api/logout', { userNick: auth.userNick, userId: auth.userId });
+            await axios.post('/api/logout', { userName: auth.userName, userId: auth.userId });
         } catch (error) {
             console.error('로그아웃 실패:', error);
         }
 
-        console.log(`닉네임 : ${auth.userNick} 님이 로그아웃 하였습니다.`);
+        console.log(`닉네임 : ${auth.userName} 님이 로그아웃 하였습니다.`);
 
         // 로컬 스토리지에서 인증 정보 제거
         localStorage.removeItem('token');
-        localStorage.removeItem('userNick');
+        localStorage.removeItem('userName');
         localStorage.removeItem('userId');
 
         // Auth 상태 업데이트
-        updateAuth({ token: null, userNick: null, userId: null });
+        updateAuth({ token: null, userName: null, userId: null });
 
         alert('로그아웃 하였습니다.');
         history.push('/');
