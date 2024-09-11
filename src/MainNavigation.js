@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import AuthContext from './AuthContext';
 import LogoutButton from './LogoutButton';
 import UserIdRecoveryForm from "./UserIdRecoveryForm";
@@ -19,11 +19,25 @@ function MainNavigation() {
     const closeUserIdRecoveryModal = () => setIsUserIdRecoveryModalOpen(false); // 아이디 찾기 모달 닫기
     const openPasswordRecoveryModal = () => setIsPasswordRecoveryModalOpen(true); // 비밀번호 찾기 모달 열기
     const closePasswordRecoveryModal = () => setIsPasswordRecoveryModalOpen(false); // 비밀번호 찾기 모달 닫기
+    const history = useHistory();
+
+    const navigateToHome = () => {
+        history.push('/'); // 메인 페이지로 이동
+    };
 
     return (
         <nav>
             <ul>
-                <li><Link to="/signUp">회원가입</Link></li>
+                <li>
+                    <img
+                        src="/img/mainlogo.png"
+                        alt="Main Logo"
+                        onClick={navigateToHome} // 이미지 클릭 시 메인 페이지로 이동
+                        style={{cursor: 'pointer', width: '150px'}} // 원하는 스타일 추가
+                    />
+                </li>
+                <li>
+                    <Link to="/signUp">회원가입</Link></li>
                 {!auth.token && (
                     <li>
                         <button onClick={openLoginModal}>로그인</button>
@@ -38,7 +52,7 @@ function MainNavigation() {
                 {auth.token && (
                     <>
                         <li>
-                            <Link to="/create-notice">공지사항 작성</Link>
+                            <Link to="/userProfile">유저 프로필</Link>
                         </li>
                         <li>
                             <LogoutButton/>

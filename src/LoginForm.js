@@ -20,12 +20,12 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
             });
             if (response.data && response.data.token) { // 응답에 토큰이 있으면
                 const decodedToken = DecodingInfo(response.data.token); // 토큰 디코딩
-                console.log(decodedToken);
+                // console.log(decodedToken);
 
                 const userIdFromToken = decodedToken ? parseInt(decodedToken.sub, 10) : null;
                 const userRoleFromToken = decodedToken ? decodedToken.role : null; // userRole 가져오기
 
-                console.log("User Role from Token:", userRoleFromToken);
+                // console.log("User Role from Token:", userRoleFromToken);
 
                 if (!isNaN(userIdFromToken)) {
                     localStorage.setItem('token', response.data.token); // 로컬스토리지에 토큰 저장
