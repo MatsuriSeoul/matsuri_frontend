@@ -42,6 +42,8 @@ import GyeongbukEventList from "./GyeongbukEventList";
 import JejuEventList from "./JejuEventList";
 import MyPage from "./MyPage";
 import PasswordChange from "./PasswordChange";
+import SeoulEventDetail from "./SeoulEventDetail";
+import GyeonggiEventDetail from "./GyeonggiEventDetail";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -104,7 +106,8 @@ function App() {
                         <Route exact path="/shopping-events/:contentid/:contenttypeid/detail"
                                component={ShoppingEventDetail}/>
                         <Route path="/food-events/:contentid/:contenttypeid/detail" component={FoodEventDetail}/>
-
+                        <Route path="/seoul-events/:svcid/detail" component={SeoulEventDetail}/>
+                        <Route path="/gyeonggi-events/:id/detail" component={GyeonggiEventDetail} />
                         {/*지역 카테고리 라우터 경로*/}
                         <Route path="/region-select" component={RegionSelection}/>
                         <Route path="/region/gyeonggi" component={GyeonggiEventList}/>
