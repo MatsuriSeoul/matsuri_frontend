@@ -9,6 +9,9 @@ import CreateNotice from "./CreateNotice";
 
 function MainNavigation() {
     const { auth } = useContext(AuthContext);
+
+    console.log('현재 로그인 상태:', auth);
+
     const [isLoginOpen, setIsLoginOpen] = useState(false); // 로그인 모달 상태
     const [isUserIdRecoveryOpen, setIsUserIdRecoveryModalOpen] = useState(false); // 아이디 찾기 모달 상태
     const [isPasswordRecoveryOpen, setIsPasswordRecoveryModalOpen] = useState(false); // 비밀번호 찾기 모달 상태
@@ -23,7 +26,7 @@ function MainNavigation() {
     return (
         <nav>
             <ul>
-                <li><Link to="/signUp">회원가입 asdfasdf</Link></li>
+                <li><Link to="/signUp">회원가입</Link></li>
                 {!auth.token && (
                     <li>
                         <button onClick={openLoginModal}>로그인</button>
