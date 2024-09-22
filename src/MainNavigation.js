@@ -44,6 +44,7 @@ function MainNavigation() {
                     </li>
                 )}
                 <li><Link to="/event-search">검색</Link></li>
+                <li><Link to="/inquiry-list">문의사항 리스트</Link></li>
                 <li><Link to="/event-fetch">api 테스트</Link></li>
                 <li><Link to="/event-fetch-detail">행사상세정보</Link></li>
                 <li><Link to="/api/notice">공지사항 페이지</Link></li>
@@ -54,6 +55,7 @@ function MainNavigation() {
                         <li>
                             <Link to="/userProfile">유저 프로필</Link>
                         </li>
+
                         <li>
                             <LogoutButton/>
                         </li>

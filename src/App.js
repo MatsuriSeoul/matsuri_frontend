@@ -19,6 +19,8 @@ import NoticePage from "./NoticePage";
 import NoticeDetail from "./NoticeDetail";
 import EditNotice from "./EditNotice";
 import EventDetail from "./EventDetail";
+import InquiryList from "./InquiryList";
+import CreateInquiry from "./CreateInquiry";
 import TravelCourseDetail from "./TravelCourseDetail";
 import LeisureSportsDetail from "./LeisureSportsDetail";
 import LocalEventDetail from "./LocalEventDetail";
@@ -92,6 +94,11 @@ function App() {
                         {/*마이페이지 관련 라우터 경로*/}
                         <Route path="/userProfile" component={MyPage}/>{/*유저 프로필*/}
                         <Route path="/change-password" component={PasswordChange} /> {/*비밀번호 변경*/}
+
+                        {/*문의사항 라우터 경로*/}
+                        <Route path="/inquiry-list" component={InquiryList} />
+                        <Route path="/create-inquiry" component={CreateInquiry} />
+
 
                         {/*카테고리 라우터 경로*/}
                         <Route path="/category/:category" component={Category}/>
