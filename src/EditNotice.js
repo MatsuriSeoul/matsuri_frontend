@@ -17,12 +17,16 @@ const EditNotice = () => {
     useEffect(() => {
         const fetchNotice = async () => {
             try {
-                const response = await axios.get(`/api/notice/${noticeId}`);
-                const notice = response.data;
-                setTitle(notice.title);
-                setContent(notice.content);
-                setExistingImages(notice.images || []); // 기존 이미지 경로를 저장
-                setExistingAttachments(notice.files || []);
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`http://localhost:8080/api/notice/${noticeId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setTitle(response.data.title);
+                setContent(response.data.content);
+                setExistingImages(response.data.images || []); // 기존 이미지 경로를 저장
+                setExistingAttachments(response.data.files || []);
             } catch (error) {
                 console.error('Error fetching notice', error);
             }

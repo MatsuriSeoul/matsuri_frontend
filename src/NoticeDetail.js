@@ -13,7 +13,7 @@ const NoticeDetail = () => {
     const extractUserIdFromToken = (token) => {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
-            console.log("Extracted userId from token:", payload.userId);
+           // console.log("Extracted userId from token:", payload.userId);
             return payload.userId;
         } catch (error) {
             console.error("토큰에서 사용자 ID 추출 오류:", error);
@@ -22,12 +22,21 @@ const NoticeDetail = () => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('token'); // JWT 토큰
-        console.log(token);
-        if (token) {
-            const userId = extractUserIdFromToken(token);
-            setCurrentUserId(userId);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('로그인이 필요한 기능입니다.');
+            history.push('/notice');
+            return;
         }
+
+        const userId = extractUserIdFromToken(token);
+        if (!userId) {
+            alert('로그인이 필요한 기능입니다.');
+            history.push('/notice');
+            return;
+        }
+
+        setCurrentUserId(userId);
 
         const fetchNotice = async () => {
             try {
@@ -38,7 +47,7 @@ const NoticeDetail = () => {
                 });
                 const noticeData = response.data;
 
-                console.log("Fetched notice data:", noticeData);
+                // console.log("Fetched notice data:", noticeData);
 
                 // 이미지가 없는 경우 빈 배열로 초기화
                 noticeData.images = noticeData.images || [];
@@ -50,9 +59,15 @@ const NoticeDetail = () => {
         };
 
         fetchNotice();
-    }, [noticeId]);
+    }, [noticeId, history]);
 
     const handleDelete = async () => {
+
+        const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+        if (!confirmDelete) {
+            return; // 사용자가 취소를 누르면 삭제 중단
+        }
+
         try {
             await axios.delete(`/api/notice/${noticeId}`, {
                 headers: {
@@ -72,8 +87,8 @@ const NoticeDetail = () => {
 
     if (!notice) return <div>Loading...</div>;
 
-    console.log("Current User ID:", currentUserId);
-    console.log("Notice User ID:", notice.userId);
+    // console.log("Current User ID:", currentUserId);
+    // console.log("Notice User ID:", notice.userId);
 
     return (
         <div>
@@ -88,7 +103,7 @@ const NoticeDetail = () => {
                             key={index}
                             src={image.imagePath}
                             alt={`Notice Image ${index}`}
-                            style={{ width: "200px", margin: "10px 0" }}
+                            style={{width: "200px", margin: "10px 0"}}
                         />
                     ))}
                 </div>

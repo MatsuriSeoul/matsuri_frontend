@@ -9,15 +9,17 @@ export const AuthProvider = ({ children }) => {
         token: localStorage.getItem('token') || null, // 로컬 스토리지에서 토큰 가져오기
         userName: localStorage.getItem('userName') || null, // 로컬 스토리지에서 사용자 닉네임 가져오기
         userId: localStorage.getItem('userId') || null, // 로컬 스토리지에서 사용자 ID 가져오기
+        userRole: localStorage.getItem('userRole') || null  // 로컬 스토리지에서 사용자 구분 가져오기
     });
 
     useEffect(() => { // 컴포넌트 마운트 시 실행
         const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
         const userName = localStorage.getItem('userName'); // 로컬 스토리지에서 사용자 닉네임 가져오기
         const userId = localStorage.getItem('userId'); // 로컬 스토리지에서 사용자 ID 가져오기
+        const userRole = localStorage.getItem('userRole');  // 로컬 스토리지에서 사용자 구분 가져오기
 
-        if (token && userName && userId) { // 토큰과 사용자 닉네임, 사용자 ID가 있을 경우
-            setAuth({ token, userName, userId }); // 인증 상태 설정
+        if (token && userName && userId && userRole) { // 토큰과 사용자 닉네임, 사용자 ID가 있을 경우
+            setAuth({ token, userName, userId, userRole  }); // 인증 상태 설정
         }
     }, []);
 
@@ -25,12 +27,13 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', newAuth.token); // 로컬 스토리지에 토큰 저장
         localStorage.setItem('userName', newAuth.userName); // 로컬 스토리지에 사용자 닉네임 저장
         localStorage.setItem('userId', newAuth.userId); // 로컬 스토리지에 사용자 ID 저장
+        localStorage.setItem('userRole', newAuth.userRole);  // 로컬 스토리지에 사용자 구분 저장
         setAuth(newAuth); // 인증 상태 업데이트
     };
 
     const logout = () => { // 로그아웃
         localStorage.clear(); // 로컬 스토리지 비우기
-        setAuth({ token: null, userName: null, userId: null, profileImage: null }); // 인증 상태 초기화
+        setAuth({ token: null, userName: null, userId: null, profileImage: null, userRole: null }); // 인증 상태 초기화
     };
 
 

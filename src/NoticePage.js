@@ -5,8 +5,8 @@ import './NoticePage.css';
 
 const NoticePage = ({ token }) => {
     const [notices, setNotices] = useState([]);
-    const [userRole, setUserRole] = useState('');
     const history = useHistory();
+    const userRole = localStorage.getItem('userRole');
 
     useEffect(() => {
         const fetchNotices = async () => {
@@ -18,48 +18,50 @@ const NoticePage = ({ token }) => {
             }
         };
 
-        const fetchUserRole = () => {
-            if (token) {
-                const parsedToken = JSON.parse(atob(token.split('.')[1]));
-                setUserRole(parsedToken.userRole);
-            }
-        };
 
         fetchNotices();
-        fetchUserRole();
     }, [token]);
 
     const handleCreateNotice = () => {
-        // CreateNotice 페이지로 이동
+        if (userRole === 'ADMIN') {
         history.push('/create-notice');
+        }
+        else {
+            alert('글쓰기 권한이 없습니다. 관리자에게 문의하세요.');
+        }
     };
 
     return (
         <div className="notice-page">
             <div className="notice-header">
                 <h2>공지사항</h2>
-                    <button className="write-button" onClick={handleCreateNotice}>글쓰기</button>
+                {/* userRole이 'ADMIN'일 때만 글쓰기 버튼을 렌더링 */}
+                {userRole === 'ADMIN' && (
+                    <button className="write-button" onClick={handleCreateNotice}>
+                        글쓰기
+                    </button>
+                )}
             </div>
             <table className="notice-table">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>제목</th>
-                        <th>작성일</th>
-                        <th>작성자</th>
-                        <th>조회수</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {notices.map(notice => (
-                        <tr key={notice.id}>
-                            <td>{notice.id}</td>
-                            <td><Link to={`/notice/${notice.id}`}>{notice.title}</Link></td>
-                            <td>{notice.createdTime}</td>
-                            <td>{notice.author}</td>
-                            <td>{notice.viewcnt}</td>
-                        </tr>
-                    ))}
+                {notices.map(notice => (
+                    <tr key={notice.id}>
+                        <td>{notice.id}</td>
+                        <td><Link to={`/notice/${notice.id}`}>{notice.title}</Link></td>
+                        <td>{notice.createdTime}</td>
+                        <td>{notice.author}</td>
+                        <td>{notice.viewcnt}</td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
             <div className="pagination">

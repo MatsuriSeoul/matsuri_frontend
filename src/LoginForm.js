@@ -14,24 +14,35 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/users/login', {
+            const response = await axios.post('/api/login', {
                 userId: userId,
                 userPassword: userPassword,
             });
             if (response.data && response.data.token) { // 응답에 토큰이 있으면
                 const decodedToken = DecodingInfo(response.data.token); // 토큰 디코딩
+                // console.log(decodedToken);
+
                 const userIdFromToken = decodedToken ? parseInt(decodedToken.sub, 10) : null;
+                const userRoleFromToken = decodedToken ? decodedToken.role : null; // userRole 가져오기
+
+                // console.log("User Role from Token:", userRoleFromToken);
 
                 if (!isNaN(userIdFromToken)) {
                     localStorage.setItem('token', response.data.token); // 로컬스토리지에 토큰 저장
                     localStorage.setItem('userId', userIdFromToken); // 로컬스토리지에 사용자 ID 저장
-                    localStorage.setItem('userNick', response.data.userNick); // 로컬 스토리지에 사용자 닉네임 저장
+                    localStorage.setItem('userName', decodedToken.userName); //  로컬 스토리지에 사용자 이름 저장
+                    localStorage.setItem('userRole', userRoleFromToken) ;
 
                     updateAuth({
                         token: response.data.token,
-                        userNick: response.data.userNick,
-                        userId: userIdFromToken
+                        userName: response.data.userName,
+                        userId: userIdFromToken,
+                        userRole : userRoleFromToken
                     });
+                    // 폼 필드 상태 초기화
+                    setUserId('');
+                    setUserPassword('');
+
                     onClose();
                     history.push('/'); // 홈 페이지로 이동
                 } else {
