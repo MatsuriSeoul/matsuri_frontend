@@ -1,3 +1,6 @@
+/*
+* 검색 페이지
+* */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';

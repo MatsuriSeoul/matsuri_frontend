@@ -13,7 +13,7 @@ const NoticeDetail = () => {
     const extractUserIdFromToken = (token) => {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
-            console.log("Extracted userId from token:", payload.userId);
+           // console.log("Extracted userId from token:", payload.userId);
             return payload.userId;
         } catch (error) {
             console.error("토큰에서 사용자 ID 추출 오류:", error);
