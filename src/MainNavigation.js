@@ -49,10 +49,12 @@ function MainNavigation() {
                 <li><Link to="/event-search">검색</Link></li>
                 <li><Link to="/inquiry-list">문의사항 리스트</Link></li>
                 <li><Link to="/event-fetch">api 테스트</Link></li>
-                <li><Link to="/event-fetch-detail">행사상세정보</Link></li>
                 <li><Link to="/api/notice">공지사항 페이지</Link></li>
                 <li><Link to="/category">카테고리 선택</Link></li>
                 <li><Link to="/region-select">지역 선택</Link></li>
+                <li><Link to="/hotspot">핫스팟</Link></li>
+                <li><Link to="/free-paid-events">무료 유료</Link></li>
+                <li><Link to="/scheduled-events">개최예정중인행사</Link></li>
                 {auth.token && (
                     <>
                         <li>

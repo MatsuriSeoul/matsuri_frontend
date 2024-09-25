@@ -1,3 +1,6 @@
+/*
+* 숙박 상세 정보 페이지
+* */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
