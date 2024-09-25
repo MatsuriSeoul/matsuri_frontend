@@ -49,6 +49,7 @@ function MainNavigation() {
                 <li><Link to="/api/notice">공지사항 페이지</Link></li>
                 <li><Link to="/category">카테고리 선택</Link></li>
                 <li><Link to="/region-select">지역 선택</Link></li>
+                <li><Link to="/hotspot">메인페이지 핫!스팟</Link></li>
                 {auth.token && (
                     <>
                         <li>

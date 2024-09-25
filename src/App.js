@@ -44,6 +44,7 @@ import MyPage from "./MyPage";
 import PasswordChange from "./PasswordChange";
 import SeoulEventDetail from "./SeoulEventDetail";
 import GyeonggiEventDetail from "./GyeonggiEventDetail";
+import HotSpotMainPage from './HotSpotMainPage';
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -126,6 +127,8 @@ function App() {
                         <Route path="/region/gyeongbuk" component={GyeongbukEventList} />
                         <Route path="/region/jeju" component={JejuEventList} />
 
+                        {/* 메인페이지 */}
+                        <Route path="/hotspot" component={HotSpotMainPage} />
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}
