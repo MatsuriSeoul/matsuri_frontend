@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import KakaoMap from "./KakaoMap";
 
 const EventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -81,6 +82,8 @@ const EventDetail = () => {
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
+            {/* KakaoMap 컴포넌트를 렌더링하여 지도 표시 */}
+            <KakaoMap mapX={detail.mapx} mapY={detail.mapy} />
             <p>홈페이지:
                 {/* HTML 태그를 포함한 문자열을 렌더링 */}
                 <span dangerouslySetInnerHTML={{__html: detail.homepage}}/>
