@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from './AuthContext';
@@ -40,8 +40,8 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
                         userRole : userRoleFromToken
                     });
                     // 폼 필드 상태 초기화
-                    setUserId('');
-                    setUserPassword('');
+//                    setUserId('');
+//                    setUserPassword('');
 
                     onClose();
                     history.push('/'); // 홈 페이지로 이동
@@ -56,72 +56,42 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
         }
     };
 
+// 네이버 로그인 후 콜백 처리
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const token = queryParams.get('token');
 
+        if (token) {
+            const decodedToken = DecodingInfo(token);
+            const userIdFromToken = decodedToken ? parseInt(decodedToken.sub, 10) : null;
+            const userRoleFromToken = decodedToken ? decodedToken.role : null;
 
-    const handleNaverLogin = async () => {
-        try {
-            const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=cAxVyC6eWpTfHY6rLFwK&redirect_uri=${encodeURIComponent('http://localhost:8080/naver/oauth2')}&state=RANDOM_STATE`;
+            if (!isNaN(userIdFromToken)) {
+                // JWT 및 사용자 정보를 로컬 스토리지에 저장
+                localStorage.setItem('token', token);
+                localStorage.setItem('userId', userIdFromToken);
+                localStorage.setItem('userName', decodedToken.userName);
+                localStorage.setItem('userRole', userRoleFromToken);
 
-            // 네이버 로그인 창으로 이동
-            window.location.href = naverAuthUrl;
-
-            // 네이버 소셜 로그인 콜백 후
-            const response = await axios.get('/naver/oauth2'); // 콜백 엔드포인트에서 서버 응답받기
-
-            if (response.data && response.data.token) {
-                const token = response.data.token;
-                const decodedToken = DecodingInfo(token);  // JWT 토큰 디코딩
-
-                const userIdFromToken = decodedToken ? parseInt(decodedToken.sub, 10) : null;
-                const userRoleFromToken = decodedToken ? decodedToken.role : null;
-
-                if (!isNaN(userIdFromToken)) {
-                    // JWT 및 사용자 정보를 로컬 스토리지에 저장
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('userId', userIdFromToken);
-                    localStorage.setItem('userName', decodedToken.userName);
-                    localStorage.setItem('userRole', userRoleFromToken);
-
-                    // 인증 상태 업데이트
-                    updateAuth({
-                        token: token,
-                        userName: decodedToken.userName,
-                        userId: userIdFromToken,
-                        userRole: userRoleFromToken
-                    });
-
-                    // 로그인 후 홈 페이지로 이동
-                    onClose();
-                    history.push('/');
-                } else {
-                    alert('로그인 정보가 올바르지 않습니다.');
-                }
-            } else {
-                alert('로그인에 실패했습니다. 다시 시도해주세요.');
-            }
-        } catch (error) {
-            console.error('네이버 로그인 중 오류 발생:', error);
-        }
-    };
-
-
-    const fetchProtectedData = async () => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.error('로그인 토큰이 없습니다.');
-                return;
-            }
-
-            try {
-                const response = await axios.get('/protected-endpoint', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`  // JWT를 Authorization 헤더에 포함
-                    }
+                // 인증 상태 업데이트
+                updateAuth({
+                    token: token,
+                    userName: decodedToken.userName,
+                    userId: userIdFromToken,
+                    userRole: userRoleFromToken
                 });
-                console.log('데이터:', response.data);
-            } catch (error) {
-                console.error('인증된 요청 실패:', error);
+
+                // 로그인 후 홈 페이지로 리디렉션
+                history.push('/');
             }
+        }
+    }, [history, updateAuth]);
+
+    const handleNaverLogin = () => {
+            const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=cAxVyC6eWpTfHY6rLFwK&state=RANDOM_STATE&redirect_uri=${('http://localhost:8080/api/login')}`;
+
+            // 네이버 로그인 페이지로 리디렉션
+            window.location.href = naverAuthUrl;
         };
 
 

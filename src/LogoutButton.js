@@ -21,9 +21,10 @@ function LogoutButton() {
         localStorage.removeItem('token');
         localStorage.removeItem('userName');
         localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
 
         // Auth 상태 업데이트
-        updateAuth({ token: null, userName: null, userId: null });
+        updateAuth({ token: null, userName: null, userId: null, userRole: null });
 
         alert('로그아웃 하였습니다.');
         history.push('/');
