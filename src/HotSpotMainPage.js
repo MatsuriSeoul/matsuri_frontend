@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
-import './HotSpotMainPage.css';
+
 
 const HotSpotMainPage = () => {
     const [activeTab, setActiveTab] = useState('경기도'); // 기본 선택된 탭을 '경기도'로 설정
