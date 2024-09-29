@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import LikeButton from "./LikeButton";
 
 const LocalEventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -78,6 +79,7 @@ const LocalEventDetail = () => {
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300" />
             )}
+            <LikeButton contentId={contentid} contentType="LocalEventDetail" />
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>

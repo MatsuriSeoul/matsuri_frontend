@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import './App.css';
+import eventDetail from "./EventDetail";
 
 function MyPage() {
     const [userInfo, setUserInfo] = useState({
@@ -27,6 +29,9 @@ function MyPage() {
     const [message, setMessage] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const history = useHistory();
+    const [likedEvents, setLikedEvents] = useState([]); // 내가 좋아요 누른 콘텐츠 목록 저장
+    const token = localStorage.getItem('token');
+
 
 
     // 이메일 형식 검사 함수
@@ -49,30 +54,122 @@ function MyPage() {
         return birthDate <= today && birthDate >= minDate;
     };
 
+    const isValidEvent = (event) => {
+        return event && typeof event === 'object';
+    };
+
+    // 이미지 URL을 통합하는 함수
+    const getUnifiedImageUrl = (event) => {
+        if (!isValidEvent(event)) return '/img/mainlogo.png'; // 유효하지 않으면 기본값 반환
+        return event.firstImage || event.imageUrl || event.imgurl || '/img/mainlogo.png';
+    };
+
+    // 제목을 통합하는 함수
+    const getUnifiedTitle = (event) => {
+        if (!isValidEvent(event)) return '제목 없음'; // 유효하지 않으면 기본값 반환
+        return event.title || event.svcnm || '제목 없음';
+    };
+
+    // 썸네일 상세내용 데이터 변환 함수
+    const getUnifiedContent = (event) => {
+        if (!isValidEvent(event)) return '상세 내용이 없습니다'; // 유효하지 않으면 기본값 반환
+
+        const content = event.overview || '상세 내용이 없습니다'; // overview가 없으면 기본값 반환
+
+        // 내용이 40자를 넘으면 자르고 '...'를 붙임
+        return content.length > 40 ? `${content.substring(0, 40)}...` : content;
+    };
+
+    // 서울과 경기 이벤트의 상세 페이지 경로 설정 함수
+    const getEventDetailRoute = (event) => {
+        if (!isValidEvent(event)) return '#';
+
+        if (event.svcid) {  // 서울 이벤트의 경우
+            return `/seoul-events/${event.svcid}/detail`;
+        } else if (event.id) {  // 경기 이벤트의 경우
+            return `/gyeonggi-events/${event.id}/detail`;
+        } else {
+            return '#';  // 기본 경로 처리
+        }
+    };
+
+
+    // 상세 페이지 경로 설정 함수
+    const getRouteByContentType = (contentid, contenttypeid) => {
+
+        switch (contenttypeid) {
+            case '12': // 관광지
+                return `/tourist-attraction/${contentid}/${contenttypeid}/detail`;
+            case '14': // 문화 시설
+                return `/cultural-facilities/${contentid}/${contenttypeid}/detail`;
+            case '15':  // 축제 공연 행사
+                return `/events/${contentid}/${contenttypeid}/detail`;
+            case '25':  // 여행코스
+                return `/travel-courses/${contentid}/${contenttypeid}/detail`;
+            case '28':  // 레포츠
+                return `/leisure-sports/${contentid}/${contenttypeid}/detail`;
+            case '32':  // 숙박
+                return `/local-events/${contentid}/${contenttypeid}/detail`;
+            case '38':  // 쇼핑
+                return `shopping-events/${contentid}/${contenttypeid}/detail`;
+            case '39':  // 음식
+                return `/food-events/${contentid}/${contenttypeid}/detail`;
+            default:
+                return `/default-category/${contentid}/${contenttypeid}/detail`; // 기본 경로 처리
+        }
+    };
+
+    // 상세 페이지로 이동하는 함수
+    const handleNavigate = (event) => {
+        const { contentid, contenttypeid } = event;
+        let route = '#';  // 기본 경로
+
+        if (contenttypeid) {
+            // contenttypeid가 있는 경우 (일반적인 경우)
+            route = getRouteByContentType(contentid, contenttypeid);
+        } else {
+            // 서울이나 경기 이벤트일 경우
+            route = getEventDetailRoute(event);
+        }
+
+        return route;
+    };
+
+    const handleEventClick = (event) => {
+        const route = handleNavigate(event);
+        if (route !== '#') {
+            history.push(route);  // 유효한 경로일 경우에만 이동
+        }
+    };
     useEffect(() => {
-        const token = localStorage.getItem('token');
         if (!token) {
             alert('로그인이 필요한 기능입니다.');
-            history('/'); // 메인 페이지로 리다이렉션
+            history.push('/'); // 메인 페이지로 리다이렉션
             return;
         }
 
-        const fetchUserInfo = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get('/api/users/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                // 사용자 정보 불러오기
+                const userInfoResponse = await axios.get('/api/users/profile', {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                setUserInfo(response.data);
-                setNewEmail(response.data.userEmail); // 이메일 필드를 현재 이메일로 초기화
+                setUserInfo(userInfoResponse.data);
+                setNewEmail(userInfoResponse.data.userEmail);
+
+                // 좋아요한 게시글 목록 불러오기
+                const likedEventsResponse = await axios.get('/api/users/liked-events', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                console.log('받은 데이터:', likedEventsResponse.data);
+                setLikedEvents(likedEventsResponse.data);
             } catch (error) {
-                console.error('사용자 정보를 불러오지 못했습니다.', error);
+                console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
             }
         };
 
-        fetchUserInfo();
-    }, [history]);
+        fetchData();
+    }, [history, token]);
 
     const goToPasswordChange = () => {
         history.push('/change-password'); // 비밀번호 변경 페이지로 이동
@@ -375,6 +472,43 @@ function MyPage() {
                 </div>
                 <div>
                     <button onClick={goToPasswordChange}>비밀번호 변경</button>
+                </div>
+                {/* 좋아요한 게시글 목록 */}
+                <div className="liked-events-section">
+                    <h2>내가 좋아요한 게시글</h2>
+                    {likedEvents.length > 0 ? (
+                        <ul className="liked-events-list">
+                            {likedEvents.map((event, index) => (
+                                <li key={index} className="liked-event-item">
+                                    {/* 유효한 event일 경우에만 렌더링 */}
+                                    {isValidEvent(event) && (
+                                        <>
+                                            <img
+                                                src={getUnifiedImageUrl(event)}
+                                                alt={getUnifiedTitle(event)}
+                                                className="event-thumbnail"
+                                                width="100"
+                                                onClick={()=> handleEventClick(event)}
+                                                style={{cursor: 'pointer'}}
+                                            />
+                                            <div>
+                                                <h4
+                                                    className="event-title"
+                                                    onClick={() => handleEventClick(event)}  // 클릭 시 이동
+                                                    style={{cursor: 'pointer', color: 'blue'}}  // 클릭 가능하게 포인터 스타일 추가
+                                                >
+                                                    {getUnifiedTitle(event)} {/* title이 없으면 기본값 */}
+                                                </h4>
+                                                <p>{getUnifiedContent(event)}</p> {/* overview가 없으면 기본값 */}
+                                            </div>
+                                        </>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>좋아요한 게시글이 없습니다.</p>
+                    )}
                 </div>
             </div>
             {message && <p>{message}</p>}

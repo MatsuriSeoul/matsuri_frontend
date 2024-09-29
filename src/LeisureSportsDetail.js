@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import LikeButton from "./LikeButton";
 
 const LeisureSportsDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -77,6 +78,7 @@ const LeisureSportsDetail = () => {
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300"/>
             )}
+            <LikeButton contentId={contentid} contentType="LeisureSportsEventDetail"/>
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>

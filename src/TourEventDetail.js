@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import LikeButton from "./LikeButton";
 
 const TourEventDetail = () => {
     const [contentId, setContentId] = useState('');
@@ -54,6 +55,7 @@ const TourEventDetail = () => {
             {eventDetail && (
                 <div>
                     <h2>{eventDetail.title}</h2>
+                    <LikeButton contentId={contentId} contentType="TourEventDetail" />
                     <p>{eventDetail.addr1}</p>
                     <p>{eventDetail.eventstartdate} - {eventDetail.eventenddate}</p>
                     {eventDetail.firstimage && <img src={eventDetail.firstimage} alt={eventDetail.title} />}
