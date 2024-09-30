@@ -1,0 +1,64 @@
+.main-container {
+    text-align: center;
+    margin: 20px;
+}
+
+.main-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
+.tab-button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.events-container {
+    display: flex;
+    justify-content: center;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    max-width: 800px;
+}
+
+.event-card {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.event-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.event-title {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.event-address {
+    font-size: 14px;
+    color: #666;
+}
