@@ -36,3 +36,63 @@
     transform: rotate(360deg);
   }
 }
+
+/* 프로필 이미지를 원형으로 표시하고, 크기 조정(임시설계, 필요시 변경 가능합니당)  */
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 80%;  /* 원형으로 만들기 위해 50% 설정 */
+  object-fit: cover;   /* 이미지가 원형에 맞게 잘리도록 설정 */
+  border: 1px solid #ddd; /* 약간의 테두리 추가 */
+}
+
+.default-profile-image {
+  background: url("../public/img/default-profile-image.png");
+  width: 50px;
+  height: 50px;
+  border-radius: 80%;  /* 원형으로 만들기 위해 50% 설정 */
+  object-fit: cover;   /* 이미지가 원형에 맞게 잘리도록 설정 */
+  border: 1px solid #ddd; /* 약간의 테두리 추가 */
+}
+
+.mypage-container {
+  padding: 20px;
+}
+
+.profile-section {
+  margin-bottom: 30px;
+}
+
+.liked-events-section {
+  margin-top: 20px;
+}
+
+.liked-events-list {
+  list-style: none;
+  padding: 0;
+}
+
+.liked-event-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.event-thumbnail {
+  margin-right: 20px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.liked-event-item h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.liked-event-item p {
+  margin: 5px 0;
+}
+

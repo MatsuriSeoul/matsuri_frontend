@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import LikeButton from "./LikeButton";
 
 const SeoulEventDetail = () => {
     const { svcid } = useParams(); // URL에서 svcid 가져오기
@@ -50,6 +51,7 @@ const SeoulEventDetail = () => {
     return (
         <div>
             <h2>{eventDetail.svcnm}</h2>
+            <LikeButton contentId={svcid} contentType="SeoulEventDetail" />
             <img src={eventDetail.imgurl} alt={eventDetail.svcnm} width="400" height="200" />
             <p><strong>장소:</strong> {eventDetail.placenm}</p>
             <p><strong>대상:</strong> {eventDetail.usetgtinfo}</p>
