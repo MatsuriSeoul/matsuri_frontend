@@ -5,11 +5,61 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import LikeButton from "./LikeButton";
+import KakaoMap from "./KakaoMap";
 
 const GyeonggiEventDetail = () => {
     const { id } = useParams(); // URL에서 이벤트 id 가져오기
     const [eventDetail, setEventDetail] = useState(null);
     const [error, setError] = useState(null);
+    const [coords, setCoords] = useState(null);
+
+    // Kakao Map 스크립트 로드 함수
+    const loadKakaoMapScript = () => {
+        return new Promise((resolve) => {
+            if (window.kakao && window.kakao.maps) {
+                resolve(); // 이미 스크립트가 로드되었을 경우
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=385055cf5aeb63a6e5db2a0bbb867f09&libraries=services&autoload=false`;
+            script.onload = () => {
+                window.kakao.maps.load(() => {
+                    resolve();
+                });
+            };
+            document.head.appendChild(script);
+        });
+    };
+    // 좌표 검색 기능
+    useEffect(() => {
+        const getCoords = async () => {
+            if (!eventDetail || !eventDetail.hostInstNm) return;
+
+            try {
+                // Kakao Map 스크립트가 로드될 때까지 대기
+                await loadKakaoMapScript();
+
+                if (window.kakao && window.kakao.maps) {
+                    const geocoder = new window.kakao.maps.services.Geocoder();
+                    geocoder.addressSearch(eventDetail.hostInstNm, (result, status) => {
+                        if (status === window.kakao.maps.services.Status.OK) {
+                            setCoords({
+                                mapX: result[0].x,
+                                mapY: result[0].y,
+                            });
+                        } else {
+                            console.error("좌표 변환 실패: 검색 결과가 없습니다.");
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('좌표 변환 실패:', error);
+            }
+        };
+
+        getCoords();
+    }, [eventDetail]);
 
     useEffect(() => {
         const fetchEventDetail = async () => {
@@ -41,6 +91,10 @@ const GyeonggiEventDetail = () => {
     return (
         <div>
             <h2>{isValidField(eventDetail.title)}</h2>
+            {/* 좌표가 있을 때만 지도 표시 */}
+            {coords && (
+                <KakaoMap mapX={coords.mapX} mapY={coords.mapY} title={eventDetail.title} />
+            )}
             <LikeButton contentId={id} contentType="GyeonggiEventDetail"/>
             <img src={eventDetail.imageUrl || '/images/default-image.png'} alt={isValidField(eventDetail.title)}
                  width="400" height="200"/>

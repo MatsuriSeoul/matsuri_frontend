@@ -18,7 +18,7 @@ const SeoulEventList = () => {
     const [selectedRegion] = useState("seoul");
     const [selectedEvents, setSelectedEvents] = useState([]);
     const { subregionCode } = useParams(); // subregionCode를 숫자로 받음
-
+    const [loading, setLoading] = useState(false); // 데이터 로딩 상태 추가
     // 각 지역별 시/군/구 데이터
     const regionSubareas = {
         seoul: ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "기타지역", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
@@ -57,7 +57,7 @@ const SeoulEventList = () => {
         { id: 'jeju', name: '제주' }
     ];
     // 서울의 시/군/구 데이터와 해당 번호 매핑
-    const seoulSubareas = [
+    const seoulSubareas  = [
         { name: "강남구", code: 1 },
         { name: "강동구", code: 2 },
         { name: "강북구", code: 3 },
@@ -88,14 +88,14 @@ const SeoulEventList = () => {
     // 선택한 시/군/구의 데이터를 가져오는 함수
     const fetchEventsBySubregion = async (region, subregionCode) => {
         try {
-            // 백엔드에 요청을 보냄
+            setLoading(true);
             const response = await axios.get(`http://localhost:8080/api/region/${region}/${subregionCode}`);
-            const items = response.data.events || []; // 백엔드에서 받은 데이터
-
-            // 받아온 데이터를 state에 저장
+            const items = response.data.events || [];
             setSelectedEvents(items);
         } catch (error) {
             console.error('Error fetching subregion events:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -146,9 +146,10 @@ const SeoulEventList = () => {
         const fetchLocalEvents = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/local-events/by-region', {
-                    params: {region: '서울특별시'}
+                    params: { region: '서울특별시' }
                 });
                 setLocalEvents(response.data);
+                console.log('Fetched Local events:', response.data);
             } catch (error) {
                 console.error('Error fetching Local events', error);
             }
@@ -216,7 +217,9 @@ const SeoulEventList = () => {
     return (
         <div>
             <h1>서울 지역 행사</h1>
-            {selectedEvents.length > 0 && (
+            {loading && <p>Loading...</p>}
+
+            {selectedEvents.length > 0 && !loading && (
                 <>
                     <h2>{seoulSubareas.find(area => area.code === parseInt(subregionCode, 10))?.name}에서 가져온 행사</h2>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
@@ -229,19 +232,18 @@ const SeoulEventList = () => {
                     </div>
                 </>
             )}
+
             {/* 시/군/구 목록 */}
-            {selectedRegion && (
-                <div style={{ marginTop: '20px' }}>
-                    <h2>서울 지역 시/군/구 선택</h2>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {seoulSubareas.map((area) => (
-                            <Link key={area.code} to={`/region/seoul/${area.code}`} style={{ textDecoration: 'none' }}>
-                                <button>{area.name}</button>
-                            </Link>
-                        ))}
-                    </div>
+            <div style={{ marginTop: '20px' }}>
+                <h2>서울 지역 시/군/구 선택</h2>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    {seoulSubareas.map((area) => (
+                        <Link key={area.code} to={`/region/seoul/${area.code}`} style={{ textDecoration: 'none' }}>
+                            <button>{area.name}</button>
+                        </Link>
+                    ))}
                 </div>
-            )}
+            </div>
 
             {/* 서울 행사 */}
             <h2>서울 행사</h2>
@@ -279,17 +281,37 @@ const SeoulEventList = () => {
                 ))}
             </div>
 
-            {/* 숙박 행사 */}
-            <h2>숙박 행사</h2>
-            <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
-                {localEvents.map((event, index) => (
-                    <div key={index} style={{flex: '0 0 20%'}}>
-                        <h3>{event.title || event[0]}</h3>
-                        {(event.firstimage || event[1]) &&
-                            <img src={event.firstimage || event[1]} alt={event.title || event[0]} width="100%"/>}
+            {/* 선택한 시/군/구의 숙박 행사 */}
+            {selectedEvents.length > 0 && (
+                <>
+                    <h2>{seoulSubareas.find(area => area.code === parseInt(subregionCode, 10))?.name}에서 가져온 숙박 행사</h2>
+                    <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
+                        {selectedEvents.map((event, index) => (
+                            <div key={index} style={{flex: '0 0 20%'}}>
+                                <h3>{event.title}</h3>
+                                {event.firstimage && <img src={event.firstimage} alt={event.title} width="100%"/>}
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </>
+            )}
+
+            {/* 숙박 행사: 선택한 시/군/구가 없을 때 전체 숙박 행사 */}
+            {!subregionCode && (
+                <>
+                    <h2>숙박 행사</h2>
+                    <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
+                        {localEvents.map((event, index) => (
+                            <div key={index} style={{flex: '0 0 20%'}}>
+                                <h3>{event.title || event[0]}</h3>
+                                {(event.firstimage || event[1]) &&
+                                    <img src={event.firstimage || event[1]} alt={event.title || event[0]}
+                                         width="100%"/>}
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
 
             {/* 문화 시설 행사 */}
             <h2>문화 시설</h2>
