@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import LikeButton from "./LikeButton";
+import KakaoMap from "./KakaoMap";
 
 const SeoulEventDetail = () => {
     const { svcid } = useParams(); // URL에서 svcid 가져오기
@@ -51,6 +52,13 @@ const SeoulEventDetail = () => {
     return (
         <div>
             <h2>{eventDetail.svcnm}</h2>
+            <h3>지도</h3>
+            {eventDetail.x && eventDetail.y ? (
+                <KakaoMap mapX={eventDetail.x} mapY={eventDetail.y} title={eventDetail.svcnm} />
+            ) : (
+                <p>좌표 정보가 없습니다.</p>
+            )}
+
             <LikeButton contentId={svcid} contentType="SeoulEventDetail" />
             <img src={eventDetail.imgurl} alt={eventDetail.svcnm} width="400" height="200" />
             <p><strong>장소:</strong> {eventDetail.placenm}</p>

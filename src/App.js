@@ -123,6 +123,7 @@ function App() {
                         <Route path="/region-select" component={RegionSelection}/>
                         <Route path="/region/gyeonggi" component={GyeonggiEventList}/>
                         <Route path="/region/seoul" component={SeoulEventList}/>
+                        <Route path="/region/seoul/:subregionCode" component={SeoulEventList} />
                         <Route path="/region/incheon" component={IncheonEventList}/>
                         <Route path="/region/daejeon" component={DaejeonEventList}/>
                         <Route path="/region/gangwon" component={GangwonEventList}/>
