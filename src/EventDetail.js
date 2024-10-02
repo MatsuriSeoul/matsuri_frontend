@@ -1,6 +1,10 @@
+/*
+* 행사 상세 페이지
+* */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import KakaoMap from "./KakaoMap";
 
 const EventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -72,6 +76,9 @@ const EventDetail = () => {
     return (
         <div>
             <h1>{detail.title}</h1>
+            {/* KakaoMap 컴포넌트를 렌더링하여 지도 표시 */}
+            <KakaoMap mapX={detail.mapx} mapY={detail.mapy} />
+
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300"/>
             )}

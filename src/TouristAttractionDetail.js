@@ -1,6 +1,11 @@
+/*
+* 관광지 상세페이지
+*  */
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import LikeButton from "./LikeButton";
 
 const TouristAttractionDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -74,6 +79,7 @@ const TouristAttractionDetail = () => {
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300" />
             )}
+            <LikeButton contentId={contentid} contentType="TouristAttractionDetail" />
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>

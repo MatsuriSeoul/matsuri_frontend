@@ -1,3 +1,6 @@
+/*
+* 카테고리 선택 페이지
+* */
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -67,11 +70,28 @@ const CategoryEvents = () => {
                             pageNo: '1'
                         }
                     });
-                } else {
-                    response = await axios.get(`http://localhost:8080/api/tourist-attractions/category/${category}`);
+                } else if (category === '숙박') {
+                    response = await axios.get(`http://localhost:8080/api/local-events/category/${category}`, {
+                        params: {
+                            numOfRows: '10',
+                            pageNo: '1'
+                        }
+                    });
+                } else if (category === '쇼핑') {
+                    response = await axios.get(`http://localhost:8080/api/shopping-events/category/${category}`, {
+                        params: {
+                            numOfRows: '10',
+                            pageNo: '1'
+                        }
+                    });
+                } else if (category === '음식') {
+                    response = await axios.get(`http://localhost:8080/api/food-events/category/${category}`, {
+                        params: {
+                            numOfRows: '10',
+                            pageNo: '1'
+                        }
+                    });
                 }
-
-                console.log('API 응답:', response.data);
 
                 const uniqueEvents = response.data.filter((event, index, self) =>
                     index === self.findIndex((e) => e.contentid === event.contentid)
@@ -122,9 +142,23 @@ const CategoryEvents = () => {
                     <img src={event.firstimage} alt={event.title} width="200" />
                 </Link>
             );
-        } else {
+        } else if (category === '숙박') {
             return (
-                <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
+                <Link to={`/local-events/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '쇼핑') {
+            return (
+                <Link to={`/shopping-events/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '음식') {
+            return (
+                <Link to={`/food-events/${event.contentid}/${event.contenttypeid}/detail`}>
                     <h2>{event.title}</h2>
                     <img src={event.firstimage} alt={event.title} width="200" />
                 </Link>

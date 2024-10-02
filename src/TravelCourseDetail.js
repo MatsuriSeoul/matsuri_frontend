@@ -1,6 +1,10 @@
+/*
+*  여행코스 상세페이지
+* */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import LikeButton from "./LikeButton";
 
 const TravelCourseDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -74,6 +78,7 @@ const TravelCourseDetail = () => {
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300" />
             )}
+            <LikeButton contentId={contentid} contentType="TravelCourseDetail"/>
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
