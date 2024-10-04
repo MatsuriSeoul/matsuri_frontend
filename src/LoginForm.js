@@ -88,11 +88,25 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
     }, [history, updateAuth]);
 
     const handleNaverLogin = () => {
-            const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=cAxVyC6eWpTfHY6rLFwK&state=RANDOM_STATE&redirect_uri=${('http://localhost:8080/api/login')}`;
+            const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=cAxVyC6eWpTfHY6rLFwK&state=RANDOM_STATE&redirect_uri=${('http://localhost:8080/api/naver/login')}`;
 
             // 네이버 로그인 페이지로 리디렉션
             window.location.href = naverAuthUrl;
         };
+
+    const handleKakaoLogin = () => {
+
+            const kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=b9ddfeb73a198051fce018ae3497a86c&redirect_uri=http://localhost:8080/api/kakao/callback';
+
+            window.location.href = kakaoAuthUrl;
+        };
+
+    const handleGoogleLogin = () => {
+//        window.location.href = '/api/google/login';
+            const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=119228587275-t0b61m9s07a0i27e6ft58dgr0cutv8kd.apps.googleusercontent.com&redirect_uri=http://localhost:8080/login/oauth2/code/google&scope=email profile';
+
+            window.location.href = googleAuthUrl;
+    };
 
 
     if (!isOpen) {
@@ -104,6 +118,8 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
             <div className="login-form" onClick={(e) => e.stopPropagation()}>
                 <h2>로그인</h2>
                 <button onClick={handleNaverLogin}>네이버 로그인</button>
+                <button onClick={handleKakaoLogin}>카카오 로그인</button>
+                <button onClick={handleGoogleLogin}>Google 로그인</button>
                 <form onSubmit={handleLogin}> {/* 폼 제출 핸들러 */}
                     <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="아이디" required/>
                     <input type="password" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} placeholder="비밀번호" required/>
