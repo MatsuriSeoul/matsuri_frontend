@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
-import "../css/eventDetailPage/article.css";
+
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -87,11 +87,11 @@ const Article = () => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
         setIsFixed(true);
-        if (window.scrollY > 2300) {
+        if (window.scrollY >= 2250) {
           setActiveTab('tab4');
-        }else if (window.scrollY > 1500) {
+        }else if (window.scrollY >= 1550) {
           setActiveTab('tab3');
-        }else if (window.scrollY > 800) {
+        }else if (window.scrollY >= 900) {
           setActiveTab('tab2');
         }
       }else {
@@ -221,12 +221,12 @@ const Article = () => {
         </div>
         <div className="wall"></div>
         <div className={`tab tab3 ${activeTab === 'tab3' ? 'active' : ''}`}
-        onClick={() => scrollToTop(1650)}>
+        onClick={() => scrollToTop(1550)}>
           <p>여행톡</p>
         </div>
         <div className="wall"></div>
         <div className={`tab tab4 ${activeTab === 'tab4' ? 'active' : ''}`}
-        onClick={() => scrollToTop(2350)}>
+        onClick={() => scrollToTop(2250)}>
           <p>추천행사</p>
         </div>
       </nav>

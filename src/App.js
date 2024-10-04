@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 import SignUpForm from "./SignUpForm";
 import MainNavigation from "./MainNavigation";
@@ -49,6 +49,19 @@ import HotSpotMainPage from "./HotSpotMainPage";
 import FreePaidEvents from "./FreePaidEvents";
 import ScheduledEvents from "./ScheduledEvents";
 
+// frontend
+import MainPage from './front-test/mainPage';
+import EventDetailPage from './front-test/eventDetailPage';
+import AreaPage from './front-test/areaPage';
+import HotPlacePage from './front-test/hotPlacePage';
+import ThemePage from './front-test/themePage';
+import FNoticePage from './front-test/noticePage'
+import SelectSearchPage from './front-test/eventInfo/selectSearchPage';
+import FreeAndPaidPage from './front-test/eventInfo/freeAndPaidPage';
+
+// css
+import "./css/reset.css";
+
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
     const [isUserIdRecoveryOpen, setUserIdRecoveryOpen] = useState(false);
@@ -71,77 +84,83 @@ function App() {
     return (
         <Router>
             <AuthProvider>
-                <div>
                     <MainNavigation
                         openLoginModal={openLoginModal}
                         openUserIdRecoveryModal={openUserIdRecoveryModal}
                         openPasswordRecoveryModal={openPasswordRecoveryModal}
                     />
-                    <Switch>
-                        <Route path="/signUp" component={SignUpForm}/> {/*회원가입*/}
-                        <Route path="/userid-recovery" component={UserIdRecoveryForm}/> {/* 아이디 찾기 폼 */}
-                        <Route path="/password-recovery" component={PasswordRecoveryForm}/> {/* 비밀번호 찾기 폼 */}
-                        <Route path="/event-search" component={EventSearch}/> {/*행사 검색 기능*/}
-                        <Route path="/event-fetch" component={TourList}/> {/*여행 정보 api 불러오기 테스트*/}
+                    <div>
+                        <Routes>
+                            <Route path="/signUp" element={<SignUpForm />} /> {/*회원가입*/}
+                            <Route path="/userid-recovery" element={<UserIdRecoveryForm />} /> {/* 아이디 찾기 폼 */}
+                            <Route path="/password-recovery" element={<PasswordRecoveryForm />} /> {/* 비밀번호 찾기 폼 */}
+                            <Route path="/event-search" element={<EventSearch />} /> {/*행사 검색 기능*/}
+                            <Route path="/event-fetch" element={<TourList />} /> {/*여행 정보 api 불러오기 테스트*/}
 
-                        {/*공지사항 관련 라우터 경로*/}
-                        <Route path="/create-notice" component={CreateNotice}/> {/*공지사항 작성*/}
-                        <Route path="/notice/:noticeId" component={NoticeDetail}/> {/*공지사항 디테일*/}
-                        <Route path="/edit/:noticeId" component={EditNotice}/> {/*공지사항 수정*/}
-                        <Route path="/api/notice" component={NoticePage}/> {/*공지사항 테이블*/}
-                        <Route path="/comment" component={CreateComment}/>{/*공지사항에 댓글 작성 */}
-                        <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
+                            {/*공지사항 관련 라우터 경로*/}
+                            <Route path="/create-notice" element={<CreateNotice />} /> {/*공지사항 작성*/}
+                            <Route path="/notice/:noticeId" element={<NoticeDetail />} /> {/*공지사항 디테일*/}
+                            <Route path="/edit/:noticeId" element={<EditNotice />} /> {/*공지사항 수정*/}
+                            <Route path="/api/notice" element={<NoticePage />} /> {/*공지사항 테이블*/}
+                            <Route path="/comment" element={<CreateComment />} /> {/*공지사항에 댓글 작성 */}
+                            <Route path="/comment/notice/:noticeId" element={<CommentList />} /> {/*공지사항에 댓글 목록*/}
 
-                        {/*마이페이지 관련 라우터 경로*/}
-                        <Route path="/userProfile" component={MyPage}/>{/*유저 프로필*/}
-                        <Route path="/change-password" component={PasswordChange}/> {/*비밀번호 변경*/}
+                            {/*마이페이지 관련 라우터 경로*/}
+                            <Route path="/userProfile" element={<MyPage />} /> {/*유저 프로필*/}
+                            <Route path="/change-password" element={<PasswordChange />} /> {/*비밀번호 변경*/}
 
-                        {/*문의사항 라우터 경로*/}
-                        <Route path="/inquiry-list" component={InquiryList}/>
-                        <Route path="/create-inquiry" component={CreateInquiry}/>
+                            {/*문의사항 라우터 경로*/}
+                            <Route path="/inquiry-list" element={<InquiryList />} />
+                            <Route path="/create-inquiry" element={<CreateInquiry />} />
 
+                            {/*카테고리 라우터 경로*/}
+                            <Route path="/category/:category" element={<Category />} />
+                            <Route path="/category" element={<Category />} />
 
-                        {/*카테고리 라우터 경로*/}
-                        <Route path="/category/:category" component={Category}/>
-                        <Route path="/category" component={Category}/>
+                            <Route path="/tourist-attraction/:contentid/:contenttypeid/detail" element={<TouristAttractionDetail />} />
+                            <Route path="/cultural-facilities/:contentid/:contenttypeid/detail" element={<CulturalFacilityDetail />} />
+                            <Route path="/events/:contentid/:contenttypeid/detail" element={<EventDetail />} />
+                            <Route path="/travel-courses/:contentid/:contenttypeid/detail" element={<TravelCourseDetail />} />
+                            <Route path="/leisure-sports/:contentid/:contenttypeid/detail" element={<LeisureSportsDetail />} />
+                            <Route path="/local-events/:contentid/:contenttypeid/detail" element={<LocalEventDetail />} />
+                            <Route exact path="/shopping-events/:contentid/:contenttypeid/detail" element={<ShoppingEventDetail />} />
+                            <Route path="/food-events/:contentid/:contenttypeid/detail" element={<FoodEventDetail />} />
+                            <Route path="/seoul-events/:svcid/detail" element={<SeoulEventDetail />} />
+                            <Route path="/gyeonggi-events/:id/detail" element={<GyeonggiEventDetail />} />
 
-                        <Route path="/tourist-attraction/:contentid/:contenttypeid/detail"
-                               component={TouristAttractionDetail}/>
-                        <Route path="/cultural-facilities/:contentid/:contenttypeid/detail"
-                               component={CulturalFacilityDetail}/>
-                        <Route path="/events/:contentid/:contenttypeid/detail" component={EventDetail}/>
-                        <Route path="/travel-courses/:contentid/:contenttypeid/detail" component={TravelCourseDetail}/>
-                        <Route path="/leisure-sports/:contentid/:contenttypeid/detail" component={LeisureSportsDetail}/>
-                        <Route path="/local-events/:contentid/:contenttypeid/detail" component={LocalEventDetail}/>
-                        <Route exact path="/shopping-events/:contentid/:contenttypeid/detail"
-                               component={ShoppingEventDetail}/>
-                        <Route path="/food-events/:contentid/:contenttypeid/detail" component={FoodEventDetail}/>
-                        <Route path="/seoul-events/:svcid/detail" component={SeoulEventDetail}/>
-                        <Route path="/gyeonggi-events/:id/detail" component={GyeonggiEventDetail}/>
+                            {/*지역 카테고리 라우터 경로*/}
+                            <Route path="/region-select" element={<RegionSelection />} />
+                            <Route path="/region/gyeonggi" element={<GyeonggiEventList />} />
+                            <Route path="/region/seoul" element={<SeoulEventList />} />
+                            <Route path="/region/seoul/:subregionCode" element={<SeoulEventList />} />
+                            <Route path="/region/incheon" element={<IncheonEventList />} />
+                            <Route path="/region/daejeon" element={<DaejeonEventList />} />
+                            <Route path="/region/gangwon" element={<GangwonEventList />} />
+                            <Route path="/region/busan" element={<BusanEventList />} />
+                            <Route path="/region/ulsan" element={<UlsanEventList />} />
+                            <Route path="/region/daegu" element={<DaeguEventList />} />
+                            <Route path="/region/jeonnam" element={<JeonnamEventList />} />
+                            <Route path="/region/jeonbuk" element={<JeonbukEventList />} />
+                            <Route path="/region/chungnam" element={<ChungnamEventList />} />
+                            <Route path="/region/chungbuk" element={<ChungbukEventList />} />
+                            <Route path="/region/gyeongnam" element={<GyeongnamEventList />} />
+                            <Route path="/region/gyeongbuk" element={<GyeongbukEventList />} />
+                            <Route path="/region/jeju" element={<JejuEventList />} />
 
-                        {/*지역 카테고리 라우터 경로*/}
-                        <Route path="/region-select" component={RegionSelection}/>
-                        <Route path="/region/gyeonggi" component={GyeonggiEventList}/>
-                        <Route path="/region/seoul" component={SeoulEventList}/>
-                        <Route path="/region/seoul/:subregionCode" component={SeoulEventList} />
-                        <Route path="/region/incheon" component={IncheonEventList}/>
-                        <Route path="/region/daejeon" component={DaejeonEventList}/>
-                        <Route path="/region/gangwon" component={GangwonEventList}/>
-                        <Route path="/region/busan" component={BusanEventList}/>
-                        <Route path="/region/ulsan" component={UlsanEventList}/>
-                        <Route path="/region/daegu" component={DaeguEventList}/>
-                        <Route path="/region/jeonnam" component={JeonnamEventList}/>
-                        <Route path="/region/jeonbuk" component={JeonbukEventList}/>
-                        <Route path="/region/chungnam" component={ChungnamEventList}/>
-                        <Route path="/region/chungbuk" component={ChungbukEventList}/>
-                        <Route path="/region/gyeongnam" component={GyeongnamEventList}/>
-                        <Route path="/region/gyeongbuk" component={GyeongbukEventList}/>
-                        <Route path="/region/jeju" component={JejuEventList}/>
+                            <Route path="/hotspot" element={<HotSpotMainPage />} />
+                            <Route path="/free-paid-events" element={<FreePaidEvents />} />
+                            <Route path="/scheduled-events" element={<ScheduledEvents />} />
 
-                        <Route path="/hotspot" component={HotSpotMainPage}/>
-                        <Route path="/free-paid-events" component={FreePaidEvents} />
-                        <Route path="/scheduled-events" component={ScheduledEvents} />
-                    </Switch>
+                            <Route path="/mainpage" element={<MainPage />} />
+                            <Route path="/eventDetailPage" element={<EventDetailPage />} />
+                            <Route path="/areaPage" element={<AreaPage />} />
+                            <Route path="/hotPlacePage" element={<HotPlacePage />} />
+                            <Route path="/themePage" element={<ThemePage />} />
+                            <Route path="/themePage/*" element={<ThemePage />} />
+                            <Route path="/noticePage" element={<FNoticePage />} />
+                            <Route path="/selectSearchPage" element={<SelectSearchPage />} />
+                            <Route path="/freeAndPaidPage/*" element={<FreeAndPaidPage />} />
+                        </Routes>
                     <LoginForm
                         isOpen={isLoginOpen}
                         onClose={closeLoginModal}
@@ -157,6 +176,7 @@ function App() {
                         onClose={closePasswordRecoveryModal}
                     />
                 </div>
+
             </AuthProvider>
         </Router>
     );

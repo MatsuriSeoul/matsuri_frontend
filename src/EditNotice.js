@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate  } from "react-router-dom";
 
 const EditNotice = () => {
     const { noticeId } = useParams();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [existingImages, setExistingImages] = useState([]); // 기존 이미지 경로를 저장
@@ -119,7 +119,7 @@ const EditNotice = () => {
                     }
                 });
             alert("공지사항이 수정되었습니다.");
-            history.push(`/notice/${noticeId}`);
+            navigate(`/notice/${noticeId}`);
         } catch (error) {
             console.error('Error updating notice', error);
         }

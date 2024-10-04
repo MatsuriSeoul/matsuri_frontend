@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import DecodingInfo from "./DecodingInfo";
 
@@ -8,7 +8,7 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
     const [userId, setUserId] = useState(''); // 사용자 ID
     const [userPassword, setUserPassword] = useState(''); // 사용자 비밀번호
     const [error, setError] = useState(''); // 에러 메시지
-    const history = useHistory(); // 히스토리
+    const navigate = useNavigate(); // 히스토리
     const { updateAuth } = useAuth(); // 인증 상태 업데이트
 
     const handleLogin = async (e) => {
@@ -44,7 +44,7 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
 //                    setUserPassword('');
 
                     onClose();
-                    history.push('/'); // 홈 페이지로 이동
+                    navigate('/'); // 홈 페이지로 이동
                 } else {
                     alert('로그인 정보가 올바르지 않습니다. 다시 확인해주세요.') // 에러 메시지
                 }
@@ -82,10 +82,10 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
                 });
 
                 // 로그인 후 홈 페이지로 리디렉션
-                history.push('/');
+                navigate('/');
             }
         }
-    }, [history, updateAuth]);
+    }, [navigate, updateAuth]);
 
     const handleNaverLogin = () => {
             const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=cAxVyC6eWpTfHY6rLFwK&state=RANDOM_STATE&redirect_uri=${('http://localhost:8080/api/naver/login')}`;

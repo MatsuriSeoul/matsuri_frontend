@@ -1,0 +1,351 @@
+
+.themepage .banner{
+    width: 100%;
+    height: 930px;
+    position: relative;
+    overflow: hidden;
+}
+.themepage .banner::after{
+    content: '';
+    display: block;
+    height: 700px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #EDE457;
+    z-index: -1;
+}
+.themepage .banner .main-title{
+    position: absolute;
+    top: 240px;
+    left: 440px;
+}
+.themepage .banner .main-title h1{
+    font-size: 30px;
+    line-height: 44px;
+    font-weight: 600;
+    color: #000000;
+}
+.themepage .banner .main-title h1 b{
+    color: #5a5a5a;
+}
+.themepage .banner .main-title .fullView-btn{
+    display: flex;
+    margin-top: 44px;
+    align-items: center;
+}
+.themepage .banner .main-title .fullView-btn svg{
+    width: 24px;
+    height: 24px;
+    fill: #333333;
+    margin-right: 4px;
+}
+.themepage .banner .main-title .fullView-btn p{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333333;
+}
+.themepage .banner .themepage-swiper{
+    padding-top: 270px;
+    overflow: Visible;
+}
+.themepage .banner .themepage-swiper .swiper-wrapper{
+    margin-left: 200px;
+    height: 590px;
+}
+.themepage .banner .themepage-swiper .swiper-slide{
+    margin-top: auto;
+    height: 323px;
+    background-color: #ffffff;
+    border-radius: 210px 210px 0px 0px;
+    transition: 0.3s;
+    overflow: hidden;
+}
+.themepage .banner .themepage-swiper .swiper-slide.swiper-slide-active{
+    width: 420px !important;
+    height: 590px;
+    padding: 20px 20px 0px 20px;
+    box-shadow: 3px 4px 40px rgba(2, 2, 2, 0.25);
+}
+.themepage .banner .themepage-swiper .swiper-slide .theme-img{
+    width: 100%;
+    height: 100%;
+    background-color: #5e528a;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    border-radius: 210px 210px 0px 0px;
+}
+.themepage .banner .themepage-swiper .swiper-slide.swiper-slide-active .theme-img{
+    height: 440px;
+}
+.themepage .banner .themepage-swiper .swiper-slide.swiper-slide-active .in-txt{
+    display: none;
+}
+.themepage .banner .themepage-swiper .swiper-slide .theme-img .in-txt{
+    margin-bottom: 20px;
+
+}
+.themepage .banner .themepage-swiper .swiper-slide .out-txt{
+    margin-top: 26px;
+}
+.themepage .banner .themepage-swiper .swiper-slide .out-txt h3{
+    font-size: 22px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 6px;
+    text-align: center;
+}
+.themepage .banner .themepage-swiper .swiper-slide .out-txt p{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23px;
+    color: #767676;
+    text-align: center;
+}
+
+
+.themepage .banner .themepage-swiper .swiper-tool{
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+/* pagination-bar */
+.themepage .banner .themepage-swiper .swiper-pagination-wrapper {
+    width: 750px;
+    height: 3px;
+    background-color: transparent;
+    position: relative;
+    margin-right: 8px;
+}
+.themepage .banner .themepage-swiper .swiper-pagination-background {
+    width: 100%;
+    height: 3px;
+    background-color: #B2B2B2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.themepage .banner .themepage-swiper .swiper-pagination-progress {
+    height: 3px;
+    width: 100%;
+    background-color: #000000; /* 진행 바의 색상 */
+    transition: width 0.3s ease; 
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.themepage .banner .themepage-swiper .swiper-pagination-info{
+    margin-left: 30px;
+    margin-right: 26px;
+}
+.themepage .banner .themepage-swiper .swiper-pagination-info p{
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    display: flex;
+    text-wrap: nowrap;
+}
+
+.themepage .banner .themepage-swiper .arrow{
+    width: 30px;
+    height: 30px;
+    position: static;
+    margin-top: 0;
+    margin-left: 10px;
+    border-radius: 50%;
+    border: 1px solid #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.themepage .banner .themepage-swiper .arrow svg{
+    width: 80%;
+    height: 80%;
+    fill: #333333;
+}
+.themepage .banner .themepage-swiper .swiper-button-next::after{
+    display: none;
+}
+.themepage .banner .themepage-swiper .swiper-button-prev::after{
+    display: none;
+}
+
+.tp-article{
+    margin: 90px 360px 220px;
+}
+.tp-article .path{
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+}
+.tp-article .path .homeicon{
+    width: 30px;
+    height: 30px;
+    margin-bottom: 4px;
+}
+.tp-article .path .arrow-wall{
+    width: 20px;
+    height: 20px;
+    margin: 0px 20px;
+}
+.tp-article .path .first{
+    font-size: 16px;
+    font-weight: 400;
+    color: #666666;
+}
+.tp-article .path .second{
+    font-size: 18px;
+    font-weight: 600;
+    color: #666666;
+}
+.tp-article .container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.tp-article .container .box{
+    width: calc(25% - 20px);
+    height: 330px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+}
+.tp-article .container .box:nth-child(4n){
+    margin-right: 0;
+}
+.tp-article .container .box .img{
+    width: 100%;
+    height: 210px;
+    background-color: #5e528a;
+}
+.tp-article .container .box .txt{
+    padding: 14px 20px 14px 10px;
+}
+.tp-article .container .box .txt .title{
+    font-size: 17px;
+    font-weight: 600;
+    color: #222222;
+}
+.tp-article .container .box .txt .info{
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #767676;
+    width: 100%;
+    text-wrap: wrap;
+    display: -webkit-box;        
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2;       
+    overflow: hidden;     
+    line-height: 20px;       
+    text-overflow: ellipsis;                
+    max-height: 3em;    
+}
+.tp-article .container .box .link-btn{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #0066EB;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tp-article .container .box .link-btn svg{
+    width: 18px;
+    height: 18px;
+    fill: #ffffff;
+}
+
+/* 다른형식 container */
+.tp-article .container.active{
+    flex-direction: column;
+}
+.tp-article .container.active .box{
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #8b8b8b;
+    border-radius: 0px;
+    box-shadow: none;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+.tp-article .container.active .box .img{
+    display: none;
+}
+.tp-article .container.active .box .txt{
+    display: flex;
+    align-items: center;
+}
+.tp-article .container.active .box .txt .info{
+    margin-top: 0;
+    margin-left: 30px;
+    width: auto;
+    display: -webkit-box;        
+    -webkit-box-orient: vertical; 
+    text-wrap: nowrap;    
+    overflow: hidden;     
+    line-height: 20px;       
+    text-overflow: ellipsis;                 
+}
+
+.tp-article .pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+.tp-article .pagination .btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #dedede;
+}
+.tp-article .pagination .btn svg{
+    width: 20px;
+    height: 20px;
+    fill: #555555;
+}
+.tp-article .pagination .btn.active svg{
+    fill: #c5c5c5;
+}
+.tp-article .pagination .prevbtn svg{
+    transform: rotate(180deg);
+} 
+
+.tp-article .pagination .pagenumber{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 460px;
+    margin-left: 8px;
+    margin-right: 18px;
+}
+.tp-article .pagination .num{
+    margin-left: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #555555;
+}
+.tp-article .pagination .num.active{
+    background-color: #333333;
+    color: #ffffff;
+}

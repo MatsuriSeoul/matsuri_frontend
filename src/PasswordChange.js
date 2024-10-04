@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function PasswordChange() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [message, setMessage] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
 
     // 비밀번호 입력 검증 함수
     const validatePasswords = () => {
@@ -60,7 +60,7 @@ function PasswordChange() {
                 localStorage.clear();
 
                 // 메인 페이지로 리다이렉트
-                history.push('/');
+                navigate('/');
             }
         } catch (error) {
             console.error('비밀번호 변경 중 오류 발생:', error); // 오류 로그 확인

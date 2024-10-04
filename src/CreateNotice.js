@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 const CreateNotice = () => {
     const [title, setTitle] = useState("");
@@ -9,7 +9,7 @@ const CreateNotice = () => {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [attachment, setAttachment] = useState([]);
     const [attachmentNames, setAttachmentNames] = useState([]); // 첨부파일 이름 관리
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (images.length > 0) {
@@ -72,7 +72,7 @@ const CreateNotice = () => {
             setImagePreviews([]);
             setAttachment([]);
             setAttachmentNames([]);
-            history.push("/");
+            navigate('/');
         } catch (error) {
             console.log("공지사항 업로드 에러", error);
         }

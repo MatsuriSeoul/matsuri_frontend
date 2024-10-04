@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import LikeButton from "./LikeButton";
-import KakaoMap from "./KakaoMap";
+import KakaoMap from './KakaoMap';
 
 const SeoulEventDetail = () => {
     const { svcid } = useParams(); // URL에서 svcid 가져오기
