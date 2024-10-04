@@ -23,6 +23,7 @@ img,video,svg{
 }
 button{
     border: none;
+    background-color: initial;
 }
 a{
     text-decoration: none;
@@ -33,4 +34,21 @@ input::placeholder{
 body{
   overflow-x: hidden;
   position: relative;
+}
+
+/*test*/
+.test-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.test-container li, .test-container ul {
+    list-style-type: disc !important;
+}
+.backend-test {
+    margin-left: 50px;
+    width: 50%;
+}
+.frontend-test {
+    width: 50%;
 }
