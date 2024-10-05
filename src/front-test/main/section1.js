@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 
 const Section1 = () =>{
+    //section1_logic
     const [activeTab, setActiveTab] = useState('경기도'); // 기본 선택된 탭을 '경기도'로 설정
     const [events, setEvents] = useState([]); // 이벤트 데이터를 저장할 상태
     const [isLoading, setIsLoading] = useState(false); // 데이터 로딩 상태

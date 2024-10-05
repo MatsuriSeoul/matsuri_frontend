@@ -152,7 +152,7 @@ function App() {
                             <Route path="/scheduled-events" element={<ScheduledEvents />} />
 
                             <Route path="/mainpage" element={<MainPage />} />
-                            <Route path="/eventDetailPage" element={<EventDetailPage />} />
+                            <Route path="/eventDetailPage/:apitype/:contentid/:contenttypeid" element={<EventDetailPage />} />
                             <Route path="/areaPage" element={<AreaPage />} />
                             <Route path="/hotPlacePage" element={<HotPlacePage />} />
                             <Route path="/themePage" element={<ThemePage />} />
