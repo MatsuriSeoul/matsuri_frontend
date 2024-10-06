@@ -48,7 +48,6 @@ import GyeonggiEventDetail from "./GyeonggiEventDetail";
 import HotSpotMainPage from "./HotSpotMainPage";
 import FreePaidEvents from "./FreePaidEvents";
 import ScheduledEvents from "./ScheduledEvents";
-import DistrictDetail from "./DistrictDetail";
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -142,8 +141,6 @@ function App() {
                         <Route path="/hotspot" component={HotSpotMainPage}/>
                         <Route path="/free-paid-events" component={FreePaidEvents} />
                         <Route path="/scheduled-events" component={ScheduledEvents} />
-
-                        <Route path="/district/:contentid/:contenttypeid/detail" component={DistrictDetail} />
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}

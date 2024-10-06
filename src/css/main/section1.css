@@ -36,6 +36,7 @@
     align-items: center;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
+    cursor: pointer;
 }
 .main_sec1 .recommend .area-category .left{
     width: calc(50% - 1px);
@@ -53,7 +54,13 @@
     font-size: 17px;
     font-weight: 400;
     color: #ffffff;
+    transition: 0.1s;
+    opacity: 0.5;
 }
+.main_sec1 .recommend .area-category .active p{
+    opacity: 1;
+}
+
 .main_sec1 .recommend .comment{
     text-align: center;
     margin: 26px 0px;
