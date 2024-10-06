@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import './App.css';
-import eventDetail from "./EventDetail";
 
 function MyPage() {
     const [userInfo, setUserInfo] = useState({
@@ -76,71 +75,82 @@ function MyPage() {
 
         const content = event.overview || '상세 내용이 없습니다'; // overview가 없으면 기본값 반환
 
+        if (event.overview == null) return '상세 내용이 없습니다'  // overview가 null값이면
+
         // 내용이 40자를 넘으면 자르고 '...'를 붙임
         return content.length > 40 ? `${content.substring(0, 40)}...` : content;
     };
 
-    // 서울과 경기 이벤트의 상세 페이지 경로 설정 함수
-    const getEventDetailRoute = (event) => {
-        if (!isValidEvent(event)) return '#';
+        // 서울과 경기 이벤트의 상세 페이지 경로 설정 함수
+        const getEventDetailRoute = (event) => {
+            if (!isValidEvent(event)) return '#';
 
-        if (event.svcid) {  // 서울 이벤트의 경우
-            return `/seoul-events/${event.svcid}/detail`;
-        } else if (event.id) {  // 경기 이벤트의 경우
-            return `/gyeonggi-events/${event.id}/detail`;
-        } else {
-            return '#';  // 기본 경로 처리
-        }
-    };
+            if (event.svcid) {  // 서울 이벤트의 경우
+                return `/seoul-events/${event.svcid}/detail`;
+            } else if (event.id) {  // 경기 이벤트의 경우
+                return `/gyeonggi-events/${event.id}/detail`;
+            } else {
+                return '#';  // 기본 경로 처리
+            }
+        };
 
 
     // 상세 페이지 경로 설정 함수
-    const getRouteByContentType = (contentid, contenttypeid) => {
+    const getRouteByContentType = (contentid, contenttypeid, svcid, id) => {
+        if (!contenttypeid) return '#'; // contenttypeid가 없는 경우 예외 처리
 
         switch (contenttypeid) {
-            case '12': // 관광지
+            case '12':  // 관광지 (숫자)
+            case 'TouristAttractionDetail':  // 관광지 (문자열)
                 return `/tourist-attraction/${contentid}/${contenttypeid}/detail`;
-            case '14': // 문화 시설
+            case '14':  // 문화 시설 (숫자)
+            case 'CulturalFacilityDetail':  // 문화 시설 (문자열)
                 return `/cultural-facilities/${contentid}/${contenttypeid}/detail`;
-            case '15':  // 축제 공연 행사
+            case '15':  // 축제 공연 행사 (숫자)
+            case 'TourEventDetail':  // 축제 공연 행사 (문자열)
                 return `/events/${contentid}/${contenttypeid}/detail`;
-            case '25':  // 여행코스
+            case '25':  // 여행코스 (숫자)
+            case 'TravelCourseDetail':  // 여행코스 (문자열)
                 return `/travel-courses/${contentid}/${contenttypeid}/detail`;
-            case '28':  // 레포츠
+            case '28':  // 레포츠 (숫자)
+            case 'LeisureSportsEventDetail':  // 레포츠 (문자열)
                 return `/leisure-sports/${contentid}/${contenttypeid}/detail`;
-            case '32':  // 숙박
+            case '32':  // 숙박 (숫자)
+            case 'LocalEventDetail':  // 숙박 (문자열)
                 return `/local-events/${contentid}/${contenttypeid}/detail`;
-            case '38':  // 쇼핑
-                return `shopping-events/${contentid}/${contenttypeid}/detail`;
-            case '39':  // 음식
+            case '38':  // 쇼핑 (숫자)
+            case 'ShoppingEventDetail':  // 쇼핑 (문자열)
+                return `/shopping-events/${contentid}/${contenttypeid}/detail`;
+            case '39':  // 음식 (숫자)
+            case 'FoodEventDetail':  // 음식 (문자열)
                 return `/food-events/${contentid}/${contenttypeid}/detail`;
+            case 'EventDetail':
+                return `/events/${contentid}/detail`;
             default:
-                return `/default-category/${contentid}/${contenttypeid}/detail`; // 기본 경로 처리
+                alert("상세 페이지 이동 중 오류 발생.")
+                return `/`;  // 기본 경로 처리
         }
     };
 
     // 상세 페이지로 이동하는 함수
     const handleNavigate = (event) => {
-        const { contentid, contenttypeid } = event;
+        const { contentid, contenttypeid, svcid, id } = event;
+
         let route = '#';  // 기본 경로
 
-        if (contenttypeid) {
-            // contenttypeid가 있는 경우 (일반적인 경우)
-            route = getRouteByContentType(contentid, contenttypeid);
-        } else {
-            // 서울이나 경기 이벤트일 경우
+        // contenttypeid가 없는 경우 서울과 경기 이벤트의 경로를 확인
+        if (contenttypeid && (contenttypeid.includes('SeoulEvent') || contenttypeid.includes('GyeonggiEvent'))) {
             route = getEventDetailRoute(event);
+        } else {
+            // 일반 Tour API 이벤트의 경우
+            route = getRouteByContentType(contentid, contenttypeid);
         }
 
-        return route;
+        console.log(`Navigating to: ${route}`);  // 경로 확인
+        // 경로로 이동
+        history.push(route);
     };
 
-    const handleEventClick = (event) => {
-        const route = handleNavigate(event);
-        if (route !== '#') {
-            history.push(route);  // 유효한 경로일 경우에만 이동
-        }
-    };
     useEffect(() => {
         if (!token) {
             alert('로그인이 필요한 기능입니다.');
@@ -161,8 +171,11 @@ function MyPage() {
                 const likedEventsResponse = await axios.get('/api/users/liked-events', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                console.log('받은 데이터:', likedEventsResponse.data);
-                setLikedEvents(likedEventsResponse.data);
+                // 중첩된 배열을 평탄화하는 코드
+                const flattenedEvents = likedEventsResponse.data.flat();
+
+                console.log('받은 데이터:', flattenedEvents);
+                setLikedEvents(flattenedEvents);
             } catch (error) {
                 console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
             }
@@ -488,13 +501,13 @@ function MyPage() {
                                                 alt={getUnifiedTitle(event)}
                                                 className="event-thumbnail"
                                                 width="100"
-                                                onClick={()=> handleEventClick(event)}
+                                                onClick={()=> handleNavigate(event)}
                                                 style={{cursor: 'pointer'}}
                                             />
                                             <div>
                                                 <h4
                                                     className="event-title"
-                                                    onClick={() => handleEventClick(event)}  // 클릭 시 이동
+                                                    onClick={() => handleNavigate(event)}  // 클릭 시 이동
                                                     style={{cursor: 'pointer', color: 'blue'}}  // 클릭 가능하게 포인터 스타일 추가
                                                 >
                                                     {getUnifiedTitle(event)} {/* title이 없으면 기본값 */}
