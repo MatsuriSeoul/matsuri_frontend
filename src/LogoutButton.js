@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import AuthContext from './AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 function LogoutButton() {
     const { auth, updateAuth } = useContext(AuthContext);
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const handleLogout = async () => {
         // 서버에 로그아웃 이벤트를 알림
@@ -27,7 +27,7 @@ function LogoutButton() {
         updateAuth({ token: null, userName: null, userId: null, userRole: null });
 
         alert('로그아웃 하였습니다.');
-        navigate('/');
+        history.push('/');
     };
 
     return (

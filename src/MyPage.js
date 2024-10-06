@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate  } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './App.css';
 import eventDetail from "./EventDetail";
 
@@ -28,7 +28,7 @@ function MyPage() {
     });
     const [message, setMessage] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const navigate = useNavigate();
+    const history = useHistory();
     const [likedEvents, setLikedEvents] = useState([]); // 내가 좋아요 누른 콘텐츠 목록 저장
     const token = localStorage.getItem('token');
 
@@ -138,13 +138,13 @@ function MyPage() {
     const handleEventClick = (event) => {
         const route = handleNavigate(event);
         if (route !== '#') {
-            navigate(route);  // 유효한 경로일 경우에만 이동
+            history.push(route);  // 유효한 경로일 경우에만 이동
         }
     };
     useEffect(() => {
         if (!token) {
             alert('로그인이 필요한 기능입니다.');
-            navigate('/'); // 메인 페이지로 리다이렉션
+            history.push('/'); // 메인 페이지로 리다이렉션
             return;
         }
 
@@ -169,10 +169,10 @@ function MyPage() {
         };
 
         fetchData();
-    }, [navigate, token]);
+    }, [history, token]);
 
     const goToPasswordChange = () => {
-        navigate('/change-password'); // 비밀번호 변경 페이지로 이동
+        history.push('/change-password'); // 비밀번호 변경 페이지로 이동
     };
 
     const handleEmailChange = (e) => {

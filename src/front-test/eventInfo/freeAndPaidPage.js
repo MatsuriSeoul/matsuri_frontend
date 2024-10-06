@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 
 import Article from './fapp/article';
 import MoreArticle from './fapp/moreArticle';
@@ -20,10 +20,10 @@ const FreeAndPaidPage = () =>{
                 <p className='sub-title'>무료와 유료 중 어떤 걸 더 선호하시나요.</p>
                 <div className='underbar'></div>
             </section>
-            <Routes>
+            <Switch>
               <Route path="/" element={<Article />} /> {/* 기본 경로 리다이렉션 */}
               <Route path=":moreCategory" element={<MoreArticle />} /> {/* 하위 경로 */}
-            </Routes>
+            </Switch>
             <Footer></Footer>
         </div>
     )

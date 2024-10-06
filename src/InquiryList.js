@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate  } from 'react-router-dom';  // 페이지 이동을 위한 useNavigate  사용
+import { useHistory  } from 'react-router-dom';
 import axios from 'axios';
 import InquiryDetail from './InquiryDetail';
 
@@ -7,7 +7,7 @@ const InquiryList = () => {
     const [inquiries, setInquiries] = useState([]);
     const [selectedInquiry, setSelectedInquiry] = useState(null);
     const [userRole, setUserRole] = useState('');  // 유저 역할 저장
-    const navigate = useNavigate();  // 페이지 이동을 위한 hook
+    const history = useHistory();
 
     useEffect(() => {
         // 문의사항 불러오기
@@ -46,7 +46,7 @@ const InquiryList = () => {
 
     // 문의사항 작성 폼으로 이동하는 함수
     const handleCreateInquiry = () => {
-        navigate('/create-inquiry');  // 문의사항 작성 페이지로 이동
+        history.push('/create-inquiry');  // 문의사항 작성 페이지로 이동
     };
 
     return (

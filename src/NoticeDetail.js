@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import CommentList from "./CommentList";
 
 const NoticeDetail = () => {
     const { noticeId } = useParams();
-    const navigate = useNavigate();
+    const history = useHistory();
     const [notice, setNotice] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null); // 현재 로그인한 사용자 ID
 
@@ -25,14 +25,14 @@ const NoticeDetail = () => {
         const token = localStorage.getItem('token');
         if (!token) {
             alert('로그인이 필요한 기능입니다.');
-            navigate('/notice');
+            history.push('/notice');
             return;
         }
 
         const userId = extractUserIdFromToken(token);
         if (!userId) {
             alert('로그인이 필요한 기능입니다.');
-            navigate('/notice');
+            history.push('/notice');
             return;
         }
 
@@ -59,7 +59,7 @@ const NoticeDetail = () => {
         };
 
         fetchNotice();
-    }, [noticeId, navigate]);
+    }, [noticeId, history]);
 
     const handleDelete = async () => {
 
@@ -75,14 +75,14 @@ const NoticeDetail = () => {
                 },
             });
             alert("공지사항이 삭제되었습니다.");
-            navigate("/api/notice"); // 공지사항 목록으로 리디렉션
+            history("/api/notice"); // 공지사항 목록으로 리디렉션
         } catch (error) {
             console.error('공지사항 삭제 오류.', error);
         }
     };
 
     const handleEdit = () => {
-        navigate(`/edit/${noticeId}`); // 공지사항 수정 페이지로 이동
+        history(`/edit/${noticeId}`); // 공지사항 수정 페이지로 이동
     };
 
     if (!notice) return <div>Loading...</div>;

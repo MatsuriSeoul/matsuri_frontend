@@ -1,11 +1,10 @@
 import React, { useState, useContext } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import AuthContext from './AuthContext';
 import LogoutButton from './LogoutButton';
 import UserIdRecoveryForm from "./UserIdRecoveryForm";
 import LoginForm from "./LoginForm";
 import PasswordRecoveryForm from "./PasswordRecoveryForm";
-import CreateNotice from "./CreateNotice";
 
 function MainNavigation() {
     const { auth } = useContext(AuthContext);
@@ -22,10 +21,10 @@ function MainNavigation() {
     const closeUserIdRecoveryModal = () => setIsUserIdRecoveryModalOpen(false); // 아이디 찾기 모달 닫기
     const openPasswordRecoveryModal = () => setIsPasswordRecoveryModalOpen(true); // 비밀번호 찾기 모달 열기
     const closePasswordRecoveryModal = () => setIsPasswordRecoveryModalOpen(false); // 비밀번호 찾기 모달 닫기
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const navigateToHome = () => {
-        navigate('/');  // 메인 페이지로 이동
+        history.push('/');  // 메인 페이지로 이동
     };
 
     return (
