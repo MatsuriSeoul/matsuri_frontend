@@ -12,6 +12,7 @@ const EventDetail = () => {
     const [intro, setIntro] = useState(null);
     const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
+    const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
 
     useEffect(() => {
         // 행사 상세 정보 API 불러오기 (로컬 DB에서)
@@ -65,10 +66,22 @@ const EventDetail = () => {
             }
         };
 
+        // 유사한 여행지 정보 가져오기
+        const fetchSimilarEvents = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/events/${contenttypeid}/similar-events`);
+                setSimilarEvents(response.data.slice(0, 4));  // 최대 4개의 유사한 이벤트만 가져옴
+            } catch (error) {
+                console.error('유사한 여행지 불러오기 실패', error);
+            }
+        };
+
+
         fetchDetail();
         fetchIntro();
         fetchFirstImage();
         fetchImages();
+        fetchSimilarEvents()
     }, [contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
@@ -116,6 +129,20 @@ const EventDetail = () => {
                     </div>
                 ))}
             </div>
+
+            {/* 유사한 여행지 추천 */}
+            <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                {similarEvents.map((event, index) => (
+                    <div key={index} style={{ flex: '0 0 20%' }}>
+                        <a href={`/events/${event.contentid}/${event.contenttypeid}/detail`}>
+                            <img src={event.firstImage} alt={event.title} width="100%" />
+                            <h3>{event.title}</h3>
+                        </a>
+                    </div>
+                ))}
+            </div>
+
         </div>
     );
 };
