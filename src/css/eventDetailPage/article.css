@@ -444,7 +444,6 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    background-color: #a7b3f7;
 }
 .edp-article .trip-recommend .recommend-list .recommend-img:nth-child(3n){
     margin-right: 0;

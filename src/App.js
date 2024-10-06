@@ -162,7 +162,7 @@ function App() {
                         <Route path="/district/:contentid/:contenttypeid/detail" component={DistrictDetail} />
 
                         <Route path="/mainpage" component={MainPage} />
-                        <Route path="/eventDetailPage" component={EventDetailPage} />
+                        <Route path="/eventDetailPage/:apitype/:contentid/:contenttypeid" component={EventDetailPage} />
                         <Route path="/areaPage" component={AreaPage} />
                         <Route path="/hotPlacePage" component={HotPlacePage } />
                         <Route path="/themePage" component={ThemePage} />
