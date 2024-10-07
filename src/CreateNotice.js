@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory  } from "react-router-dom";
 
 const CreateNotice = () => {
     const [title, setTitle] = useState("");
@@ -72,7 +72,7 @@ const CreateNotice = () => {
             setImagePreviews([]);
             setAttachment([]);
             setAttachmentNames([]);
-            history.push("/");
+            history.push('/');
         } catch (error) {
             console.log("공지사항 업로드 에러", error);
         }

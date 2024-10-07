@@ -1,0 +1,250 @@
+.areapage{
+    position: relative;
+    height: fit-content;
+}
+.areapage::before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100vw;
+    height: 640px;
+    left: 0;
+    top: 0;
+    background-color: #CEDCFF;
+    z-index: -1;
+}
+.areapage .areaPage-banner{
+    position: relative;
+}
+.areapage .areaPage-banner .title{
+    margin: 0px 400px;
+    font-size: 30px;
+    color: #000000;
+    font-weight: 600;
+    line-height: 40px;
+    margin-bottom: 34px;
+    padding-top: 180px;
+}
+.areapage .areaPage-banner .title b{
+    color: #5a5a5a;
+}
+.areapage .areaPage-banner .areaPage_banner-swiper{
+    margin: 0px 400px;
+    margin-bottom: 24px;
+}
+.areapage .areaPage-banner .swiper-slide{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+.areapage .areaPage-banner .swiper-slide:hover .area-img{
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+}
+.areapage .areaPage-banner .swiper-slide:hover .area-name{
+    font-weight: 500;
+}
+
+.areapage .areaPage-banner .area-img{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+.areapage .areaPage-banner .area-img{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333333;
+    transition: 0.2s;
+}
+.areapage .areaPage-banner .swiper-button-prev,
+.areapage .areaPage-banner .swiper-button-next{
+    top: 84%;
+}
+.areapage .areaPage-banner .swiper-button-prev{
+    left: 370px;
+}
+.areapage .areaPage-banner .swiper-button-next{
+    right: 370px;
+}
+.areapage .areaPage-banner .swiper-button-prev::after,
+.areapage .areaPage-banner .swiper-button-next::after{
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+}
+.areapage .areaPage-banner .swiper-button-prev.swiper-button-disabled,
+.areapage .areaPage-banner .swiper-button-next.swiper-button-disabled{
+    display: none;
+}
+
+.areapage .areaPage-article{
+    width: 100%;
+    padding: 0px 400px;
+}
+.areapage .areaPage-article .recommend .area-name{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.areapage .areaPage-article .recommend .recommend-list{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.areapage .areaPage-article .recommend .recommend-box{
+    width: calc(33.3% - 16px);
+    height: 270px;
+    padding: 30px;
+    border-radius: 5px;
+    outline: 1px solid #666666;
+    background-color: #ffffff;
+    position: relative;
+}
+.areapage .areaPage-article .recommend .recommend-box:hover{
+    outline: 2px solid #333333;
+}
+.areapage .areaPage-article .recommend .recommend-box .tag{
+    display: block;
+    width: fit-content;
+    padding: 4px 10px;
+    background-color: #333333;
+    border-radius: 12px 12px 12px 0px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 28px;
+}
+.areapage .areaPage-article .recommend .recommend-box .title{
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+.areapage .areaPage-article .recommend .recommend-box .info{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333333;
+}
+.areapage .areaPage-article .recommend .recommend-box .detail-btn{
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    text-align: end;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #666666;
+    border-bottom: 1px solid #B1B0B0;
+}
+.areapage .areaPage-article .hotplace{
+    margin-top: 68px;
+}
+.areapage .areaPage-article .hotplace .main-title{
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 56px;
+}
+.areapage .areaPage-article .hotplace .title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.areapage .areaPage-article .hotplace .title h1{
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+.areapage .areaPage-article .hotplace .title b{
+    font-weight: 600;
+}
+.areapage .areaPage-article .hotplace .title .more-btn{
+    width: 24px;
+    height: 24px;
+}
+.areapage .areaPage-article .hotplace .title .more-btn svg{
+    fill: #000000;
+}
+
+.areapage .areaPage-article .hotplace .list{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;   
+}
+.areapage .areaPage-article .hotplace .list .box{
+    width: calc(25% - 20px);
+    height: 218px;
+    margin-bottom: 26px;
+    box-shadow: 0px 0px 10px rgba(51, 51, 51, 0.2);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.areapage .areaPage-article .hotplace .list .box .img{
+    width: 100%;
+    height: 147px;
+    margin-bottom: 13px;
+    background-color: rgb(64, 94, 84);
+}
+.areapage .areaPage-article .hotplace .list .box .name{
+    font-size: 16;
+    font-weight: 400;
+    margin-bottom: 9px;
+    color: #333333;
+}
+.areapage .areaPage-article .hotplace .list .box .address{
+    font-size: 14px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.areapage .link-sec{
+    margin: 50px 400px 180px;
+    display: flex;
+    height: 174px;
+}
+.areapage .link-sec .link-box{
+    width: 50%;
+    height: 100%;
+    border-radius: 5px;
+    padding: 30px;
+}
+.areapage .link-sec .link-box.left{
+    background-color: #4094F2;
+}
+.areapage .link-sec .link-box.right{
+    background-color: #5558E3;
+}
+.areapage .link-sec .link-box .title{
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+.areapage .link-sec .link-box .txt{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+.areapage .link-sec .link-box .link-btn{
+    display: flex;
+    align-items: flex-end;
+}
+.areapage .link-sec .link-box .link-btn p{
+    font-size: 15px;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 20px;
+    width: 86px;
+    border-bottom: 1px solid #ffffff;
+    margin-right: 16px;
+}
+.areapage .link-sec .link-box .link-btn img{
+    width: 24px;
+    height: 24px;
+}

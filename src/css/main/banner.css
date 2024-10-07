@@ -25,7 +25,7 @@
     margin-left: 400px;
     margin-top: 88px;
 }
-.main_banner .swiper-container .event-info .hashtag{
+.main_banner .swiper-container .event-info .event-date{
     display: block;
     width: min-content;
     padding: 6px 22px 6px 15px;
@@ -43,7 +43,7 @@
     color: #060606;
     margin-bottom: 20px;
 }
-.main_banner .swiper-container .event-info .event-date{
+.main_banner .swiper-container .event-info .addr{
     font-size: 15px;
     font-weight: 500;
     color: #060606;
@@ -53,6 +53,7 @@
     font-size: 20px;
     font-weight: 400;
     text-decoration: underline;
+    cursor: pointer;
 }
 .main_banner .swiper-container .banner-swiper{
     float: right;
@@ -63,6 +64,7 @@
 }
 .main_banner .swiper-container .banner-swiper .swiper-slide{
     height: 570px;
+    cursor: pointer;
 }
 .main_banner .swiper-container .banner-swiper .event-img{
     border-radius: 6px;
@@ -156,6 +158,7 @@
     height: 28px;
     margin: 0px 8px;
     z-index: 10;
+    cursor: pointer;
 }
 .main_banner .swiper-container .event-info .autoplay-control img{
     width: 100%;

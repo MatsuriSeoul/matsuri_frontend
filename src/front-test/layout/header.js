@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation  } from 'react-router-dom';
 
-import '../css/layout/header.css';
+import '../../css/layout/header.css';
 
 const Header = () => {
-    const [isActive, setIsActive] = useState(false);
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤을 맨 위로 이동
+    window.scrollTo(0, 0);
+  }, []);
+  
+  const [isActive, setIsActive] = useState(false);
+
+  const location = useLocation();
+  const pathname = location.pathname; // 현재 경로 가져오기
+  const themepageName = pathname.split('/')[1];
+
+  const pageName = pathname.split('/').pop();
+
 
   const handleScroll = () => {
     if (window.scrollY > 0) {
@@ -16,23 +29,24 @@ const Header = () => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
     return (
         <header className={`header ${isActive ? 'active' : ''}`}>
-            <div className="logo">
-                <img src="/img/main_logo.png" alt="Main Logo" />
-            </div>
+            <Link to={'/'}>
+              <div className="logo">
+                  <img src="/img/main_logo.png" alt="Main Logo" />
+              </div>
+            </Link>
             <nav className="navigation">
-                <p className="col active">홈</p>
-                <p className="col">테마</p>
-                <p className="col">지역</p>
-                <p className="col">나의 행사</p>
-                <p className="col">행사정보</p>
-                <p className="col lastcol">공지사항</p>
+                <Link to={'/mainpage'}><p className={`col ${pageName === 'mainpage' ? 'active' : ''}`}>홈</p></Link>
+                <Link to={'/themePage'}><p className={`col ${themepageName === 'themePage' ? 'active' : ''}`}>테마</p></Link>
+                <Link to={'/areaPage'}><p className={`col ${pageName === 'areaPage' ? 'active' : ''}`}>지역</p></Link>
+                <p className={`col ${pageName === 'aaa' ? 'active' : ''}`}>나의 행사</p>
+                <Link to={'/selectSearchPage'}><p className={`col ${pageName === 'selectSearchPage' ? 'active' : ''}`}>행사정보</p></Link>
+                <Link to={'/noticePage'}><p className={`col lastcol ${pageName === 'noticePage' ? 'active' : ''}`}>공지사항</p></Link>
             </nav>
             <div className="right">
                 <form className="search">

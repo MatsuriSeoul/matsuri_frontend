@@ -1,0 +1,232 @@
+.ssp .headerbar{
+    height: 90px;
+}
+.ssp .banner{
+    height: 590px;
+    width: 100%;
+    background-color: blueviolet;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 66px;
+}
+.ssp .banner .title{
+    font-size: 38px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #ffffff;
+}
+.ssp .banner .sub-title{
+    font-size: 18px;
+    font-weight: 300;
+    color: #ffffff;
+    margin-bottom: 50px;
+}
+.ssp .banner .underbar{
+    width: 1200px;
+    height: 1px;
+    background-color: #ffffff;
+}
+.ssp .article{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ssp .article .selectform{
+    width: 100%;
+    padding: 0px 400px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 86px;
+}
+.ssp .article .selectform .react-datepicker-wrapper{
+    margin-right: 20px;
+}
+.ssp .article .selectform .react-datepicker-wrapper .react-datepicker__input-container{
+    width: calc(22% - 16px);
+    height: 48px;
+}
+.ssp .article .selectform .react-datepicker-wrapper .react-datepicker__input-container input{
+    height: 100%;
+    border-radius: 8px;
+    border: 1px solid #000000;
+}
+/*Select */
+.ssp .article .selectform .css-1u9des2-indicatorSeparator{
+    display: none;
+}
+.ssp .article .selectform .css-b62m3t-container{
+    width: calc(28% - 16px);
+    margin-right: 20px;
+}
+.ssp .article .selectform .css-13cymwt-control{
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+}
+.ssp .article .selectform .css-t3ipsp-control{
+    min-width: calc(23% - 16px);
+    min-height: 48px;
+    border-radius: 8px;
+}
+.ssp .article .selectform .submit-btn{
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 8px;
+    background-color: #7a45e5;
+    height: 48px;
+    width: 152px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.ssp .article .selectform .submit-btn svg{
+    width: 24px;
+    height: 24px;
+    fill: #ffffff;
+    margin-left: 10px;
+}
+.ssp .article .main-event{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0px 400px;
+    margin-bottom: 48px;
+}
+.ssp .article .main-event .event{
+    width: calc(17% - 14px);  /* 66% */
+    margin-left: 20px;
+    padding: 36px 20px 0px 40px;
+    height: 380px;
+    background-color: cadetblue;
+    border-radius: 8px;
+    position: relative;
+    transition: 0.3s;
+    overflow: hidden;
+}
+.ssp .article .main-event .event.active::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.5));
+}
+.ssp .article .main-event .event.event1{
+    margin-left: 0;
+}
+.ssp .article .main-event .event .txt{
+    transform: rotate(90deg);
+    margin-right: 36px;
+    transition: none;
+}
+.ssp .article .main-event .event .txt .event-title{
+    font-size: 26px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.4);
+    text-wrap: nowrap;
+}
+.ssp .article .main-event .event .txt .active-txt{
+    display: none;
+}
+.ssp .article .main-event .event .txt .active-txt .date{
+    font-size: 17px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.4);
+    margin-top: 8px;
+}
+.ssp .article .main-event .event .txt .active-txt .area{
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.4);
+    margin-top: 8px;
+
+}
+/* main-event::hover */
+.ssp .article .main-event .event.active{
+    width: calc(66% - 20px);
+}
+
+.ssp .article .main-event .event.active .txt{
+    transform: rotate(0deg);
+    margin-top: 140px;
+}
+.ssp .article .main-event .event.active .txt .active-txt{
+    display: block;
+}
+
+.ssp .article .events-container{
+    width: 100%;
+    padding: 0px 400px;
+}
+.ssp .article .events-container .tabs{
+    float: right;
+    margin-bottom: 14px;
+}
+.ssp .article .events-container .tabs .tab{
+    font-size: 16px;
+    font-weight: 600;
+    color: #7A45E5;
+}
+.ssp .article .events-container .event-list{
+    clear: both;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.ssp .article .events-container .event-list .event{
+    width: calc(33.333% - 14px);
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+.ssp .article .events-container .event-list .event:nth-child(3n){
+    margin-right: 0;
+}
+.ssp .article .events-container .event-list .event .event-img{
+    height: 212px;
+    width: 100%;
+    background-color: rgb(230, 125, 125);
+    border-radius: 8px;
+    margin-bottom: 14px;
+}
+.ssp .article .events-container .event-list .event .event-title{
+    font-size: 18px;
+    font-weight: 600;
+    color: #1A1A24;
+    margin-bottom: 10px;
+}
+.ssp .article .events-container .event-list .event .date{
+    font-weight: 400;
+    font-size: 16px;
+    color: #1A1A24;
+    margin-bottom: 8px;
+}
+.ssp .article .events-container .event-list .event .area{
+    font-size: 16px;
+    font-weight: 500;
+    color: #666670;
+}
+.ssp .article .events-container .event-list .more-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 288px;
+    height: 40px;
+    margin: 40px auto auto auto;
+    background: #F2F2F7;
+    border: 1px solid #E6E6EB;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #666670;
+}
