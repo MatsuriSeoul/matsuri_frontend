@@ -8,7 +8,7 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
     const [userId, setUserId] = useState(''); // 사용자 ID
     const [userPassword, setUserPassword] = useState(''); // 사용자 비밀번호
     const [error, setError] = useState(''); // 에러 메시지
-    const history = useHistory(); // 히스토리
+    const history = useHistory();
     const { updateAuth } = useAuth(); // 인증 상태 업데이트
 
     const handleLogin = async (e) => {

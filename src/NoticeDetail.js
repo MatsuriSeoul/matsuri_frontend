@@ -75,14 +75,14 @@ const NoticeDetail = () => {
                 },
             });
             alert("공지사항이 삭제되었습니다.");
-            history.push("/api/notice"); // 공지사항 목록으로 리디렉션
+            history("/api/notice"); // 공지사항 목록으로 리디렉션
         } catch (error) {
             console.error('공지사항 삭제 오류.', error);
         }
     };
 
     const handleEdit = () => {
-        history.push(`/edit/${noticeId}`); // 공지사항 수정 페이지로 이동
+        history(`/edit/${noticeId}`); // 공지사항 수정 페이지로 이동
     };
 
     if (!notice) return <div>Loading...</div>;

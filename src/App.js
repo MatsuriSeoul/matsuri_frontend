@@ -48,6 +48,23 @@ import GyeonggiEventDetail from "./GyeonggiEventDetail";
 import HotSpotMainPage from "./HotSpotMainPage";
 import FreePaidEvents from "./FreePaidEvents";
 import ScheduledEvents from "./ScheduledEvents";
+import DistrictDetail from "./DistrictDetail";
+
+
+
+// frontend
+import MainPage from './front-test/mainPage';
+import EventDetailPage from './front-test/eventDetailPage';
+import AreaPage from './front-test/areaPage';
+import HotPlacePage from './front-test/hotPlacePage';
+import ThemePage from './front-test/themePage';
+import FNoticePage from './front-test/noticePage'
+import SelectSearchPage from './front-test/eventInfo/selectSearchPage';
+import FreeAndPaidPage from './front-test/eventInfo/freeAndPaidPage';
+
+// css
+import "./css/reset.css";
+
 
 function App() {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -141,6 +158,20 @@ function App() {
                         <Route path="/hotspot" component={HotSpotMainPage}/>
                         <Route path="/free-paid-events" component={FreePaidEvents} />
                         <Route path="/scheduled-events" component={ScheduledEvents} />
+
+                        <Route path="/district/:contentid/:contenttypeid/detail" component={DistrictDetail} />
+
+                        <Route path="/mainpage" component={MainPage} />
+                        <Route path="/eventDetailPage" component={EventDetailPage} />
+                        <Route path="/areaPage" component={AreaPage} />
+                        <Route path="/hotPlacePage" component={HotPlacePage } />
+                        <Route path="/themePage" component={ThemePage} />
+                        <Route path="/themePage/*" component={ThemePage} />
+                        <Route path="/noticePage" component={FNoticePage} />
+                        <Route path="/selectSearchPage" component={SelectSearchPage} />
+                        <Route path="/freeAndPaidPage/*" component={FreeAndPaidPage} />
+
+
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}

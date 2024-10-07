@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0px 80px;
-    position: fixed;
+    /*position: fixed;*/
     z-index: 99;
 }
 .header.active{
@@ -42,8 +42,8 @@
     height: 5px;
     border-radius: 50%;
     position: absolute;
-    top: -5%;
-    right: -40%;
+    top: 0;
+    right: -6px;
 }
 .header .right{
     display: flex;

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import KakaoMap from './KakaoMap';
+import LikeButton from "./LikeButton";
 import CommentEventList from './CommentEventList';
 import CreateComment from './CreateComment';
 
@@ -80,6 +81,7 @@ const EventDetail = () => {
             }
         };
 
+
         fetchDetail();
         fetchIntro();
         fetchFirstImage();
@@ -107,6 +109,7 @@ const EventDetail = () => {
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300"/>
             )}
+            <LikeButton contentId={contentid} contentType="EventDetail" />
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
+import KakaoMap from "./KakaoMap";
 
 const ShoppingEventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -12,6 +13,7 @@ const ShoppingEventDetail = () => {
     const [intro, setIntro] = useState(null);
     const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
+    const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
 
     useEffect(() => {
         // 쇼핑 상세 정보 API 불러오기 (로컬 DB에서)
@@ -63,11 +65,21 @@ const ShoppingEventDetail = () => {
                 console.error('이미지 정보 불러오기 실패', error);
             }
         };
+        // 유사한 여행지 정보 가져오기
+        const fetchSimilarEvents = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/shopping-events/${contenttypeid}/similar-events`);
+                setSimilarEvents(response.data.slice(0, 4));  // 최대 4개의 유사한 이벤트만 가져옴
+            } catch (error) {
+                console.error('유사한 여행지 불러오기 실패', error);
+            }
+        };
 
         fetchDetail();
         fetchIntro();
         fetchFirstImage();
         fetchImages();
+        fetchSimilarEvents()
     }, [contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
@@ -78,6 +90,15 @@ const ShoppingEventDetail = () => {
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300" />
             )}
+
+            <h3>지도</h3>
+            {/* 지도 표시 부분 */}
+            {detail.mapx && detail.mapy ? (
+                <KakaoMap mapX={detail.mapx} mapY={detail.mapy} title={detail.title}/>
+            ) : (
+                <p>좌표 정보가 없습니다.</p>
+            )}
+
             <LikeButton contentId={contentid} contentType="ShoppingEventDetail" />
             <p>{detail.overview}</p>
 
@@ -110,6 +131,19 @@ const ShoppingEventDetail = () => {
                         <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300" />
                         <p>썸네일 이미지:</p>
                         <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150" />
+                    </div>
+                ))}
+            </div>
+
+            {/* 유사한 여행지 추천 */}
+            <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                {similarEvents.map((event, index) => (
+                    <div key={index} style={{ flex: '0 0 20%' }}>
+                        <a href={`/shopping-events/${event.contentid}/${event.contenttypeid}/detail`}>
+                            <img src={event.firstImage} alt={event.title} width="100%" />
+                            <h3>{event.title}</h3>
+                        </a>
                     </div>
                 ))}
             </div>
