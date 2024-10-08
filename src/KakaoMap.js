@@ -3,21 +3,30 @@ import React, { useEffect } from 'react';
 
 const KakaoMap = ({ mapX, mapY, title }) => {
     useEffect(() => {
+        // 좌표가 문자열로 전달될 가능성이 있으므로 parseFloat로 숫자형으로 변환
+        const parsedMapX = parseFloat(mapX);
+        const parsedMapY = parseFloat(mapY);
+
+        // 좌표 값이 숫자로 변환되지 않은 경우를 대비한 로그
+        console.log('KakaoMap 좌표:', { mapX: parsedMapX, mapY: parsedMapY, title });
+
+        // 스크립트 추가
         const script = document.createElement('script');
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=385055cf5aeb63a6e5db2a0bbb867f09&autoload=false`;
         document.head.appendChild(script);
 
         script.onload = () => {
+            // 카카오 맵이 로드된 후 실행
             window.kakao.maps.load(() => {
                 const container = document.getElementById('kakaomap');
                 const options = {
-                    center: new window.kakao.maps.LatLng(mapY, mapX), // Y, X 좌표를 사용
+                    center: new window.kakao.maps.LatLng(parsedMapY, parsedMapX), // 변환된 Y, X 좌표 사용
                     level: 3
                 };
                 const map = new window.kakao.maps.Map(container, options);
 
                 // 마커 표시
-                const markerPosition = new window.kakao.maps.LatLng(mapY, mapX);
+                const markerPosition = new window.kakao.maps.LatLng(parsedMapY, parsedMapX);
                 const marker = new window.kakao.maps.Marker({
                     position: markerPosition,
                 });
