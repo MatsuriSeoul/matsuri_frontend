@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
@@ -137,17 +137,25 @@ const FoodEventDetail = () => {
 
             {/* 유사한 여행지 추천 */}
             <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                {similarEvents.map((event, index) => (
-                    <div key={index} style={{ flex: '0 0 20%' }}>
-                        <a href={`/food-events/${event.contentid}/${event.contenttypeid}/detail`}>
-                            <img src={event.firstImage} alt={event.title} width="100%" />
-                            <h3>{event.title}</h3>
-                        </a>
-                    </div>
-                ))}
-            </div>
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
+                {similarEvents.map((event, index) => {
+                    const contentId = event.contentid || event.contentId;  // contentId 가져오기
+                    const contentTypeId = event.contenttypeid || event.contentTypeId;  // contentTypeId 가져오기
 
+                    return (
+                        <div key={index} style={{flex: '0 0 20%'}}>
+                            <Link to={`/food-events/${contentId}/${contentTypeId}/detail`}>
+                                <img
+                                    src={event.firstimage || event.firstImage || event.first_image || event[1]}
+                                    alt={event.title || event[0]}
+                                    width="100%"
+                                />
+                                <h3>{event.title || event[0]}</h3>
+                            </Link>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };
