@@ -329,7 +329,14 @@ const Article = () => {
             >
               {images.map((image, index) => (
                   <SwiperSlide key={index}>
-                    <img className='detail-img' src={image.originimgurl} alt={`원본 이미지 ${index + 1}`}/>
+                    <div className='detail-img'
+                         style={{
+                           backgroundImage: `url('${image.originimgurl}')`,
+                           backgroundSize: 'cover',
+                           backgroundPosition: 'center',
+                           backgroundRepeat: 'no-repeat'
+                         }}
+                    ></div>
                   </SwiperSlide>
               ))}
 
@@ -592,7 +599,7 @@ const Article = () => {
                 <Link to={`/eventDetailPage/tourapi/${event.contentid}/${event.contenttypeid}`}>
                   <div className='recommend-img' key={index}
                        style={{
-                         backgroundImage: `url(${event.firstImage})`, // 이미지 URL을 url()로 감싸야 합니다.
+                         backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1]})`, // 이미지 URL을 url()로 감싸야 합니다.
                          backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
                          backgroundPosition: 'center', // 이미지를 중앙에 위치
                        }}>
@@ -601,7 +608,7 @@ const Article = () => {
                           src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"}
                       ></img>
                     </div>
-                    <h3 className="img-title">{event.title}</h3>
+                    <h3 className="img-title">{event.title || event[0]}</h3>
                   </div>
                 </Link>
             ))}

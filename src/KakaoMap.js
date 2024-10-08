@@ -1,5 +1,6 @@
 // src/components/KakaoMap.js
 import React, { useEffect } from 'react';
+import './css/KakaoMap/KaKaoMap.css';
 
 const KakaoMap = ({ mapX, mapY, title }) => {
     useEffect(() => {
@@ -53,23 +54,24 @@ const KakaoMap = ({ mapX, mapY, title }) => {
 
     return (
         <div>
-            <div id="kakaomap"/>
-            <div className='kakaourl'>
-                <a href={mapUrl} target="_blank" className='link' rel="noopener noreferrer">
-                    지도크게보기
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                         fill="#e8eaed">
-                        <path d="M200-200v-240h80v160h160v80H200Zm480-320v-160H520v-80h240v240h-80Z"/>
-                    </svg>
-                </a>
-                <a href={roadUrl} target="_blank" className='link' rel="noopener noreferrer">
-                    길찾기
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                         fill="#e8eaed">
-                        <path
-                            d="m200-120-40-40 320-720 320 720-40 40-280-120-280 120Zm84-124 196-84 196 84-196-440-196 440Zm196-84Z"/>
-                    </svg>
-                </a>
+            <div id="kakaomap">
+                <div className='kakaourl'>
+                    <a href={mapUrl} target="_blank" className='link' rel="noopener noreferrer">
+                        지도크게보기
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                             fill="#e8eaed">
+                            <path d="M200-200v-240h80v160h160v80H200Zm480-320v-160H520v-80h240v240h-80Z"/>
+                        </svg>
+                    </a>
+                    <a href={roadUrl} target="_blank" className='link' rel="noopener noreferrer">
+                        길찾기
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                             fill="#e8eaed">
+                            <path
+                                d="m200-120-40-40 320-720 320 720-40 40-280-120-280 120Zm84-124 196-84 196 84-196-440-196 440Zm196-84Z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     );

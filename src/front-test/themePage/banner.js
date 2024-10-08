@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Header from "../layout/header";
 
@@ -22,6 +22,7 @@ const theme = [
 const Banner = () =>{
     const [currentSlide, setCurrentSlide] = useState(1);
     const swiperRef = useRef(null);
+    const history = useHistory();
 
     const handleSlideClick = (index) => {
         if (swiperRef.current) {
@@ -36,6 +37,10 @@ const Banner = () =>{
       const updateProgress = () => {
         const { realIndex } = swiperInstance;
         setCurrentSlide(realIndex + 1);
+
+          // 슬라이드 변경 시 링크 이동 (예: /page/${realIndex + 1})
+          const link = `/themePage/${realIndex + 1}`;
+          history.push(link) // 또는 history.push(link) 사용
     };
 
       swiperInstance.on("slideChange", updateProgress);
@@ -78,25 +83,33 @@ const Banner = () =>{
                 >
                     {theme.map((item, index) => (
                         <SwiperSlide key={index} onClick={() => handleSlideClick(index)}>
-                            <Link to={`${item.id}`}>
-                                <div className="theme-img">
-                                    <p className="in-txt">{item.title}</p>
-                                </div>
-                                <div className="out-txt">
-                                    <h3>{item.title}</h3>
-                                    <p>여행에 장애가 되지 않도록 열린 여행을<br/>
+                            {/*<Link to={`/themePage/${item.id}`}>*/}
+                            {/*    <div className="theme-img">*/}
+                            {/*        <p className="in-txt">{item.title}</p>*/}
+                            {/*    </div>*/}
+                            {/*    <div className="out-txt">*/}
+                            {/*        <h3>{item.title}</h3>*/}
+                            {/*        <p>여행에 장애가 되지 않도록 열린 여행을<br/>*/}
+                            {/*            만들어갑니다.</p>*/}
+                            {/*    </div>*/}
+                            {/*</Link>*/}
+                            <div className="theme-img">
+                                <p className="in-txt">{item.title}</p>
+                            </div>
+                            <div className="out-txt">
+                                <h3>{item.title}</h3>
+                                <p>여행에 장애가 되지 않도록 열린 여행을<br/>
                                     만들어갑니다.</p>
-                                </div>
-                            </Link>
+                            </div>
                         </SwiperSlide>
                     ))}
-                    <div className="swiper-tool">
-                        {/* pagination-bar */}
-                        <div className="swiper-pagination-wrapper">
-                          <div className="swiper-pagination-background"></div>
-                          <div
+                <div className="swiper-tool">
+                    {/* pagination-bar */}
+                    <div className="swiper-pagination-wrapper">
+                        <div className="swiper-pagination-background"></div>
+                        <div
                             className="swiper-pagination-progress"
-                            style={{ width: `${progressPercentage}%` }}
+                            style={{width: `${progressPercentage}%` }}
                           ></div>
                         </div>
                          {/* pagination-count */}

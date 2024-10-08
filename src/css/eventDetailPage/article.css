@@ -433,12 +433,16 @@
     display: flex;
     flex-wrap: wrap;
 }
-.edp-article .trip-recommend .recommend-list .recommend-img{
-    position: relative;
+.edp-article .trip-recommend .recommend-list a{
     height: 200px;
     width: calc(33.3% - 20px);
     margin-right: 20px;
     margin-bottom: 20px;
+}
+.edp-article .trip-recommend .recommend-list .recommend-img{
+    position: relative;
+    height: 100%;
+    width: 100%;
     border-radius: 5px;
     padding-bottom: 22px;
     overflow: hidden;

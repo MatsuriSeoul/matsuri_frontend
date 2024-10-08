@@ -163,10 +163,9 @@ function App() {
 
                         <Route path="/mainpage" component={MainPage} />
                         <Route path="/eventDetailPage/:apitype/:contentid/:contenttypeid" component={EventDetailPage} />
-                        <Route path="/areaPage" component={AreaPage} />
-                        <Route path="/hotPlacePage" component={HotPlacePage } />
-                        <Route path="/themePage" component={ThemePage} />
-                        <Route path="/themePage/*" component={ThemePage} />
+                        <Route path="/areaPage/:areaId" component={AreaPage} />
+                        <Route path="/hotPlacePage" component={HotPlacePage} />
+                        <Route path="/themePage/:themeId" component={ThemePage} />
                         <Route path="/noticePage" component={FNoticePage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
                         <Route path="/freeAndPaidPage/*" component={FreeAndPaidPage} />
