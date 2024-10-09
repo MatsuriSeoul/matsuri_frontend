@@ -82,9 +82,9 @@ function MainNavigation() {
                 <ul className='frontend-test'>
                     <li><Link to={'/mainpage'}>mainpage</Link></li>
                     <li><Link to={'/eventDetailPage'}>eventDetailPage</Link></li>
-                    <li><Link to={'/areaPage'}>areaPage</Link></li>
+                    <li><Link to={'/areaPage/서울'}>areaPage</Link></li>
                     <li><Link to={'/hotPlacePage'}>hotPlacePage</Link></li>
-                    <li><Link to={'/themePage'}>themePage</Link></li>
+                    <li><Link to={'/themePage/4'}>themePage</Link></li>
                     <li><Link to={'/noticePage'}>noticePage</Link></li>
                     <li><Link to={'/selectSearchPage'}>selectSearchPage</Link></li>
                     <li><Link to={'/freeAndPaidPage'}>freeAndPaidPage</Link></li>

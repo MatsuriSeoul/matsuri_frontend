@@ -2,9 +2,10 @@
 * 행사 상세 페이지
 * */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
 import KakaoMap from './KakaoMap';
+import LikeButton from "./LikeButton";
 
 const EventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -76,7 +77,6 @@ const EventDetail = () => {
             }
         };
 
-
         fetchDetail();
         fetchIntro();
         fetchFirstImage();
@@ -89,12 +89,15 @@ const EventDetail = () => {
     return (
         <div>
             <h1>{detail.title}</h1>
-            {/* KakaoMap 컴포넌트를 렌더링하여 지도 표시 */}
-            <KakaoMap mapX={detail.mapx} mapY={detail.mapy} />
+
+            <h3>지도</h3>
+            {/* 지도 표시 부분 */}
+            <KakaoMap mapX={detail.mapx} mapY={detail.mapy}/>
 
             {firstImage && (
                 <img src={firstImage} alt={detail.title} width="300"/>
             )}
+            <LikeButton contentId={contentid} contentType="EventDetail"/>
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
@@ -132,17 +135,25 @@ const EventDetail = () => {
 
             {/* 유사한 여행지 추천 */}
             <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                {similarEvents.map((event, index) => (
-                    <div key={index} style={{ flex: '0 0 20%' }}>
-                        <a href={`/events/${event.contentid}/${event.contenttypeid}/detail`}>
-                            <img src={event.firstImage} alt={event.title} width="100%" />
-                            <h3>{event.title}</h3>
-                        </a>
-                    </div>
-                ))}
-            </div>
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
+                {similarEvents.map((event, index) => {
+                    const contentId = event.contentid || event.contentId;  // contentId 가져오기
+                    const contentTypeId = event.contenttypeid || event.contentTypeId;  // contentTypeId 가져오기
 
+                    return (
+                        <div key={index} style={{flex: '0 0 20%'}}>
+                            <Link to={`/events/${contentId}/${contentTypeId}/detail`}>
+                                <img
+                                    src={event.firstimage || event.firstImage || event.first_image || event[1]}
+                                    alt={event.title || event[0]}
+                                    width="100%"
+                                />
+                                <h3>{event.title || event[0]}</h3>
+                            </Link>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };

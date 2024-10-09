@@ -2,9 +2,10 @@
 * 숙박 상세 정보 페이지
 * */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
+import KakaoMap from "./KakaoMap";
 
 const LocalEventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -89,14 +90,19 @@ const LocalEventDetail = () => {
         <div>
             <h1>{detail.title}</h1>
             {firstImage && (
-                <img src={firstImage} alt={detail.title} width="300" />
+                <img src={firstImage} alt={detail.title} width="300"/>
             )}
-            <LikeButton contentId={contentid} contentType="LocalEventDetail" />
+
+            <h3>지도</h3>
+            {/* 지도 표시 부분 */}
+            <KakaoMap mapX={detail.mapx} mapY={detail.mapy}/>
+
+            <LikeButton contentId={contentid} contentType="LocalEventDetail"/>
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
             <p>홈페이지:
-                <span dangerouslySetInnerHTML={{ __html: detail.homepage }} />
+                <span dangerouslySetInnerHTML={{__html: detail.homepage}}/>
             </p>
             <p>수용 가능 인원: {intro.accomcountlodging}</p>
             <p>베니키아 여부: {intro.benikia}</p>
@@ -134,11 +140,11 @@ const LocalEventDetail = () => {
             <div>
                 {images && images.length > 0 ? (
                     images.map((image, index) => (
-                        <div key={index} style={{ marginBottom: '20px' }}>
+                        <div key={index} style={{marginBottom: '20px'}}>
                             <p>원본 이미지:</p>
-                            <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300" />
+                            <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="300"/>
                             <p>썸네일 이미지:</p>
-                            <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150" />
+                            <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="150"/>
                         </div>
                     ))
                 ) : (
@@ -149,14 +155,23 @@ const LocalEventDetail = () => {
             {/* 유사한 여행지 추천 */}
             <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                {similarEvents.map((event, index) => (
-                    <div key={index} style={{ flex: '0 0 20%' }}>
-                        <a href={`/local-events/${event.contentid}/${event.contenttypeid}/detail`}>
-                            <img src={event.firstImage} alt={event.title} width="100%" />
-                            <h3>{event.title}</h3>
-                        </a>
-                    </div>
-                ))}
+                {similarEvents.map((event, index) => {
+                    const contentId = event.contentid || event.contentId;  // contentId 가져오기
+                    const contentTypeId = event.contenttypeid || event.contentTypeId;  // contentTypeId 가져오기
+
+                    return (
+                        <div key={index} style={{ flex: '0 0 20%' }}>
+                            <Link to={`/local-events/${contentId}/${contentTypeId}/detail`}>
+                                <img
+                                    src={event.firstimage || event.firstImage || event.first_image || event[1]}
+                                    alt={event.title || event[0]}
+                                    width="100%"
+                                />
+                                <h3>{event.title || event[0]}</h3>
+                            </Link>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

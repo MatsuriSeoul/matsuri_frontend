@@ -17,7 +17,7 @@ const Banner = () => {
   const swiperRef = useRef(null);
   const [autoplaying, setAutoplaying] = useState(true);
 
-  const currentEvent = events[currentSlide]; //slide에 맞는 txt 뿌려주기 위한 변수
+  const currentEvent = events[currentSlide - 1]; //slide에 맞는 txt 뿌려주기 위한 변수
 
   const slicenum = 7; //임시로 가져오는 갯수 지정
 
@@ -100,7 +100,7 @@ const Banner = () => {
                 <p className="addr">
                   {currentEvent.addr1 || "none"}
                 </p>
-                <Link to={`/eventDetailPage/tourapi/${currentEvent.contentid}/${currentEvent.contenttypeid}`}><p className="detail-link">자세히 보기</p></Link>
+                <Link to={`/eventDetailPage/events/${currentEvent.contentid}/${currentEvent.contenttypeid}`}><p className="detail-link">자세히 보기</p></Link>
               </>
           )}
           <div className="swiper-tool">
