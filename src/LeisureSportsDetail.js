@@ -2,10 +2,12 @@
 * 레저스포츠 상세 페이지
 * */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
+import CommentEventList from './CommentEventList';
+import CreateComment from './CreateComment';
 
 const LeisureSportsDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -14,12 +16,16 @@ const LeisureSportsDetail = () => {
     const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
+    const location = useLocation();
+
+    // URL에서 category 추출
+    const category = location.pathname.split('/')[1];
 
     useEffect(() => {
         // 레저스포츠 상세 정보 API 불러오기 (로컬 DB에서)
         const fetchDetail = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/leisure-sports/${contentid}/detail`);
+                const response = await axios.get(`http://localhost:8080/api/${category}/${contentid}/detail`);
                 setDetail(response.data);
             } catch (error) {
                 console.error('상세 정보 불러오기 실패', error);
@@ -81,7 +87,7 @@ const LeisureSportsDetail = () => {
         fetchFirstImage();
         fetchImages();
         fetchSimilarEvents()
-    }, [contentid, contenttypeid]);
+    }, [category, contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
 
@@ -148,6 +154,9 @@ const LeisureSportsDetail = () => {
                     </div>
                 ))}
             </div>
+            {/* 댓글 기능 추가 */}
+
+            <CommentEventList category={category} contentid={contentid} contenttypeid={contenttypeid} />
 
         </div>
     );

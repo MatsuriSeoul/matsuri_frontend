@@ -3,8 +3,7 @@ import axios from 'axios';
 import CreateComment from './CreateComment';
 import { useParams } from 'react-router-dom';
 
-const CommentEventList = () => {
-    const { contentid } = useParams();  // 행사 페이지에서 사용되는 contentid
+const CommentEventList = ({ category, contentid, contenttypeid }) => {
     const [comments, setComments] = useState([]);
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedContent, setEditedContent] = useState("");
@@ -13,7 +12,7 @@ const CommentEventList = () => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`/api/comment/events/${contentid}`);
+            const response = await axios.get(`/api/comment/${category}/${contentid}/${contenttypeid}/detail`);
             setComments(response.data);
         } catch (error) {
             console.error('댓글을 불러오는 데 실패했습니다.', error);
@@ -70,13 +69,16 @@ const CommentEventList = () => {
     };
 
     useEffect(() => {
+        console.log('CommentEventList - category:', category);
+        console.log('CommentEventList - contentid:', contentid);
+        console.log('CommentEventList - contenttypeid:', contenttypeid);
         fetchComments();
         fetchUser();
-    }, [contentid, token]);
+    }, [contentid, category, token, contenttypeid]);
 
     return (
         <div>
-            <h2>댓글</h2>
+            <h2>여행톡</h2>
             {comments.map((comment) => (
                 <div key={comment.id}>
                     <p>작성자: {comment.maskedAuthor}</p>
@@ -92,6 +94,21 @@ const CommentEventList = () => {
                     ) : (
                         <p>{comment.content}</p>
                     )}
+
+                    {/* 댓글에 이미지가 있을 경우 표시 */}
+                    {comment.images && Array.isArray(comment.images) && comment.images.length > 0 && (
+                        <div>
+                            {comment.images.map((image, index) => (
+                                <img
+                                    key={index}
+                                    src={image.imagePath}
+                                    alt={`Comment Image ${index}`}
+                                    style={{ width: '100px', height: '100px', margin: '10px' }}
+                                />
+                            ))}
+                        </div>
+                    )}
+
                     {user && comment.author.id === user.id && editingCommentId !== comment.id && (
                         <div>
                             <button onClick={() => handleEditComment(comment)}>수정</button>
@@ -100,7 +117,8 @@ const CommentEventList = () => {
                     )}
                 </div>
             ))}
-            <CreateComment contentid={contentid} refreshComments={fetchComments} />
+
+            <CreateComment category={category} contentid={contentid} refreshComments={fetchComments} />
         </div>
     );
 };

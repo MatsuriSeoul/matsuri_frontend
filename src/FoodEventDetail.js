@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
+import CommentEventList from './CommentEventList';
+import CreateComment from './CreateComment';
 
 const FoodEventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -12,11 +14,16 @@ const FoodEventDetail = () => {
     const [images, setImages] = useState([]);
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
 
+    const location = useLocation();
+
+    // URL에서 category 추출
+    const category = location.pathname.split('/')[1];
+
     useEffect(() => {
         // 음식 이벤트 상세 정보 API 호출
         const fetchDetail = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/food-events/${contentid}/detail`);
+                const response = await axios.get(`http://localhost:8080/api/${category}/${contentid}/detail`);
                 setDetail(response.data);
             } catch (error) {
                 console.error('상세 정보 불러오기 실패', error);
@@ -78,7 +85,7 @@ const FoodEventDetail = () => {
         fetchFirstImage();
         fetchImages();
         fetchSimilarEvents()
-    }, [contentid, contenttypeid]);
+    }, [category, contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
 
@@ -147,6 +154,10 @@ const FoodEventDetail = () => {
                     </div>
                 ))}
             </div>
+
+            {/* 댓글 기능 추가 */}
+
+            <CommentEventList category={category} contentid={contentid} contenttypeid={contenttypeid} />
 
         </div>
     );

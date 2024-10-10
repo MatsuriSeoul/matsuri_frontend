@@ -2,7 +2,7 @@
 * 행사 상세 페이지
 * */
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import KakaoMap from './KakaoMap';
 import LikeButton from "./LikeButton";
@@ -16,14 +16,18 @@ const EventDetail = () => {
     const [intro, setIntro] = useState(null);
     const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
-    const history = useHistory();
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
+    const location = useLocation();
+
+    // URL에서 category 추출
+        const category = location.pathname.split('/')[1];
 
     useEffect(() => {
+
         // 행사 상세 정보 API 불러오기 (로컬 DB에서)
         const fetchDetail = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/events/${contentid}/detail`);
+                const response = await axios.get(`http://localhost:8080/api/${category}/${contentid}/detail`);
                 setDetail(response.data);
             } catch (error) {
                 console.error('상세 정보 불러오기 실패', error);
@@ -81,13 +85,12 @@ const EventDetail = () => {
             }
         };
 
-
         fetchDetail();
         fetchIntro();
         fetchFirstImage();
         fetchImages();
         fetchSimilarEvents()
-    }, [contentid, contenttypeid]);
+    }, [category, contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
 
@@ -95,7 +98,6 @@ const EventDetail = () => {
         const token = localStorage.getItem('token');
         if(!token) {
             alert('로그인 후 작성가능합니다');
-            history.push('/')
         }
         return token;
     };
@@ -159,9 +161,8 @@ const EventDetail = () => {
             </div>
 
             {/* 댓글 기능 추가 */}
-            <h2>여행톡</h2>
-            <CommentEventList contentid={contentid} />
-            <CreateComment contentid={contentid} checkLoginStatus={checkLoginStatus} />
+
+            <CommentEventList category={category} contentid={contentid} contenttypeid={contenttypeid} />
         </div>
     );
 };

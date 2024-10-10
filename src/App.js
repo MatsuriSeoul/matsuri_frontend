@@ -12,6 +12,7 @@ import CreateNotice from "./CreateNotice";
 import CreateComment from "./CreateComment";
 import CommentList from "./CommentList";
 import Category from "./Category";
+import CommentEventList from "./CommentEventList";
 import TouristAttractionDetail from "./TouristAttractionDetail";
 import CulturalFacilityDetail from './CulturalFacilityDetail';
 import NoticePage from "./NoticePage";
@@ -170,6 +171,8 @@ function App() {
                         <Route path="/noticePage" component={FNoticePage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
                         <Route path="/freeAndPaidPage/*" component={FreeAndPaidPage} />
+
+                        <Route path="/:category/events/:contentid/:contenttypeid/detail" component={EventDetail} />
 
 
                     </Switch>
