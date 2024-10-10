@@ -53,6 +53,7 @@ function MainNavigation() {
                     <li><Link to="/hotspot">핫스팟</Link></li>
                     <li><Link to="/free-paid-events">무료 유료</Link></li>
                     <li><Link to="/scheduled-events">개최예정중인행사</Link></li>
+                    <li><Link to="/api/openai/prompt">ai테스트</Link></li>
                     {auth.token && (
                         <>
                             <li>
@@ -82,9 +83,9 @@ function MainNavigation() {
                 <ul className='frontend-test'>
                     <li><Link to={'/mainpage'}>mainpage</Link></li>
                     <li><Link to={'/eventDetailPage'}>eventDetailPage</Link></li>
-                    <li><Link to={'/areaPage'}>areaPage</Link></li>
+                    <li><Link to={'/areaPage/서울'}>areaPage</Link></li>
                     <li><Link to={'/hotPlacePage'}>hotPlacePage</Link></li>
-                    <li><Link to={'/themePage'}>themePage</Link></li>
+                    <li><Link to={'/themePage/4'}>themePage</Link></li>
                     <li><Link to={'/noticePage'}>noticePage</Link></li>
                     <li><Link to={'/selectSearchPage'}>selectSearchPage</Link></li>
                     <li><Link to={'/freeAndPaidPage'}>freeAndPaidPage</Link></li>

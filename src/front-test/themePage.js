@@ -10,18 +10,10 @@ import Article from './themePage/article';
 import Footer from "./layout/footer"
 
 const ThemePage = () => {
-    const history = useHistory();
-
     return (
         <div>
             <Banner />
-            <Switch>
-                {/* 기본 경로 리다이렉션 */}
-                <Route exact path="/" render={() => <Redirect to="/themePage/4" />} />
-
-                {/* 하위 경로 */}
-                <Route path="/themePage/:themeId" component={Article} />
-            </Switch>
+            <Article />
             <Footer />
         </div>
     );

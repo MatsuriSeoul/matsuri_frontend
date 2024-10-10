@@ -15,7 +15,6 @@ import Category from "./Category";
 import CommentEventList from "./CommentEventList";
 import TouristAttractionDetail from "./TouristAttractionDetail";
 import CulturalFacilityDetail from './CulturalFacilityDetail';
-import NoticePage from "./NoticePage";
 import NoticeDetail from "./NoticeDetail";
 import EditNotice from "./EditNotice";
 import EventDetail from "./EventDetail";
@@ -65,6 +64,8 @@ import FreeAndPaidPage from './front-test/eventInfo/freeAndPaidPage';
 
 // css
 import "./css/reset.css";
+import noticePage from "./front-test/noticePage";
+import openAITest from "./OpenAITest";
 
 
 function App() {
@@ -106,7 +107,7 @@ function App() {
                         <Route path="/create-notice" component={CreateNotice}/> {/*공지사항 작성*/}
                         <Route path="/notice/:noticeId" component={NoticeDetail}/> {/*공지사항 디테일*/}
                         <Route path="/edit/:noticeId" component={EditNotice}/> {/*공지사항 수정*/}
-                        <Route path="/api/notice" component={NoticePage}/> {/*공지사항 테이블*/}
+                        <Route path="/api/notice" component={noticePage}/> {/*공지사항 테이블*/}
                         <Route path="/comment" component={CreateComment}/>{/*공지사항에 댓글 작성 */}
                         <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
 
@@ -163,17 +164,17 @@ function App() {
                         <Route path="/district/:contentid/:contenttypeid/detail" component={DistrictDetail} />
 
                         <Route path="/mainpage" component={MainPage} />
-                        <Route path="/eventDetailPage" component={EventDetailPage} />
-                        <Route path="/areaPage" component={AreaPage} />
-                        <Route path="/hotPlacePage" component={HotPlacePage } />
-                        <Route path="/themePage" component={ThemePage} />
-                        <Route path="/themePage/*" component={ThemePage} />
+                        <Route path="/eventDetailPage/:apitype/:contentid/:contenttypeid" component={EventDetailPage} />
+                        <Route path="/areaPage/:areaId" component={AreaPage} />
+                        <Route path="/hotPlacePage" component={HotPlacePage} />
+                        <Route path="/themePage/:themeId" component={ThemePage} />
                         <Route path="/noticePage" component={FNoticePage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
                         <Route path="/freeAndPaidPage/*" component={FreeAndPaidPage} />
 
                         <Route path="/:category/events/:contentid/:contenttypeid/detail" component={EventDetail} />
 
+                        <Route path="/api/openai/prompt" component={openAITest}/>
 
                     </Switch>
                     <LoginForm
