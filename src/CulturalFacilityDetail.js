@@ -49,7 +49,7 @@ const CulturalFacilityDetail = () => {
                     }
                 }
             } catch (error) {
-                console.error('첫 번째 이미지 가져오기 실패', error);
+                console.error('첫 번째 이미지 가져오기 실패입니다', error);
             }
         };
 
