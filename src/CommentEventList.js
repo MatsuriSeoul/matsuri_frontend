@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CreateComment from './CreateComment';
+import CommentLikeButton from './CommentLikeButton';
 import { useParams } from 'react-router-dom';
 
 const CommentEventList = ({ category, contentid, contenttypeid }) => {
@@ -69,58 +70,80 @@ const CommentEventList = ({ category, contentid, contenttypeid }) => {
     };
 
     useEffect(() => {
-        console.log('CommentEventList - category:', category);
-        console.log('CommentEventList - contentid:', contentid);
-        console.log('CommentEventList - contenttypeid:', contenttypeid);
         fetchComments();
         fetchUser();
     }, [contentid, category, token, contenttypeid]);
 
     return (
-        <div>
-            <h2>여행톡</h2>
-            {comments.map((comment) => (
-                <div key={comment.id}>
-                    <p>작성자: {comment.maskedAuthor}</p>
-                    {editingCommentId === comment.id ? (
-                        <div>
-                            <textarea
-                                value={editedContent}
-                                onChange={(e) => setEditedContent(e.target.value)}
+            <div>
+                <h2>여행톡</h2>
+                {comments.map((comment) => (
+                    <div key={comment.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        {/* 프로필 이미지 표시 */}
+                        {comment.author.profileImage ? (
+                            <img
+                                src={comment.author.profileImage}
+                                alt="프로필 이미지"
+                                style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
                             />
-                            <button onClick={() => handleUpdateComment(comment.id)}>수정 완료</button>
-                            <button onClick={() => setEditingCommentId(null)}>취소</button>
-                        </div>
-                    ) : (
-                        <p>{comment.content}</p>
-                    )}
+                        ) : (
+                            <img
+                                src="/images/default-profile-image.png"
+                                alt="기본 프로필 이미지"
+                                style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
+                            />
+                        )}
 
-                    {/* 댓글에 이미지가 있을 경우 표시 */}
-                    {comment.images && Array.isArray(comment.images) && comment.images.length > 0 && (
                         <div>
-                            {comment.images.map((image, index) => (
-                                <img
-                                    key={index}
-                                    src={image.imagePath}
-                                    alt={`Comment Image ${index}`}
-                                    style={{ width: '100px', height: '100px', margin: '10px' }}
-                                />
-                            ))}
-                        </div>
-                    )}
+                            <p>
+                                <strong>{comment.maskedAuthor}</strong>
+                                <span style={{ marginLeft: '10px', color: '#888' }}>
+                                    {new Date(comment.createdAt).toLocaleDateString()}
+                                </span>
+                            </p>
+                            {editingCommentId === comment.id ? (
+                                <div>
+                                    <textarea
+                                        value={editedContent}
+                                        onChange={(e) => setEditedContent(e.target.value)}
+                                    />
+                                    <button onClick={() => handleUpdateComment(comment.id)}>수정 완료</button>
+                                    <button onClick={() => setEditingCommentId(null)}>취소</button>
+                                </div>
+                            ) : (
+                                <div>
+                                    <p>{comment.content}</p>
+                                    <CommentLikeButton commentId={comment.id} />
+                                </div>
+                            )}
 
-                    {user && comment.author.id === user.id && editingCommentId !== comment.id && (
-                        <div>
-                            <button onClick={() => handleEditComment(comment)}>수정</button>
-                            <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
-                        </div>
-                    )}
-                </div>
-            ))}
+                            {/* 댓글에 이미지가 있을 경우 표시 */}
+                            {comment.images && Array.isArray(comment.images) && comment.images.length > 0 && (
+                                <div>
+                                    {comment.images.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image.imagePath}
+                                            alt={`Comment Image ${index}`}
+                                            style={{ width: '100px', height: '100px', margin: '10px' }}
+                                        />
+                                    ))}
+                                </div>
+                            )}
 
-            <CreateComment category={category} contentid={contentid} refreshComments={fetchComments} />
-        </div>
-    );
+                            {user && comment.author.id === user.id && editingCommentId !== comment.id && (
+                                <div>
+                                    <button onClick={() => handleEditComment(comment)}>수정</button>
+                                    <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                ))}
+
+                <CreateComment category={category} contentid={contentid} refreshComments={fetchComments} />
+            </div>
+        );
 };
 
 export default CommentEventList;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import './App.css';
+import CommentLikeButton from './CommentLikeButton';
 
 function MyPage() {
     const [userInfo, setUserInfo] = useState({
@@ -19,6 +20,8 @@ function MyPage() {
     const [isEmailChecked, setIsEmailChecked] = useState(false); // 중복 검사 통과 여부
     const [newEmail, setNewEmail] = useState('');  // 새로 설정한 이메일
     const [verificationCode, setVerificationCode] = useState(''); // 인증번호 입력 필드
+    const [likedComments, setLikedComments] = useState([]); // 댓글 좋아요 저장
+    const [authoredComments, setAuthoredComments] = useState([]); //내가 작성한 댓글 목록
     const [editMode, setEditMode] = useState({
         userName: false,
         userEmail: false,
@@ -181,6 +184,31 @@ function MyPage() {
             }
         };
 
+
+        const fetchLikedComments = async () => {
+            try {
+                const response = await axios.get('/api/users/liked-comments', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
+                setLikedComments(response.data);
+            } catch (error) {
+                console.error('좋아요한 댓글 불러오기 실패:', error);
+            }
+        };
+
+        const fetchAuthoredComments = async () => {
+            try {
+                const response = await axios.get('/api/users/authored-comments', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                setAuthoredComments(response.data);
+            } catch (error) {
+                console.error('작성한 댓글 불러오기 실패:', error);
+            }
+        };
+
+        fetchAuthoredComments();
+        fetchLikedComments();
         fetchData();
     }, [history, token]);
 
@@ -521,6 +549,20 @@ function MyPage() {
                         </ul>
                     ) : (
                         <p>좋아요한 게시글이 없습니다.</p>
+                    )}
+                </div>
+                {/* 좋아요한 댓글 목록 */}
+                <div>
+                    <h2>내가 좋아요한 댓글</h2>
+                    {likedComments.length > 0 ? (
+                        likedComments.map((comment) => (
+                            <div key={comment.id}>
+                                <p>내용: {comment.content}</p>
+                                <p>작성자: {comment.maskedAuthor}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>좋아요한 댓글이 없습니다.</p>
                     )}
                 </div>
             </div>
