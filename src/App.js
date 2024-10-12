@@ -12,7 +12,6 @@ import CreateNotice from "./CreateNotice";
 import CreateComment from "./CreateComment";
 import CommentList from "./CommentList";
 import Category from "./Category";
-import CommentEventList from "./CommentEventList";
 import TouristAttractionDetail from "./TouristAttractionDetail";
 import CulturalFacilityDetail from './CulturalFacilityDetail';
 import NoticeDetail from "./NoticeDetail";
@@ -124,7 +123,7 @@ function App() {
                         <Route path="/category/:category" component={Category}/>
                         <Route path="/category" component={Category}/>
 
-                        <Route path="/tourist-attraction/:contentid/:contenttypeid/detail"
+                        <Route path="/tourist-attractions/:contentid/:contenttypeid/detail"
                                component={TouristAttractionDetail}/>
                         <Route path="/cultural-facilities/:contentid/:contenttypeid/detail"
                                component={CulturalFacilityDetail}/>

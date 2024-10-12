@@ -4,7 +4,6 @@ import axios from 'axios';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
 import CommentEventList from './CommentEventList';
-import CreateComment from './CreateComment';
 import ReviewComponent from "./ReviewComponent";
 
 const FoodEventDetail = () => {

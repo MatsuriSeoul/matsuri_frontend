@@ -14,7 +14,7 @@ const TravelCourseDetail = () => {
     const { contentid, contenttypeid } = useParams();
     const [detail, setDetail] = useState(null);
     const [intro, setIntro] = useState(null);
-    const [firstImage, setFirstImage] = useState(null);
+    const [thumnail, setThumnail] = useState(null);
     const [images, setImages] = useState([]);
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
     const location = useLocation();
@@ -43,25 +43,16 @@ const TravelCourseDetail = () => {
             }
         };
 
-        // 첫 번째 이미지를 가져오기 위한 fetchAndSaveTravelCourses 호출
-        const fetchFirstImage = async () => {
+        // 첫 번째 이미지를 가져오기 위한 fetchFirstImage 호출
+        const fetchThumNail = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/travel-courses/fetchAndSaveTravelCourses`, {
-                    params: {
-                        numOfRows: '1',
-                        pageNo: '1'
-                    }
-                });
-                if (response.data.length > 0) {
-                    const course = response.data.find(course => course.contentid === contentid);
-                    if (course) {
-                        setFirstImage(course.firstimage);
-                    }
-                }
+                const response = await axios.get(`http://localhost:8080/api/travel-courses/firstimage/${contentid}`);
+                console.log(thumnail);
+                setThumnail(response.data);
             } catch (error) {
-                console.error('첫 번째 이미지 가져오기 실패', error);
+                console.error('이미지 못 불러옴', error);
             }
-        };
+        }
 
         // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
         const fetchImages = async () => {
@@ -85,7 +76,7 @@ const TravelCourseDetail = () => {
 
         fetchDetail();
         fetchIntro();
-        fetchFirstImage();
+        fetchThumNail();
         fetchImages();
         fetchSimilarEvents()
     }, [category, contentid, contenttypeid]);
@@ -95,9 +86,11 @@ const TravelCourseDetail = () => {
     return (
         <div>
             <h1>{detail.title}</h1>
-            {firstImage && (
-                <img src={firstImage} alt={detail.title} width="300" />
-            )}
+
+            <img src={thumnail} alt={detail.title} />
+            {/*{firstImage && (*/}
+            {/*    <img src={firstImage} alt={detail.title} width="300" />*/}
+            {/*)}*/}
 
             <h3>지도</h3>
             {/* 지도 표시 부분 */}

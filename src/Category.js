@@ -111,7 +111,7 @@ const CategoryEvents = () => {
 
         switch (category) {
             case '관광지':
-                basePath = 'tourist-attraction';
+                basePath = 'tourist-attractions';
                 break;
             case '문화시설':
                 basePath = 'cultural-facilities';
