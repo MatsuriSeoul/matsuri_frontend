@@ -13,10 +13,13 @@ const OpenAIChat = () => {
         setChatHistory([...chatHistory, { sender: 'user', message: prompt }]);
 
         try {
+            // Spring Boot API에 요청 전송
             const result = await axios.post('/api/openai/prompt', { prompt });
+
+            // AI 응답 확인 (response.data가 객체일 경우)
             const completionText = result.data.choices && result.data.choices[0].message.content;
 
-            // AI 응답 추가
+            // 응답을 문자열로 변환하여 추가
             setChatHistory((prevHistory) => [
                 ...prevHistory,
                 { sender: 'ai', message: completionText }
@@ -47,7 +50,7 @@ const OpenAIChat = () => {
                         }
                     >
                         <strong>{chat.sender === 'user' ? '사용자' : 'AI'}:</strong>
-                        <p>{chat.message}</p>
+                        <p>{typeof chat.message === 'string' ? chat.message : JSON.stringify(chat.message)}</p>
                     </div>
                 ))}
             </div>
