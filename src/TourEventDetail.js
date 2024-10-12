@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
+import ReviewComponent from "./ReviewComponent";
 
 const TourEventDetail = () => {
     const [contentId, setContentId] = useState('');
@@ -61,6 +62,8 @@ const TourEventDetail = () => {
                     {eventDetail.firstimage && <img src={eventDetail.firstimage} alt={eventDetail.title} />}
                 </div>
             )}
+            {/*네이버 블로그 리뷰 */}
+            <ReviewComponent query={eventDetail.title} />
         </div>
     );
 };
