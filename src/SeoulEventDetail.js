@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import LikeButton from "./LikeButton";
 import KakaoMap from './KakaoMap';
+import ReviewComponent from "./ReviewComponent";
 
 const SeoulEventDetail = () => {
     const { svcid } = useParams(); // URL에서 svcid 가져오기
@@ -72,6 +73,9 @@ const SeoulEventDetail = () => {
             <p><strong>상세 내용:</strong> {decodeHtmlEntities(cleanDetailContent(eventDetail.dtlcont))}</p>
             <p><strong>전화번호:</strong> {eventDetail.telno}</p>
             <p><strong>이용 시간:</strong> {eventDetail.vMin} - {eventDetail.vMax}</p>
+
+            {/*네이버 블로그 리뷰 */}
+            <ReviewComponent query={eventDetail.svcnm} />
         </div>
     );
 };

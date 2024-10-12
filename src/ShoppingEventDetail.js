@@ -8,6 +8,7 @@ import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
 import CommentEventList from './CommentEventList';
 import CreateComment from './CreateComment';
+import ReviewComponent from "./ReviewComponent";
 
 const ShoppingEventDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -141,7 +142,8 @@ const ShoppingEventDetail = () => {
                     </div>
                 ))}
             </div>
-
+            {/*네이버 블로그 리뷰 */}
+            <ReviewComponent query={detail.title} />
             {/* 유사한 여행지 추천 */}
             <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
