@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const OpenAIChat = () => {
-    const [prompt, setPrompt] = useState('');
     const [chatHistory, setChatHistory] = useState([]);
+    const [region, setRegion] = useState('');  // 지역 상태
+    const [category, setCategory] = useState('');  // 카테고리 상태
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (prompt.trim() === "") return;
+        if (region.trim() === "" || category.trim() === "") {
+            return;
+        }
 
-        // 사용자 메시지 추가
-        setChatHistory([...chatHistory, { sender: 'user', message: prompt }]);
+        // 선택된 지역과 카테고리 확인
+        console.log('선택된 지역:', region); // 선택된 지역 확인
+        console.log('선택된 카테고리:', category); // 선택된 카테고리 확인
 
         try {
-            // Spring Boot API에 요청 전송
-            const result = await axios.post('/api/openai/prompt', { prompt });
+            // 지역을 소문자로 변환하여 전송
+            const result = await axios.post('/api/openai/prompt', { region: region.toLowerCase(), category });
 
-            // AI 응답 확인 (response.data가 객체일 경우)
+            console.log('AI Response:', result.data);
+
             const completionText = result.data.choices && result.data.choices[0].message.content;
 
-            // 응답을 문자열로 변환하여 추가
             setChatHistory((prevHistory) => [
                 ...prevHistory,
                 { sender: 'ai', message: completionText }
@@ -31,10 +35,8 @@ const OpenAIChat = () => {
                 { sender: 'ai', message: '오류가 발생했습니다. 다시 시도해주세요.' }
             ]);
         }
-
-        // 입력창 초기화
-        setPrompt('');
     };
+
 
     return (
         <div style={styles.chatContainer}>
@@ -43,27 +45,37 @@ const OpenAIChat = () => {
                 {chatHistory.map((chat, index) => (
                     <div
                         key={index}
-                        style={
-                            chat.sender === 'user'
-                                ? styles.userMessage
-                                : styles.aiMessage
-                        }
+                        style={chat.sender === 'user' ? styles.userMessage : styles.aiMessage}
                     >
                         <strong>{chat.sender === 'user' ? '사용자' : 'AI'}:</strong>
-                        <p>{typeof chat.message === 'string' ? chat.message : JSON.stringify(chat.message)}</p>
+                        <p>{chat.message}</p>
                     </div>
                 ))}
             </div>
             <form onSubmit={handleSubmit} style={styles.inputForm}>
-                <textarea
-                    rows="3"
-                    cols="50"
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="메시지를 입력하세요"
-                    style={styles.textArea}
-                />
-                <button type="submit" style={styles.sendButton}>전송</button>
+                <div>
+                    <label>지역을 선택하세요:</label>
+                    <div>
+                        {/* 지역 선택 버튼 목록 */}
+                        {['서울', '경기', '인천', '대전', '강원', '부산', '울산', '대구', '전남', '전북', '충남', '충북', '경남', '경북', '제주'].map((r) => (
+                            <button key={r} type="button" onClick={() => setRegion(r)} style={styles.button}>
+                                {r}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <label>카테고리를 선택하세요:</label>
+                    <div>
+                        {/* 카테고리 선택 버튼 목록 */}
+                        {['관광지', '문화시설', '행사', '여행코스', '레포츠', '숙박', '쇼핑', '음식'].map((c) => (
+                            <button key={c} type="button" onClick={() => setCategory(c)} style={styles.button}>
+                                {c}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <button type="submit" style={styles.sendButton}>검색</button>
             </form>
         </div>
     );
@@ -100,11 +112,19 @@ const styles = {
     inputForm: {
         marginTop: '10px',
     },
-    textArea: {
-        width: 'calc(100% - 80px)',
+    button: {
+        margin: '5px',
         padding: '10px',
         borderRadius: '5px',
+        cursor: 'pointer',
+        backgroundColor: '#f0f0f0',
         border: '1px solid #ccc',
+    },
+    // 클릭된 상태 스타일
+    activeButton: {
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        border: '1px solid #4CAF50',
     },
     sendButton: {
         padding: '10px 20px',
