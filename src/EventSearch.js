@@ -35,13 +35,14 @@ const regionMap = {
     대전: '대전광역시',
     부산: '부산광역시',
     전남: '전라남도',
-    전북: '전라북도',
+    전북: '전북특별자치도',
     울산: '울산광역시',
     충남: '충청남도',
     충북: '충청북도',
     경남: '경상남도',
     경북: '경상북도',
     대구: '대구광역시',
+    강원: '강원특별자치도',
     제주: '제주특별자치도',
 };
 
@@ -59,12 +60,14 @@ const categoryMap = {
 
 // 지역 목록 정의
 const regions = Object.keys(regionMap);
+const months = [
+    "전체", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
+];
 
 const ITEMS_PER_PAGE = 4; // 페이지당 표시할 항목 수
 
 const EventSearch = () => {
-    const [startDate, setStartDate] = useState(null); // 시작일 설정
-    const [endDate, setEndDate] = useState(null); // 종료일 설정
+    const [month, setMonth] = useState('전체') // 선택한 월 초기값을 '전체'로 설정
     const [region, setRegion] = useState(''); // 선택된 지역
     const [category, setCategory] = useState(''); // 선택된 카테고리
     const [results, setResults] = useState([]); // 검색 결과 저장
@@ -125,6 +128,8 @@ const EventSearch = () => {
             // 기본 검색 API URL
             let apiUrl = `http://localhost:8080/api/events/search`;
 
+            let regionAndMonthUrl = `http://localhost:8080/api/events/by-month-and-region`;
+
             // 서울 또는 경기의 특정 카테고리면 해당 API로 리다이렉트
             const additionalEvents = await fetchAdditionalEvents();
 
@@ -133,6 +138,29 @@ const EventSearch = () => {
                 setCurrentPage(1);
                 return; // 이미 데이터를 받았으므로 기본 API 호출은 생략
             }
+
+            // 축제/공연/행사 카테고리일 때 월별 데이터를 가져오는 로직 추가
+            if (category === '축제/공연/행사' && month) {
+                const response = await axios.get(regionAndMonthUrl, {
+                    params: {
+                        month: month === '전체' ? '' : month.replace('월', ''), // "1월" -> "1" 형식으로 변환, 전체일 경우 빈 문자열
+                        region: fullRegionName === '전체' ? '' : fullRegionName // 지역 정보가 전체인 경우 빈 문자열로 전달
+                    }
+                });
+                if (response.data == null) {
+                    return (
+                        <div>진행중인 행사가 없습니다.</div>
+                    );
+                }
+                console.log(fullRegionName, month);
+                setResults(response.data);
+                setCurrentPage(1);
+                return;
+            }
+
+            // else if (category === '축제/공연/행사') {
+            //     apiUrl = `http://localhost:8080/api/events/by-region`;
+            // }
 
             // 카테고리에 따라 동적으로 API URL 설정
             if (category === '음식') {
@@ -147,18 +175,16 @@ const EventSearch = () => {
                 apiUrl = `http://localhost:8080/api/shopping-events/by-region`;
             } else if (category === '여행코스') {
                 apiUrl = `http://localhost:8080/api/travel-courses/by-region`;
-            } else if (category === '축제/공연/행사') {
-                apiUrl = `http://localhost:8080/api/events/by-region`;
-            } else if (category === '관광지') {
+            }  else if (category === '관광지') {
                 apiUrl = `http://localhost:8080/api/tourist-attractions/by-region`;
             }
 
             // API 호출 및 데이터 설정
             const response = await axios.get(apiUrl, {
                 params: {
-                    region: fullRegionName, // 매핑된 지역 이름 전달
-                    startDate: startDate ? startDate.toISOString().split('T')[0] : '',
-                    endDate: endDate ? endDate.toISOString().split('T')[0] : ''
+                    region: fullRegionName === '전체' ? '' : fullRegionName // 전체인 경우 빈 문자열 전달
+                    // startDate: startDate ? startDate.toISOString().split('T')[0] : '',
+                    // endDate: endDate ? endDate.toISOString().split('T')[0] : ''
                 }
             });
             console.log(response.data);  // 데이터를 받아오는지 확인
@@ -169,15 +195,15 @@ const EventSearch = () => {
         }
     };
 
-    // 날짜 형식 변환 함수
-    const formatDate = (dateString) => {
-        if (!dateString) return 'Invalid Date';
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) {
-            return 'Invalid Date';
-        }
-        return date.toLocaleDateString();
-    };
+    // // 날짜 형식 변환 함수
+    // const formatDate = (dateString) => {
+    //     if (!dateString) return 'Invalid Date';
+    //     const date = new Date(dateString);
+    //     if (isNaN(date.getTime())) {
+    //         return 'Invalid Date';
+    //     }
+    //     return date.toLocaleDateString();
+    // };
 
     const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE); // 총 페이지 수 계산
     const paginatedResults = results.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE); // 페이지에 따른 결과 분할
@@ -185,18 +211,28 @@ const EventSearch = () => {
     return (
         <div>
             <div>
-                <label>시작일: </label>
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="yyyy-MM-dd"
-                />
-                <label>종료일: </label>
-                <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    dateFormat="yyyy-MM-dd"
-                />
+                {category === '축제/공연/행사' && (
+                    <div>
+                        <label>시작 월: </label>
+                        <select value={month} onChange={(e) => setMonth(e.target.value)}>
+                            {months.map((month, index) => (
+                                <option key={index} value={month}>{month}</option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+                {/*<label>시작일: </label>*/}
+                {/*<DatePicker*/}
+                {/*    selected={startDate}*/}
+                {/*    onChange={(date) => setStartDate(date)}*/}
+                {/*    dateFormat="yyyy-MM-dd"*/}
+                {/*/>*/}
+                {/*<label>종료일: </label>*/}
+                {/*<DatePicker*/}
+                {/*    selected={endDate}*/}
+                {/*    onChange={(date) => setEndDate(date)}*/}
+                {/*    dateFormat="yyyy-MM-dd"*/}
+                {/*/>*/}
                 <label>지역: </label>
                 <select value={region} onChange={(e) => setRegion(e.target.value)}>
                     <option value="">전체</option>
