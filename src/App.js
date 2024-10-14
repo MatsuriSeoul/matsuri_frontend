@@ -12,7 +12,6 @@ import CreateNotice from "./CreateNotice";
 import CreateComment from "./CreateComment";
 import CommentList from "./CommentList";
 import Category from "./Category";
-import CommentEventList from "./CommentEventList";
 import TouristAttractionDetail from "./TouristAttractionDetail";
 import CulturalFacilityDetail from './CulturalFacilityDetail';
 import NoticeDetail from "./NoticeDetail";
@@ -124,7 +123,7 @@ function App() {
                         <Route path="/category/:category" component={Category}/>
                         <Route path="/category" component={Category}/>
 
-                        <Route path="/tourist-attraction/:contentid/:contenttypeid/detail"
+                        <Route path="/tourist-attractions/:contentid/:contenttypeid/detail"
                                component={TouristAttractionDetail}/>
                         <Route path="/cultural-facilities/:contentid/:contenttypeid/detail"
                                component={CulturalFacilityDetail}/>
@@ -166,11 +165,11 @@ function App() {
                         <Route path="/mainpage" component={MainPage} />
                         <Route path="/eventDetailPage/:apitype/:contentid/:contenttypeid" component={EventDetailPage} />
                         <Route path="/areaPage/:areaId" component={AreaPage} />
-                        <Route path="/hotPlacePage" component={HotPlacePage} />
-                        <Route path="/themePage/:themeId" component={ThemePage} />
+                        <Route path="/hotPlacePage/:hareaId" component={HotPlacePage} />
+                        <Route path="/themePage/:themeItem?" component={ThemePage} />
                         <Route path="/noticePage" component={FNoticePage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
-                        <Route path="/freeAndPaidPage/*" component={FreeAndPaidPage} />
+                        <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
 
                         <Route path="/:category/events/:contentid/:contenttypeid/detail" component={EventDetail} />
 

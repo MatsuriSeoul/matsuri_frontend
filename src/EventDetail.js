@@ -8,16 +8,17 @@ import KakaoMap from './KakaoMap';
 import LikeButton from "./LikeButton";
 import CommentEventList from './CommentEventList';
 import CreateComment from './CreateComment';
+import ReviewComponent from "./ReviewComponent";
 
 
 const EventDetail = () => {
     const { contentid, contenttypeid } = useParams();
     const [detail, setDetail] = useState(null);
     const [intro, setIntro] = useState(null);
-    const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
     const location = useLocation();
+    const [thumnail, setThumnail] = useState(null);
 
     // URL에서 category 추출
         const category = location.pathname.split('/')[1];
@@ -44,26 +45,16 @@ const EventDetail = () => {
             }
         };
 
-        // 첫 번째 이미지를 가져오기 위한 fetchAndSaveEvents 호출
-        const fetchFirstImage = async () => {
+        // 첫 번째 이미지를 가져오기 위한 fetchFirstImage 호출
+        const fetchThumNail = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/events/fetchAndSaveEvents`, {
-                    params: {
-                        numOfRows: '1',
-                        pageNo: '1',
-                        eventStartDate: '20240101'
-                    }
-                });
-                if (response.data.length > 0) {
-                    const event = response.data.find(event => event.contentid === contentid);
-                    if (event) {
-                        setFirstImage(event.firstimage);
-                    }
-                }
+                const response = await axios.get(`http://localhost:8080/api/events/firstimage/${contentid}`);
+                console.log(thumnail);
+                setThumnail(response.data);
             } catch (error) {
-                console.error('첫 번째 이미지 가져오기 실패', error);
+                console.error('이미지 못 불러옴', error);
             }
-        };
+        }
 
         // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
         const fetchImages = async () => {
@@ -87,24 +78,25 @@ const EventDetail = () => {
 
         fetchDetail();
         fetchIntro();
-        fetchFirstImage();
         fetchImages();
         fetchSimilarEvents()
+        fetchThumNail()
     }, [category, contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
 
     return (
         <div>
+            {/* 댓글 기능 추가 */}
+            <CommentEventList category={category} contentid={contentid} contenttypeid={contenttypeid}/>
             <h1>{detail.title}</h1>
 
             <h3>지도</h3>
             {/* 지도 표시 부분 */}
             <KakaoMap mapX={detail.mapx} mapY={detail.mapy}/>
 
-            {firstImage && (
-                <img src={firstImage} alt={detail.title} width="300"/>
-            )}
+            <img src={thumnail} alt={detail.title}/>
+
             <LikeButton contentId={contentid} contentType="EventDetail"/>
             <p>{detail.overview}</p>
 
@@ -140,6 +132,8 @@ const EventDetail = () => {
                     </div>
                 ))}
             </div>
+            {/*네이버 블로그 리뷰 */}
+            <ReviewComponent query={detail.title} />
 
             {/* 유사한 여행지 추천 */}
             <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
@@ -162,10 +156,6 @@ const EventDetail = () => {
                     );
                 })}
             </div>
-
-            {/* 댓글 기능 추가 */}
-
-            <CommentEventList category={category} contentid={contentid} contenttypeid={contenttypeid} />
         </div>
     );
 };
