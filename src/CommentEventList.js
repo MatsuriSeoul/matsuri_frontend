@@ -75,9 +75,12 @@ const CommentEventList = ({ category, contentid, contenttypeid }) => {
     }, [contentid, category, token, contenttypeid]);
 
     return (
-            <div>
-                <h2>여행톡</h2>
-                {comments.map((comment) => (
+        <div>
+            <h2>여행톡</h2>
+            {comments.length === 0 ? (
+                <p> 아직 댓글이 없어요 </p>
+            ) : (
+                comments.map((comment) => (
                     <div key={comment.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                         {/* 프로필 이미지 표시 */}
                         {comment.author.profileImage ? (
@@ -133,17 +136,35 @@ const CommentEventList = ({ category, contentid, contenttypeid }) => {
 
                             {user && comment.author.id === user.id && editingCommentId !== comment.id && (
                                 <div>
-                                    <button onClick={() => handleEditComment(comment)}>수정</button>
-                                    <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                                    <button
+                                        onClick={() => {
+                                            if (window.confirm("댓글을 수정하시겠습니까?")) {
+                                                handleEditComment(comment);
+                                            }
+                                        }}
+                                    >
+                                        수정
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            if (window.confirm("댓글을 삭제하시겠습니까?")) {
+                                                handleDeleteComment(comment.id);
+                                            }
+                                        }}
+                                    >
+                                        삭제
+                                    </button>
                                 </div>
                             )}
                         </div>
                     </div>
-                ))}
+                ))
+            )}
 
-                <CreateComment category={category} contentid={contentid} refreshComments={fetchComments} />
-            </div>
-        );
+            <CreateComment category={category} contentid={contentid} refreshComments={fetchComments} />
+        </div>
+    );
+
 };
 
 export default CommentEventList;

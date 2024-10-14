@@ -2,10 +2,12 @@
  * 시군구 이벤트 상세페이지 (DistrictDetail.js)
  */
 import React, { useEffect, useState } from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams, useLocation} from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
+import CommentEventList from './CommentEventList';
+import CreateComment from './CreateComment';
 
 const DistrictDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -14,6 +16,10 @@ const DistrictDetail = () => {
     const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
+    const location = useLocation();
+
+    // URL에서 category 추출
+    const category = location.pathname.split('/')[1];
 
     useEffect(() => {
         // 상세 정보 API 호출
@@ -34,7 +40,7 @@ const DistrictDetail = () => {
         // 소개 정보 API 호출
         const fetchIntro = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/district/${contentid}/${contenttypeid}/intro`);
+                const response = await axios.get(`http://localhost:8080/api/${category}/${contentid}/${contenttypeid}/intro`);
                 setIntro(response.data);
             } catch (error) {
                 console.error('소개 정보 불러오기 실패', error);
@@ -77,7 +83,7 @@ const DistrictDetail = () => {
         fetchFirstImage();
         fetchImages();
         fetchSimilarEvents();
-    }, [contentid, contenttypeid]);
+    }, [category, contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
 
@@ -323,6 +329,10 @@ const DistrictDetail = () => {
                     );
                 })}
             </div>
+
+            {/* 댓글 기능 추가 */}
+            <CommentEventList category={category} contentid={contentid} contenttypeid={contenttypeid} />
+
         </div>
     );
 };
