@@ -6,6 +6,7 @@ import Article from "./eventDetailPage/article";
 import "../css/eventDetailPage/article.css";
 
 const EventDetailPage = () =>{
+
     return(
         <>
         <Header/>

@@ -30,7 +30,6 @@ const Banner = () => {
     setAutoplaying(!autoplaying);
   };
 
-
   useEffect(() => {
     const swiperInstance = swiperRef.current?.swiper;
     if (!swiperInstance) return;
@@ -55,12 +54,10 @@ const Banner = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('/api/events/fetch', {
+        const response = await axios.get(`http://localhost:8080/api/events/category/행사`, {
           params: {
-            serviceKey: '13jkaARutXp/OwAHynRnYjP7BJuMVGIZx2Ki3dRMaDlcBqrfZHC9Zk97LCCuLyKfiR2cVhyWy59t96rPwyWioA==',
-            numOfRows: 2,
-            pageNo: 1,
-            eventStartDate: '20240101'
+            numOfRows: '10',
+            pageNo: '1'
           }
         });
 
@@ -86,72 +83,72 @@ const Banner = () => {
   }
 
   return (
-    <section className="main_banner">
-      <div className="swiper-container">
-        <div className="event-info">
-          {currentEvent && (
-              <>
-                <p className="event-date">행사기간 : {currentEvent.eventstartdate.slice(0, 4) +
-                    '.' + currentEvent.eventstartdate.slice(4, 6) + '.' +
-                    currentEvent.eventstartdate.slice(6)} ~
-                  {currentEvent.eventenddate.slice(4, 6) + '.' +
-                      currentEvent.eventenddate.slice(6)}</p>
-                <h1 className="title">{currentEvent.title || "none"}</h1>
-                <p className="addr">
-                  {currentEvent.addr1 || "none"}
+      <section className="main_banner">
+        <div className="swiper-container">
+          <div className="event-info">
+            {currentEvent && (
+                <>
+                  <p className="event-date">행사기간 : {currentEvent.eventstartdate.slice(0, 4) +
+                      '.' + currentEvent.eventstartdate.slice(4, 6) + '.' +
+                      currentEvent.eventstartdate.slice(6)} ~
+                    {currentEvent.eventenddate.slice(4, 6) + '.' +
+                        currentEvent.eventenddate.slice(6)}</p>
+                  <h1 className="title">{currentEvent.title || "none"}</h1>
+                  <p className="addr">
+                    {currentEvent.addr1 || "none"}
+                  </p>
+                  <Link to={`/eventDetailPage/events/${currentEvent.contentid}/${currentEvent.contenttypeid}`}><p className="detail-link">자세히 보기</p></Link>
+                </>
+            )}
+            <div className="swiper-tool">
+              {/* pagination-bar */}
+              <div className="swiper-pagination-wrapper">
+                <div className="swiper-pagination-background"></div>
+                <div
+                    className="swiper-pagination-progress"
+                    style={{width: `${progressPercentage}%`}}
+                ></div>
+              </div>
+              {/* pagination-count */}
+              <div className="swiper-pagination-info">
+                <p>
+                  <b>{String(currentSlide).padStart(2, "0")}</b> /{" "}
+                  {String(totalSlides).padStart(2, "0")}
                 </p>
-                <Link to={`/eventDetailPage/events/${currentEvent.contentid}/${currentEvent.contenttypeid}`}><p className="detail-link">자세히 보기</p></Link>
-              </>
-          )}
-          <div className="swiper-tool">
-            {/* pagination-bar */}
-            <div className="swiper-pagination-wrapper">
-              <div className="swiper-pagination-background"></div>
-              <div
-                  className="swiper-pagination-progress"
-                  style={{width: `${progressPercentage}%`}}
-              ></div>
-            </div>
-            {/* pagination-count */}
-            <div className="swiper-pagination-info">
-              <p>
-                <b>{String(currentSlide).padStart(2, "0")}</b> /{" "}
-                {String(totalSlides).padStart(2, "0")}
-              </p>
-            </div>
+              </div>
 
-            <div className="swiper-button-prev">
-              <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#5f6368"
-              >
-                <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
-              </svg>
-            </div>
+              <div className="swiper-button-prev">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#5f6368"
+                >
+                  <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+                </svg>
+              </div>
 
-            <div className="autoplay-control" onClick={toggleAutoplay}>
-              <img
-                  src={autoplaying ? "/img/icon/pause.svg" : "/img/icon/play.svg"}
-                  alt="autoplay toggle"
-              />
-            </div>
+              <div className="autoplay-control" onClick={toggleAutoplay}>
+                <img
+                    src={autoplaying ? "/img/icon/pause.svg" : "/img/icon/play.svg"}
+                    alt="autoplay toggle"
+                />
+              </div>
 
-            <div className="swiper-button-next">
-              <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#5f6368"
-              >
-                <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/>
-              </svg>
+              <div className="swiper-button-next">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#5f6368"
+                >
+                  <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/>
+                </svg>
+              </div>
             </div>
           </div>
-        </div>
           <Swiper
               ref={swiperRef}
               slidesPerView={1.1}
@@ -184,8 +181,8 @@ const Banner = () => {
           </Swiper>
 
         </div>
-    </section>
-);
+      </section>
+  );
 };
 
 export default Banner;

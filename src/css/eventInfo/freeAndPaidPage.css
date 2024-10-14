@@ -95,7 +95,6 @@
 .fapp .container .img-list .box .img{
     width: 100%;
     padding: 50%;
-    background-color: rgb(27, 27, 77);
     border-radius: 5px;
     margin-bottom: 14px;
     position: relative;
@@ -155,7 +154,6 @@
 .morearticle .event-list .box .img{
     width: 100%;
     padding: 50%;
-    background-color: rgb(114, 112, 211);
     border-radius: 5px;
     margin-bottom: 14px;
     position: relative;
@@ -283,5 +281,4 @@
     height: 65px;
     margin-left: 20px;
     border-radius: 10px;
-    background-color: blanchedalmond;
 }

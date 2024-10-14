@@ -33,12 +33,22 @@
     flex-direction: column;
     align-items: center;
 }
+.ssp .article .firstLoad{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+.ssp .article .firstLoad h1{
+
+}
 .ssp .article .selectform{
     width: 100%;
     padding: 0px 400px;
     display: flex;
     align-items: center;
     margin-bottom: 86px;
+    justify-content: center;
 }
 .ssp .article .selectform .react-datepicker-wrapper{
     margin-right: 20px;
@@ -101,7 +111,6 @@
     margin-left: 20px;
     padding: 36px 20px 0px 40px;
     height: 380px;
-    background-color: cadetblue;
     border-radius: 8px;
     position: relative;
     transition: 0.3s;
@@ -195,7 +204,6 @@
 .ssp .article .events-container .event-list .event .event-img{
     height: 212px;
     width: 100%;
-    background-color: rgb(230, 125, 125);
     border-radius: 8px;
     margin-bottom: 14px;
 }
@@ -204,19 +212,22 @@
     font-weight: 600;
     color: #1A1A24;
     margin-bottom: 10px;
+    text-align: center;
 }
 .ssp .article .events-container .event-list .event .date{
     font-weight: 400;
     font-size: 16px;
     color: #1A1A24;
     margin-bottom: 8px;
+    text-align: center;
 }
 .ssp .article .events-container .event-list .event .area{
     font-size: 16px;
     font-weight: 500;
     color: #666670;
+    text-align: center;
 }
-.ssp .article .events-container .event-list .more-btn{
+.ssp .article .events-container .more-btn{
     display: flex;
     justify-content: center;
     align-items: center;

@@ -107,46 +107,68 @@ const CategoryEvents = () => {
     }, [category]);
 
     const renderEventLink = (event) => {
-        let basePath;
-
-        switch (category) {
-            case '관광지':
-                basePath = 'tourist-attractions';
-                break;
-            case '문화시설':
-                basePath = 'cultural-facilities';
-                break;
-            case '행사':
-                basePath = 'events';
-                break;
-            case '여행코스':
-                basePath = 'travel-courses';
-                break;
-            case '레포츠':
-                basePath = 'leisure-sports';
-                break;
-            case '숙박':
-                basePath = 'local-events';
-                break;
-            case '쇼핑':
-                basePath = 'shopping-events';
-                break;
-            case '음식':
-                basePath = 'food-events';
-                break;
-            default:
-                basePath = '';
+        if (category === '관광지') {
+            return (
+                <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+                // <Link to={`/eventDetailPage/tourist-attractions/${event.contentid}/${event.contenttypeid}`}>
+                //     <h2>{event.title}</h2>
+                //     <img src={event.firstimage} alt={event.title} width="200" />
+                // </Link>
+            );
+        } else if (category === '문화시설') {
+            return (
+                <Link to={`/cultural-facilities/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '행사') {
+            return (
+                <Link to={`/events/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '여행코스') {
+            return (
+                <Link to={`/travel-courses/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '레포츠') {
+            return (
+                <Link to={`/leisure-sports/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '숙박') {
+            return (
+                <Link to={`/local-events/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '쇼핑') {
+            return (
+                <Link to={`/shopping-events/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
+        } else if (category === '음식') {
+            return (
+                <Link to={`/food-events/${event.contentid}/${event.contenttypeid}/detail`}>
+                    <h2>{event.title}</h2>
+                    <img src={event.firstimage} alt={event.title} width="200" />
+                </Link>
+            );
         }
-
-        return (
-            <Link to={`/${basePath}/${event.contentid}/${event.contenttypeid}/detail`}>
-                <h2>{event.title}</h2>
-                <img src={event.firstimage} alt={event.title} width="200" />
-            </Link>
-        );
     };
-
-
 
     return (
         <div>

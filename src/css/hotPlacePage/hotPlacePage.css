@@ -38,7 +38,7 @@
     text-align: center;
 }
 .hotplacepage .hpp-banner .sub-title{
-    margin-bottom: 66px;
+    margin-bottom: 54px;
 }
 .hotplacepage .hpp-banner .sub-title h2{
     font-size: 25px;
@@ -55,12 +55,17 @@
 .hotplacepage .hpp-banner .hpp-banner-swiper{
     width: 54%;
 }
-
+.hotplacepage .hpp-banner .hpp-banner-swiper .swiper-wrapper{
+    height: 110px;
+    padding-top: 12px;
+}
 .hotplacepage .hpp-banner .swiper-slide{
+    cursor: pointer;
+}
+.hotplacepage .hpp-banner .swiper-slide a{
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
 }
 .hotplacepage .hpp-banner .swiper-slide:hover .area-img{
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
@@ -81,6 +86,15 @@
     font-weight: 400;
     color: #333333;
     transition: 0.2s;
+}
+.hotplacepage .hpp-banner .area-img.active{
+    scale: 1.2;
+    outline: 2px solid #111111;
+}
+.hotplacepage .hpp-banner .area-name.active{
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 2px;
 }
 .hotplacepage .hpp-banner .swiper-button-prev,
 .hotplacepage .hpp-banner .swiper-button-next{
@@ -149,9 +163,12 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
-.hotplacepage .hpp-sec .img-list .box{
+.hotplacepage .hpp-sec .img-list a{
     width: calc(25% - 16px);
-    margin-bottom: 60px;
+    margin-bottom: 30px;
+}
+.hotplacepage .hpp-sec .img-list .box{
+    width: 100%;
 }
 .hotplacepage .hpp-sec .img-list .box .img{
     width: 100%;
@@ -179,17 +196,26 @@
     margin-left: 1px;
 }
 .hotplacepage .hpp-sec .img-list .box .title{
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: #333333;
-    margin-bottom: 14px;
+    margin-bottom: 6px;
     text-align: center;
+    display: -webkit-box; /* Flexbox를 사용 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    -webkit-line-clamp: 1; /* 6줄까지만 표시 */
 }
 .hotplacepage .hpp-sec .img-list .box .address{
-    font-size: 16px;
+    height: 32px;
+    font-size: 14px;
     font-weight: 400;
     color: #666666;
     text-align: center;
+    display: -webkit-box; /* Flexbox를 사용 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    -webkit-line-clamp: 2; /* 6줄까지만 표시 */
 }
 
 .hotplacepage .sidebar{

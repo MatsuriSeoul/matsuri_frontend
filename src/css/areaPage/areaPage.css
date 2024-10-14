@@ -193,7 +193,6 @@
 }
 .areapage .areaPage-article .hotplace .list .box{
     width: calc(25% - 20px);
-    height: 218px;
     margin-bottom: 26px;
     box-shadow: 0px 0px 10px rgba(51, 51, 51, 0.2);
     background-color: #ffffff;
@@ -202,6 +201,7 @@
     align-items: center;
     border-radius: 5px;
     overflow: hidden;
+    padding-bottom: 10px;
 }
 .areapage .areaPage-article .hotplace .list .box .img{
     width: 100%;
@@ -209,7 +209,7 @@
     margin-bottom: 13px;
 }
 .areapage .areaPage-article .hotplace .list .box .name{
-    font-size: 16;
+    font-size: 16px;
     font-weight: 400;
     margin-bottom: 9px;
     color: #333333;
@@ -218,6 +218,13 @@
     font-size: 14px;
     font-weight: 400;
     color: #666666;
+    width: 85%;
+    height: 32px;
+    text-align: center;
+    display: -webkit-box; /* Flexbox를 사용 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    -webkit-line-clamp: 2; /* 6줄까지만 표시 */
 }
 
 .areapage .link-sec{

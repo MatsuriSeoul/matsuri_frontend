@@ -10,10 +10,8 @@ const Article = () =>{
         인천: '인천광역시',
         울산: '울산광역시',
         경기: '경기도',
-        대전: '대전광역시',
         강원: '강원특별자치도',
         부산: '부산광역시',
-        울산: '울산광역시',
         대전: '대전광역시',
         전남: '전라남도',
         전북: '전북특별자치도',
@@ -32,7 +30,6 @@ const Article = () =>{
     const fullAreaName = changeAreaList[areaId] || areaId;
     const linkAreaName = linkAreaList[areaId] || 'events';
 
-    console.log(fullAreaName);
 
     const [seoulEvents, setSeoulEvents] = useState([]);
     const [gyeonggiEvents, setGyeonggiEvents] = useState([]);
@@ -222,28 +219,8 @@ const Article = () =>{
                             </Link>
                         </div>
                     ))}
-                    {/*<div className="recommend-box">*/}
-                    {/*    <h3 className="tag">행사</h3>*/}
-                    {/*    <h2 className="title">유엔미 오륙도 남구 투어</h2>*/}
-                    {/*    <p className="info">{detail.overview}</p>*/}
-                    {/*    <span className="detail-btn">자세히보기</span>*/}
-                    {/*</div>*/}
-                    {/*<div className="recommend-box">*/}
-                    {/*    <h3 className="tag">행사</h3>*/}
-                    {/*    <h2 className="title">유엔미 오륙도 남구 투어</h2>*/}
-                    {/*    <p className="info">남구의 자랑, UN평화문화특구를<br/>*/}
-                    {/*    알리는 테마형 버스투어 여행하기!</p>*/}
-                    {/*    <span className="detail-btn">자세히보기</span>*/}
-                    {/*</div>*/}
-                    {/*<div className="recommend-box">*/}
-                    {/*    <h3 className="tag">행사</h3>*/}
-                    {/*    <h2 className="title">유엔미 오륙도 남구 투어</h2>*/}
-                    {/*    <p className="info">남구의 자랑, UN평화문화특구를<br/>*/}
-                    {/*    알리는 테마형 버스투어 여행하기!</p>*/}
-                    {/*    <span className="detail-btn">자세히보기</span>*/}
-                    {/*</div>*/}
                 </div>
-                
+
             </div>
             <div className="hotplace">
                 <h1 className="main-title">우리 지역 핫플이 궁금해?</h1>
@@ -256,10 +233,10 @@ const Article = () =>{
                 <div className="list recommened_destinations">
                     {travelCourses.slice(0, 4).map((event, index) => (
                         <div key={index} className='box'>
-                            {event.firstimage.length > 0 ? (
+                            {event.firstimage !== null ? (
                                 <div className="img"
                                      style={{
-                                         backgroundImage: `url(${event.firstimage || event[1]})`,
+                                         backgroundImage: `url(${event.firstimage || event[1] || '/img/default_img.jpeg'})`,
                                          backgroundSize: 'cover',
                                          backgroundPosition: 'center',
                                      }}
@@ -282,7 +259,7 @@ const Article = () =>{
                 <div className="list recommened_food">
                     {foodEvents.slice(0, 4).map((event, index) => (
                         <div key={index} className='box'>
-                            {event.firstimage.length > 0 ? (
+                            {event.firstimage !== null ? (
                                 <div className="img"
                                      style={{
                                          backgroundImage: `url(${event.firstimage || event[1]})`,
