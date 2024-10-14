@@ -45,22 +45,22 @@ const AreaPage = () =>{
                     <b>어디까지 알고있니?</b>
                 </h1>
                 <Swiper
-                  slidesPerView={10}
-                  spaceBetween={21}
-                  modules={[ Navigation ]}
-                  navigation={{
-                    prevEl: ".swiper-button-prev",
-                    nextEl: ".swiper-button-next",
-                  }}
-                  className="mySwiper areaPage_banner-swiper"
+                    slidesPerView={10}
+                    spaceBetween={21}
+                    modules={[ Navigation ]}
+                    navigation={{
+                        prevEl: ".swiper-button-prev",
+                        nextEl: ".swiper-button-next",
+                    }}
+                    className="mySwiper areaPage_banner-swiper"
                 >
                     {Area.map((item, index) => (
                         <SwiperSlide >
                             <Link to={`/areaPage/${item.name}`}>
                                 <div className={`area-img ${item.name === areaId ? 'active' : ''}`} src="/img/areaPage/icon_area.png"
-                                style={{
-                                    background: 'url(/img/areaPage/icon_area.png) 0 0 / 100% auto no-repeat',
-                                    backgroundPosition: `0 ${index * -70}px`}}
+                                     style={{
+                                         background: 'url(/img/areaPage/icon_area.png) 0 0 / 100% auto no-repeat',
+                                         backgroundPosition: `0 ${index * -70}px`}}
                                 ></div>
                                 <p className={`area-name ${item.name === areaId ? 'active' : ''}`}>{item.name}</p>
                             </Link>
@@ -77,7 +77,7 @@ const AreaPage = () =>{
                 <div className="link-box left">
                     <h2 className="title">핫플모아</h2>
                     <p className="txt">요즘 인기있는 여행지는 다 모였네!<br/>
-                    지역별 핫플을 알려드려요!</p>
+                        지역별 핫플을 알려드려요!</p>
                     <div className="link-btn">
                         <p>바로가기</p>
                         <img src="/img/areaPage/link-icon1.png"></img>
@@ -86,18 +86,18 @@ const AreaPage = () =>{
                 <div className="link-box right">
                     <h2 className="title">나의 행사</h2>
                     <p className="txt">나의 성향을 분석한<br/>
-                    나만의 맞춤형 여행지 추천!</p>
+                        나만의 맞춤형 여행지 추천!</p>
                     <div className="link-btn">
                         <p>바로가기</p>
                         <img src="/img/areaPage/link-icon2.png"></img>
                     </div>
                 </div>
             </div>
-        <Footer/>
+            <Footer/>
         </seaction>
     );
-    
-        
+
+
 }
 
 export default AreaPage;

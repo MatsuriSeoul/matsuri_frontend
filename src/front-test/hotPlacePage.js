@@ -546,7 +546,7 @@ const HotPlacePage = () =>{
                     </div>
                 </aside>
             </div>
-            
+
             <Footer></Footer>
         </section>
     )

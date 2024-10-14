@@ -147,20 +147,22 @@ const Article = () => {
         console.error('이미지 정보 불러오기 실패', error);
       }
     };
-    // if(apitype === 'tourapi'){
-    //   fetchDetail();
-    //   fetchIntro();
-    //   fetchFirstImage();
-    //   fetchImages();
-    // }else if(apitype === 'seoulapi'){
-    //
-    // }else if(apitype === 'gyeonggiapi'){
-    //
-    // }
+
+    // 유사한 여행지 정보 가져오기
+    const fetchSimilarEvents = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contenttypeid}/similar-events`);
+        setSimilarEvents(response.data.slice(0, 6));  // 최대 4개의 유사한 이벤트만 가져옴
+      } catch (error) {
+        console.error('유사한 여행지 불러오기 실패', error);
+      }
+    };
+
     fetchDetail();
     fetchIntro();
     // fetchFirstImage();
     fetchImages();
+    fetchSimilarEvents();
 
   }, [contentid, contenttypeid]);
 
@@ -434,25 +436,25 @@ const Article = () => {
               행사 시작일
             </p>
             {intro.eventstartdate ? (
-              <p className="propertyValue">{intro.eventstartdate.slice(0, 4)}.
-                {intro.eventstartdate.slice(4, 6)}.
-                {intro.eventstartdate.slice(6)}</p>
+                <p className="propertyValue">{intro.eventstartdate.slice(0, 4)}.
+                  {intro.eventstartdate.slice(4, 6)}.
+                  {intro.eventstartdate.slice(6)}</p>
             ) : (
-              <p className="propertyValue">-</p>
+                <p className="propertyValue">-</p>
             )}
           </li>
           <li>
-              <p className="propertyName">
+            <p className="propertyName">
               <div className="bullet"></div>
               행사 종료일
-              </p>
-              {intro.eventenddate ? (
-                  <p className="propertyValue">{intro.eventenddate.slice(0, 4)}.
-                    {intro.eventenddate.slice(4, 6)}.
-                    {intro.eventenddate.slice(6)}</p>
-              ) : (
-                  <p className="propertyValue">-</p>
-              )}
+            </p>
+            {intro.eventenddate ? (
+                <p className="propertyValue">{intro.eventenddate.slice(0, 4)}.
+                  {intro.eventenddate.slice(4, 6)}.
+                  {intro.eventenddate.slice(6)}</p>
+            ) : (
+                <p className="propertyValue">-</p>
+            )}
           </li>
           <li>
             <p className="propertyName">
@@ -509,7 +511,7 @@ const Article = () => {
             <p className="comment-count">1</p>
           </div>
           <form className="comment-write">
-          <textarea></textarea>
+            <textarea></textarea>
             <div className="btn">
               {/* <button className="img-update"></button> */}
               <input type="submit" value="작성"/>
@@ -631,7 +633,7 @@ const Article = () => {
                 <Link to={`/eventDetailPage/tourapi/${event.contentid}/${event.contenttypeid}`}>
                   <div className='recommend-img' key={index}
                        style={{
-                         backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1]})`, // 이미지 URL을 url()로 감싸야 합니다.
+                         backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1] || '/img/default_img.jpeg'})`, // 이미지 URL을 url()로 감싸야 합니다.
                          backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
                          backgroundPosition: 'center', // 이미지를 중앙에 위치
                        }}>
