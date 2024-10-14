@@ -147,22 +147,20 @@ const Article = () => {
         console.error('이미지 정보 불러오기 실패', error);
       }
     };
-
-    // 유사한 여행지 정보 가져오기
-    const fetchSimilarEvents = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contenttypeid}/similar-events`);
-        setSimilarEvents(response.data.slice(0, 6));  // 최대 4개의 유사한 이벤트만 가져옴
-      } catch (error) {
-        console.error('유사한 여행지 불러오기 실패', error);
-      }
-    };
-
+    // if(apitype === 'tourapi'){
+    //   fetchDetail();
+    //   fetchIntro();
+    //   fetchFirstImage();
+    //   fetchImages();
+    // }else if(apitype === 'seoulapi'){
+    //
+    // }else if(apitype === 'gyeonggiapi'){
+    //
+    // }
     fetchDetail();
     fetchIntro();
     // fetchFirstImage();
     fetchImages();
-    fetchSimilarEvents();
 
   }, [contentid, contenttypeid]);
 

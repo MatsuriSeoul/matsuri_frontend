@@ -40,8 +40,8 @@ const LoginForm = ({ isOpen, onClose, onNavigateToUserIdRecovery, onNavigateToPa
                         userRole : userRoleFromToken
                     });
                     // 폼 필드 상태 초기화
-//                    setUserId('');
-//                    setUserPassword('');
+                    setUserId('');
+                    setUserPassword('');
 
                     onClose();
                     history.push('/'); // 홈 페이지로 이동

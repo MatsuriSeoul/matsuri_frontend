@@ -2,24 +2,33 @@
 * 행사 상세 페이지
 * */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import KakaoMap from './KakaoMap';
 import LikeButton from "./LikeButton";
+import CommentEventList from './CommentEventList';
+import CreateComment from './CreateComment';
+import ReviewComponent from "./ReviewComponent";
+
 
 const EventDetail = () => {
     const { contentid, contenttypeid } = useParams();
     const [detail, setDetail] = useState(null);
     const [intro, setIntro] = useState(null);
-    const [firstImage, setFirstImage] = useState(null);
     const [images, setImages] = useState([]);
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
+    const location = useLocation();
+    const [thumnail, setThumnail] = useState(null);
+
+    // URL에서 category 추출
+        const category = location.pathname.split('/')[1];
 
     useEffect(() => {
+
         // 행사 상세 정보 API 불러오기 (로컬 DB에서)
         const fetchDetail = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/events/${contentid}/detail`);
+                const response = await axios.get(`http://localhost:8080/api/${category}/${contentid}/detail`);
                 setDetail(response.data);
             } catch (error) {
                 console.error('상세 정보 불러오기 실패', error);
@@ -36,26 +45,16 @@ const EventDetail = () => {
             }
         };
 
-        // 첫 번째 이미지를 가져오기 위한 fetchAndSaveEvents 호출
-        const fetchFirstImage = async () => {
+        // 첫 번째 이미지를 가져오기 위한 fetchFirstImage 호출
+        const fetchThumNail = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/events/fetchAndSaveEvents`, {
-                    params: {
-                        numOfRows: '1',
-                        pageNo: '1',
-                        eventStartDate: '20240101'
-                    }
-                });
-                if (response.data.length > 0) {
-                    const event = response.data.find(event => event.contentid === contentid);
-                    if (event) {
-                        setFirstImage(event.firstimage);
-                    }
-                }
+                const response = await axios.get(`http://localhost:8080/api/events/firstimage/${contentid}`);
+                console.log(thumnail);
+                setThumnail(response.data);
             } catch (error) {
-                console.error('첫 번째 이미지 가져오기 실패', error);
+                console.error('이미지 못 불러옴', error);
             }
-        };
+        }
 
         // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
         const fetchImages = async () => {
@@ -77,26 +76,28 @@ const EventDetail = () => {
             }
         };
 
-
         fetchDetail();
         fetchIntro();
-        fetchFirstImage();
         fetchImages();
         fetchSimilarEvents()
-    }, [contentid, contenttypeid]);
+        fetchThumNail()
+    }, [category, contentid, contenttypeid]);
 
     if (!detail || !intro) return <div>Loading...</div>;
 
     return (
         <div>
+            {/* 댓글 기능 추가 */}
+            <CommentEventList category={category} contentid={contentid} contenttypeid={contenttypeid}/>
             <h1>{detail.title}</h1>
-            {/* KakaoMap 컴포넌트를 렌더링하여 지도 표시 */}
-            <KakaoMap mapX={detail.mapx} mapY={detail.mapy} />
 
-            {firstImage && (
-                <img src={firstImage} alt={detail.title} width="300"/>
-            )}
-            <LikeButton contentId={contentid} contentType="EventDetail" />
+            <h3>지도</h3>
+            {/* 지도 표시 부분 */}
+            <KakaoMap mapX={detail.mapx} mapY={detail.mapy}/>
+
+            <img src={thumnail} alt={detail.title}/>
+
+            <LikeButton contentId={contentid} contentType="EventDetail"/>
             <p>{detail.overview}</p>
 
             <h2>추가 정보</h2>
@@ -131,20 +132,30 @@ const EventDetail = () => {
                     </div>
                 ))}
             </div>
+            {/*네이버 블로그 리뷰 */}
+            <ReviewComponent query={detail.title} />
 
             {/* 유사한 여행지 추천 */}
             <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                {similarEvents.map((event, index) => (
-                    <div key={index} style={{ flex: '0 0 20%' }}>
-                        <a href={`/events/${event.contentid}/${event.contenttypeid}/detail`}>
-                            <img src={event.firstImage} alt={event.title} width="100%" />
-                            <h3>{event.title}</h3>
-                        </a>
-                    </div>
-                ))}
-            </div>
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px'}}>
+                {similarEvents.map((event, index) => {
+                    const contentId = event.contentid || event.contentId;  // contentId 가져오기
+                    const contentTypeId = event.contenttypeid || event.contentTypeId;  // contentTypeId 가져오기
 
+                    return (
+                        <div key={index} style={{flex: '0 0 20%'}}>
+                            <Link to={`/events/${contentId}/${contentTypeId}/detail`}>
+                                <img
+                                    src={event.firstimage || event.firstImage || event.first_image || event[1]}
+                                    alt={event.title || event[0]}
+                                    width="100%"
+                                />
+                                <h3>{event.title || event[0]}</h3>
+                            </Link>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };

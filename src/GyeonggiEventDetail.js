@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
+import ReviewComponent from "./ReviewComponent";
 
 const GyeonggiEventDetail = () => {
     const { id } = useParams(); // URL에서 이벤트 id 가져오기
@@ -108,6 +109,8 @@ const GyeonggiEventDetail = () => {
             <p><strong>전화번호:</strong> {isValidField(eventDetail.telnoInfo)}</p>
             <p><strong>주최기관명:</strong> {isValidField(eventDetail.hostInstNm)}</p>
             <p><strong>홈페이지:</strong> <a href={eventDetail.hmpgUrl || '#'}>{isValidField(eventDetail.hmpgUrl)}</a></p>
+            {/*네이버 블로그 리뷰 */}
+            <ReviewComponent query={eventDetail.title} />
         </div>
     );
 };

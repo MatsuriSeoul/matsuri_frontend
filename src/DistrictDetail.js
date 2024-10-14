@@ -6,6 +6,7 @@ import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
+import ReviewComponent from "./ReviewComponent";
 
 const DistrictDetail = () => {
     const { contentid, contenttypeid } = useParams();
@@ -302,6 +303,9 @@ const DistrictDetail = () => {
                     </div>
                 ))}
             </div>
+            {/*네이버 블로그 리뷰 */}
+            <ReviewComponent query={detail.title} />
+
             {/* 유사한 여행지 추천 */}
             <h2>‘{detail.title}’ 와(과) 유사한 여행지 추천 👍</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
