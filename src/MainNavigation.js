@@ -53,6 +53,7 @@ function MainNavigation() {
                     <li><Link to="/hotspot">핫스팟</Link></li>
                     <li><Link to="/free-paid-events">무료 유료</Link></li>
                     <li><Link to="/scheduled-events">개최예정중인행사</Link></li>
+                    <li><Link to="/api/openai/prompt">AI 챗봇</Link></li>
                     {auth.token && (
                         <>
                             <li>
