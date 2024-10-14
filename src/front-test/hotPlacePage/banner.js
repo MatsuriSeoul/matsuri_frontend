@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import {Link, useParams} from "react-router-dom";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -26,8 +27,9 @@ const HppArea = [
     {name: "세종"},
 ]
 
-const banner = () =>{
-    
+const Banner = () =>{
+    const { hareaId } = useParams();
+
     return(
         <div className="hpp-banner">
             <div className="main-title">
@@ -51,12 +53,14 @@ const banner = () =>{
                 >
                     {HppArea.map((item, index) => (
                         <SwiperSlide >
-                            <div className="area-img" src="/img/areaPage/icon_area.png"
-                            style={{
-                                background: 'url(/img/areaPage/icon_area.png) 0 0 / 100% auto no-repeat',
-                                backgroundPosition: `0 ${index * -70}px`}}
-                            ></div>
-                            <p className="area-name">{item.name}</p>
+                            <Link to={`/hotPlacePage/${item.name}`}>
+                                <div className={`area-img ${item.name === hareaId ? 'active' : ''}`} src="/img/areaPage/icon_area.png"
+                                style={{
+                                    background: 'url(/img/areaPage/icon_area.png) 0 0 / 100% auto no-repeat',
+                                    backgroundPosition: `0 ${index * -70}px`}}
+                                ></div>
+                                <p className={`area-name ${item.name === hareaId ? 'active' : ''}`}>{item.name}</p>
+                            </Link>
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -66,4 +70,4 @@ const banner = () =>{
     )
 }
 
-export default banner;
+export default Banner;

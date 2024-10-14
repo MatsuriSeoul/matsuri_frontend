@@ -162,14 +162,13 @@ function App() {
                         <Route path="/district/:contentid/:contenttypeid/detail" component={DistrictDetail} />
 
                         <Route path="/mainpage" component={MainPage} />
-                        <Route path="/eventDetailPage" component={EventDetailPage} />
-                        <Route path="/areaPage" component={AreaPage} />
-                        <Route path="/hotPlacePage" component={HotPlacePage } />
-                        <Route path="/themePage" component={ThemePage} />
-                        <Route path="/themePage/*" component={ThemePage} />
+                        <Route path="/eventDetailPage/:apitype/:contentid/:contenttypeid" component={EventDetailPage} />
+                        <Route path="/areaPage/:areaId" component={AreaPage} />
+                        <Route path="/hotPlacePage/:hareaId" component={HotPlacePage} />
+                        <Route path="/themePage/:themeItem?" component={ThemePage} />
                         <Route path="/noticePage" component={FNoticePage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
-                        <Route path="/freeAndPaidPage/*" component={FreeAndPaidPage} />
+                        <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
 
 
                     </Switch>

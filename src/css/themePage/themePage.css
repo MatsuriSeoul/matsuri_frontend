@@ -71,11 +71,11 @@
 .themepage .banner .themepage-swiper .swiper-slide .theme-img{
     width: 100%;
     height: 100%;
-    background-color: #5e528a;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     border-radius: 210px 210px 0px 0px;
+    position: relative;
 }
 .themepage .banner .themepage-swiper .swiper-slide.swiper-slide-active .theme-img{
     height: 440px;
@@ -85,7 +85,21 @@
 }
 .themepage .banner .themepage-swiper .swiper-slide .theme-img .in-txt{
     margin-bottom: 20px;
-
+    color: #ffffff;
+    z-index: 2;
+}
+.themepage .banner .themepage-swiper .swiper-slide .theme-img::before{
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 210px 210px 0px 0px;
+    z-index: 1;
+    background: linear-gradient( rgba(0,0,0,0) 75%, rgba(0,0,0,1));
+}
+.themepage .banner .themepage-swiper .swiper-slide.swiper-slide-active .theme-img::before{
+    content: none;
 }
 .themepage .banner .themepage-swiper .swiper-slide .out-txt{
     margin-top: 26px;
@@ -224,7 +238,6 @@
 .tp-article .container .box .img{
     width: 100%;
     height: 210px;
-    background-color: #5e528a;
 }
 .tp-article .container .box .txt{
     padding: 14px 20px 14px 10px;
@@ -233,6 +246,10 @@
     font-size: 17px;
     font-weight: 600;
     color: #222222;
+    display: -webkit-box; /* Flexbox를 사용 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    -webkit-line-clamp: 1; /* 6줄까지만 표시 */
 }
 .tp-article .container .box .txt .info{
     margin-top: 4px;
@@ -247,7 +264,11 @@
     overflow: hidden;     
     line-height: 20px;       
     text-overflow: ellipsis;                
-    max-height: 3em;    
+    max-height: 3em;
+    display: -webkit-box; /* Flexbox를 사용 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 정렬 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    -webkit-line-clamp: 2; /* 6줄까지만 표시 */
 }
 .tp-article .container .box .link-btn{
     width: 26px;

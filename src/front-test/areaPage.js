@@ -6,6 +6,7 @@ import Header from "./layout/header";
 import Footer from "./layout/footer";
 
 import React, { useRef, useState, useEffect } from "react";
+import { useParams, Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
@@ -13,6 +14,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 const AreaPage = () =>{
+    const { areaId } = useParams();
 
     const Area = [
         {name: "서울"},
@@ -39,7 +41,7 @@ const AreaPage = () =>{
             <Header></Header>
             <sction className="areaPage-banner">
                 <h1 className="title">
-                    서울, 경기 지역 정보<br/>
+                    {areaId} 지역 정보<br/>
                     <b>어디까지 알고있니?</b>
                 </h1>
                 <Swiper
@@ -54,12 +56,14 @@ const AreaPage = () =>{
                 >
                     {Area.map((item, index) => (
                         <SwiperSlide >
-                            <div className="area-img" src="/img/areaPage/icon_area.png"
-                            style={{
-                                background: 'url(/img/areaPage/icon_area.png) 0 0 / 100% auto no-repeat',
-                                backgroundPosition: `0 ${index * -70}px`}}
-                            ></div>
-                            <p className="area-name">{item.name}</p>
+                            <Link to={`/areaPage/${item.name}`}>
+                                <div className={`area-img ${item.name === areaId ? 'active' : ''}`} src="/img/areaPage/icon_area.png"
+                                style={{
+                                    background: 'url(/img/areaPage/icon_area.png) 0 0 / 100% auto no-repeat',
+                                    backgroundPosition: `0 ${index * -70}px`}}
+                                ></div>
+                                <p className={`area-name ${item.name === areaId ? 'active' : ''}`}>{item.name}</p>
+                            </Link>
                         </SwiperSlide>
                     ))}
                 </Swiper>

@@ -2,21 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 // import LikeButton from "../../LikeButton";
-// import KaKaoMap from '../../KaKaoMap';
+import KaKaoMap from "../../KakaoMap";
 
 import "swiper/css";
 import "swiper/css/navigation";
-
-const SlideTest = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-];
+import KakaoMap from "../../KakaoMap";
 
 
 const CommentTest = [
@@ -74,14 +66,41 @@ const Article = () => {
   const { apitype, contentid, contenttypeid } = useParams();
   const [detail, setDetail] = useState(null);
   const [intro, setIntro] = useState(null);
-  const [firstImage, setFirstImage] = useState(null);
+  // const [firstImage, setFirstImage] = useState(null);
   const [images, setImages] = useState([]);
+  const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
 
   useEffect(() => {
-    // 행사 상세 정보 API 불러오기 (로컬 DB에서)
+
+    window.scrollTo({
+      top: 0,
+      // behavior: 'smooth' // 부드러운 스크롤 효과
+    });
+
+    const fetchSeoulEventDetail = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/events/seoul-events/${contentid}`);
+        console.log(response.data);  // 서버 응답을 콘솔에 출력
+        setDetail(response.data);
+      } catch (error) {
+        console.error('서울 이벤트 상세 정보 가져오기 실패: ' + error);
+      }
+    };
+
+    const fetchGyeonggiEventDetail = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/events/gyeonggi-events/${contentid}`);
+        console.log(response.data);  // 서버 응답을 콘솔에 출력
+        setDetail(response.data);
+      } catch (error) {
+        console.error('경기 이벤트 상세 정보 가져오기 실패: ' + error);
+      }
+    };
+
+    // 상세 정보 API 불러오기 (로컬 DB에서)
     const fetchDetail = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/events/${contentid}/detail`);
+        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contentid}/detail`);
         setDetail(response.data);
       } catch (error) {
         console.error('상세 정보 불러오기 실패', error);
@@ -91,7 +110,7 @@ const Article = () => {
     // 소개 정보 API 불러오기 (외부 API에서)
     const fetchIntro = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/events/${contentid}/${contenttypeid}/intro`);
+        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contentid}/${contenttypeid}/intro`);
         setIntro(response.data);
       } catch (error) {
         console.error('소개 정보 불러오기 실패', error);
@@ -99,49 +118,51 @@ const Article = () => {
     };
 
     // 첫 번째 이미지를 가져오기 위한 fetchAndSaveEvents 호출
-    const fetchFirstImage = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/events/fetchAndSaveEvents`, {
-          params: {
-            numOfRows: '1',
-            pageNo: '1',
-            eventStartDate: '20240101'
-          }
-        });
-        if (response.data.length > 0) {
-          const event = response.data.find(event => event.contentid === contentid);
-          if (event) {
-            setFirstImage(event.firstimage);
-          }
-        }
-      } catch (error) {
-        console.error('첫 번째 이미지 가져오기 실패', error);
-      }
-    };
+    // const fetchFirstImage = async () => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:8080/api/events/fetchAndSaveEvents`, {
+    //       params: {
+    //         numOfRows: '1',
+    //         pageNo: '1',
+    //         eventStartDate: '20240101'
+    //       }
+    //     });
+    //     if (response.data.length > 0) {
+    //       const event = response.data.find(event => event.contentid === contentid);
+    //       if (event) {
+    //         setFirstImage(event.firstimage);
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error('첫 번째 이미지 가져오기 실패', error);
+    //   }
+    // };
 
     // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
     const fetchImages = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/events/${contentid}/images`);
+        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contentid}/images`);
         setImages(response.data);
       } catch (error) {
         console.error('이미지 정보 불러오기 실패', error);
       }
     };
-    // if(apitype === 'tourapi'){
-    //   fetchDetail();
-    //   fetchIntro();
-    //   fetchFirstImage();
-    //   fetchImages();
-    // }else if(apitype === 'seoulapi'){
-    //
-    // }else if(apitype === 'gyeonggiapi'){
-    //
-    // }
+
+    // 유사한 여행지 정보 가져오기
+    const fetchSimilarEvents = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contenttypeid}/similar-events`);
+        setSimilarEvents(response.data.slice(0, 6));  // 최대 4개의 유사한 이벤트만 가져옴
+      } catch (error) {
+        console.error('유사한 여행지 불러오기 실패', error);
+      }
+    };
+
     fetchDetail();
     fetchIntro();
-    fetchFirstImage();
+    // fetchFirstImage();
     fetchImages();
+    fetchSimilarEvents();
 
   }, [contentid, contenttypeid]);
 
@@ -173,53 +194,69 @@ const Article = () => {
 
   const handleSubCommentClick = (commentId) => {
     setActiveCommentIds((prevIds) =>
-      prevIds.includes(commentId)
-        ? prevIds.filter((id) => id !== commentId)
-        : [...prevIds, commentId]
+        prevIds.includes(commentId)
+            ? prevIds.filter((id) => id !== commentId)
+            : [...prevIds, commentId]
     );
   };
 
   useEffect(() => {
-
     const handleScroll = () => {
       if (window.scrollY > 300) {
         setIsFixed(true);
         if (window.scrollY >= 2250) {
           setActiveTab('tab4');
-        }else if (window.scrollY >= 1550) {
+        } else if (window.scrollY >= 1550) {
           setActiveTab('tab3');
-        }else if (window.scrollY >= 900) {
+        } else if (window.scrollY >= 900) {
           setActiveTab('tab2');
         }
-      }else {
+      } else {
         setIsFixed(false);
         setActiveTab('tab1');
       }
       console.log(activeTab);
     };
 
-    handleScroll();
-
+    handleScroll(); // 초기 스크롤 위치 체크
     window.addEventListener('scroll', handleScroll);
 
-    const swiperInstance = swiperRef.current?.swiper;
-    if (!swiperInstance) return;
-
-    const updateProgress = () => {
-      const { realIndex } = swiperInstance;
-      setCurrentSlide(realIndex + 1);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
     };
+  }, []);
 
-    swiperInstance.on("slideChange", updateProgress);
-    updateProgress();
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const swiperInstance = swiperRef.current?.swiper;
+      console.log('Swiper Instance:', swiperInstance); // Swiper 인스턴스 로그
+
+      if (swiperInstance) {
+        const updateProgress = () => {
+          const { realIndex } = swiperInstance;
+          setCurrentSlide(realIndex + 1);
+        };
+
+        swiperInstance.on("slideChange", updateProgress);
+        updateProgress();
+
+        // 컴포넌트 언마운트 시 이벤트 리스너 해제
+        return () => {
+          swiperInstance.off("slideChange", updateProgress);
+        };
+      }
+    }, 0); // 렌더링이 완료된 후에 접근
 
     return () => {
-      swiperInstance.off("slideChange", updateProgress);
+      clearTimeout(timeoutId);
     };
-  }, [swiperRef]);
+  }, [swiperRef, images]);
 
-  const totalSlides = images.length;
+  let totalSlides = 0;
 
+  if(images !== null){
+    totalSlides = images.length;
+  }
   const [likeToglled, setlLikeToggled] = useState(false);
 
   const handleLikeToggle = () => {
@@ -313,7 +350,7 @@ const Article = () => {
             <p>추천행사</p>
           </div>
         </nav>
-        {images.length > 0 ? (
+        {images !== null ? (
             <Swiper
                 ref={swiperRef}
                 slidesPerView={1}
@@ -326,7 +363,14 @@ const Article = () => {
             >
               {images.map((image, index) => (
                   <SwiperSlide key={index}>
-                    <img className='detail-img' src={image.originimgurl} alt={`원본 이미지 ${index + 1}`}/>
+                    <div className='detail-img'
+                         style={{
+                           backgroundImage: `url('${image.originimgurl}')`,
+                           backgroundSize: 'cover',
+                           backgroundPosition: 'center',
+                           backgroundRepeat: 'no-repeat'
+                         }}
+                    ></div>
                   </SwiperSlide>
               ))}
 
@@ -350,7 +394,12 @@ const Article = () => {
           </p>
         </div>
 
-        <div className="map"></div>
+        {/* 지도 표시 부분 */}
+        {detail.mapx && detail.mapy ? (
+            <KakaoMap mapX={detail.mapx} mapY={detail.mapy} title={detail.title}/>
+        ) : (
+            <div></div>
+        )}
 
         <ul className="info-list">
           <li>
@@ -377,27 +426,35 @@ const Article = () => {
           <li>
             <p className="propertyName">
               <div className="bullet"></div>
-              행사 종료일
+              행사 장소
             </p>
-            <p className="propertyValue">{intro.eventenddate.slice(0, 4) +
-                '.' + intro.eventenddate.slice(4, 6) + '.' +
-                intro.eventenddate.slice(6) || '-'}</p>
+            <p className="propertyValue">{intro.eventplace || '-'}</p>
           </li>
           <li>
             <p className="propertyName">
               <div className="bullet"></div>
               행사 시작일
             </p>
-            <p className="propertyValue">{intro.eventstartdate.slice(0, 4) +
-                '.' + intro.eventstartdate.slice(4, 6) + '.' +
-                intro.eventstartdate.slice(6) || '-'}</p>
+            {intro.eventstartdate ? (
+              <p className="propertyValue">{intro.eventstartdate.slice(0, 4)}.
+                {intro.eventstartdate.slice(4, 6)}.
+                {intro.eventstartdate.slice(6)}</p>
+            ) : (
+              <p className="propertyValue">-</p>
+            )}
           </li>
           <li>
-            <p className="propertyName">
+              <p className="propertyName">
               <div className="bullet"></div>
-              행사 장소
-            </p>
-            <p className="propertyValue">{intro.eventplace || '-'}</p>
+              행사 종료일
+              </p>
+              {intro.eventenddate ? (
+                  <p className="propertyValue">{intro.eventenddate.slice(0, 4)}.
+                    {intro.eventenddate.slice(4, 6)}.
+                    {intro.eventenddate.slice(6)}</p>
+              ) : (
+                  <p className="propertyValue">-</p>
+              )}
           </li>
           <li>
             <p className="propertyName">
@@ -454,7 +511,7 @@ const Article = () => {
             <p className="comment-count">1</p>
           </div>
           <form className="comment-write">
-            <textarea></textarea>
+          <textarea></textarea>
             <div className="btn">
               {/* <button className="img-update"></button> */}
               <input type="submit" value="작성"/>
@@ -572,44 +629,23 @@ const Article = () => {
             <img className="icon" src="/img/emoji/emoji1.png"></img>
           </div>
           <div className="recommend-list">
-            <div className="recommend-img">
-              <div className="like-btn" onClick={handleLikeToggle}>
-                <img
-                    src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"}
-                ></img>
-              </div>
-              <h3 className="img-title">초담추어탕</h3>
-            </div>
-            <div className="recommend-img">
-              <div className="like-btn" onClick={handleLikeToggle}>
-                <img src="/img/icon/heart.svg"></img>
-              </div>
-              <h3 className="img-title">초담추어탕</h3>
-            </div>
-            <div className="recommend-img">
-              <div className="like-btn" onClick={handleLikeToggle}>
-                <img src="/img/icon/heart.svg"></img>
-              </div>
-              <h3 className="img-title">초담추어탕</h3>
-            </div>
-            <div className="recommend-img">
-              <div className="like-btn" onClick={handleLikeToggle}>
-                <img src="/img/icon/heart.svg"></img>
-              </div>
-              <h3 className="img-title">초담추어탕</h3>
-            </div>
-            <div className="recommend-img">
-              <div className="like-btn" onClick={handleLikeToggle}>
-                <img src="/img/icon/heart.svg"></img>
-              </div>
-              <h3 className="img-title">초담추어탕</h3>
-            </div>
-            <div className="recommend-img">
-              <div className="like-btn" onClick={handleLikeToggle}>
-                <img src="/img/icon/heart.svg"></img>
-              </div>
-              <h3 className="img-title">초담추어탕</h3>
-            </div>
+            {similarEvents.slice(0, 6).map((event, index) => (
+                <Link to={`/eventDetailPage/tourapi/${event.contentid}/${event.contenttypeid}`}>
+                  <div className='recommend-img' key={index}
+                       style={{
+                         backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1]})`, // 이미지 URL을 url()로 감싸야 합니다.
+                         backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
+                         backgroundPosition: 'center', // 이미지를 중앙에 위치
+                       }}>
+                    <div className="like-btn" onClick={handleLikeToggle}>
+                      <img
+                          src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"}
+                      ></img>
+                    </div>
+                    <h3 className="img-title">{event.title || event[0]}</h3>
+                  </div>
+                </Link>
+            ))}
           </div>
         </div>
       </article>
