@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import LikeButton from "./LikeButton";
 import KakaoMap from './KakaoMap';
 import ReviewComponent from "./ReviewComponent";
+import CommentEventList from "./CommentEventList";
 
 const SeoulEventDetail = () => {
     const { svcid } = useParams(); // URL에서 svcid 가져오기
@@ -76,6 +77,11 @@ const SeoulEventDetail = () => {
 
             {/*네이버 블로그 리뷰 */}
             <ReviewComponent query={eventDetail.svcnm} />
+
+            <div>
+                {/* 서울 이벤트 여행톡 */}
+                <CommentEventList category="seoul-events" svcid={svcid} />
+            </div>
         </div>
     );
 };

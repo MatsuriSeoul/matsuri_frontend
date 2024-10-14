@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const CreateComment = ({ category, noticeId, contentid, refreshComments }) => {
+const CreateComment = ({ category, noticeId, contentid, svcid, refreshComments }) => {
     const [content, setContent] = useState('');
     const [user, setUser] = useState(null);
     const [images, setImages] = useState([]); //이미지 선택
@@ -69,6 +69,10 @@ const CreateComment = ({ category, noticeId, contentid, refreshComments }) => {
         if (noticeId) formData.append('noticeId', noticeId);
         if (contentid) formData.append('contentid', contentid);
         if (category) formData.append('category', category);
+        if (svcid) formData.append('svcid', svcid);
+        if (category === 'gyeonggi-events' && contentid) {
+                formData.append('gyeonggiEventId', contentid);
+            }
         images.forEach((image) => {
             formData.append('images', image); // `images` 배열로 다중 이미지 추가
         });
@@ -103,7 +107,7 @@ const CreateComment = ({ category, noticeId, contentid, refreshComments }) => {
                 <label>내용 :</label>
                 <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="댓글을 입력하세요."/>
             </div>
-            {contentid && (
+            {!noticeId && (
             <div>
                 <label>이미지 첨부:</label>
                 <input type="file" multiple onChange={handleImageChange} accept="image/*" />

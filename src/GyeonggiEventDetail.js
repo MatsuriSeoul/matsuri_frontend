@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
 import ReviewComponent from "./ReviewComponent";
+import CommentEventList from "./CommentEventList";
 
 const GyeonggiEventDetail = () => {
     const { id } = useParams(); // URL에서 이벤트 id 가져오기
@@ -111,6 +112,11 @@ const GyeonggiEventDetail = () => {
             <p><strong>홈페이지:</strong> <a href={eventDetail.hmpgUrl || '#'}>{isValidField(eventDetail.hmpgUrl)}</a></p>
             {/*네이버 블로그 리뷰 */}
             <ReviewComponent query={eventDetail.title} />
+
+            {/* 경기도 이벤트 여행톡 */}
+            <div>
+                <CommentEventList category="gyeonggi-events" contentid={id} />
+            </div>
         </div>
     );
 };

@@ -4,7 +4,7 @@ import CreateComment from './CreateComment';
 import CommentLikeButton from './CommentLikeButton';
 import { useParams } from 'react-router-dom';
 
-const CommentEventList = ({ category, contentid, contenttypeid }) => {
+const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
     const [comments, setComments] = useState([]);
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedContent, setEditedContent] = useState("");
@@ -12,13 +12,22 @@ const CommentEventList = ({ category, contentid, contenttypeid }) => {
     const token = localStorage.getItem('token');
 
     const fetchComments = async () => {
-        try {
-            const response = await axios.get(`/api/comment/${category}/${contentid}/${contenttypeid}/detail`);
-            setComments(response.data);
-        } catch (error) {
-            console.error('댓글을 불러오는 데 실패했습니다.', error);
-        }
-    };
+            try {
+                let response;
+                if (category === 'seoul-events') {
+                    response = await axios.get(`/api/comment/seoul-events/${svcid}/detail`);
+
+                } else if (category === 'gyeonggi-events') {
+                      response = await axios.get(`/api/comment/gyeonggi-events/${contentid}/detail`);
+
+                } else {
+                    response = await axios.get(`/api/comment/${category}/${contentid}/${contenttypeid}/detail`);
+                }
+                setComments(response.data);
+            } catch (error) {
+                console.error('댓글을 불러오는 데 실패했습니다.', error);
+            }
+        };
 
     const fetchUser = async () => {
         if (!token) return;
@@ -72,7 +81,7 @@ const CommentEventList = ({ category, contentid, contenttypeid }) => {
     useEffect(() => {
         fetchComments();
         fetchUser();
-    }, [contentid, category, token, contenttypeid]);
+    }, [contentid, svcid, category, token, contenttypeid]);
 
     return (
         <div>
@@ -161,7 +170,7 @@ const CommentEventList = ({ category, contentid, contenttypeid }) => {
                 ))
             )}
 
-            <CreateComment category={category} contentid={contentid} refreshComments={fetchComments} />
+            <CreateComment category={category} contentid={contentid} svcid={svcid} refreshComments={fetchComments} />
         </div>
     );
 
