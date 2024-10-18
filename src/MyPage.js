@@ -154,6 +154,17 @@ function MyPage() {
         history.push(route);
     };
 
+        // 댓글 작성된 페이지로 이동
+        const navigateToCommentPage = (comment) => {
+            handleNavigate({
+                contentid: comment.contentid || '',
+                contenttypeid: comment.contenttypeid || '',  // 없을 경우 빈 문자열로 설정
+                svcid: comment.svcid,
+                id: comment.gyeonggiEvent?.id || comment.contentid  // 경기도 이벤트 또는 contentid
+            });
+        };
+
+
     useEffect(() => {
         if (!token) {
             alert('로그인이 필요한 기능입니다.');
@@ -556,7 +567,7 @@ function MyPage() {
                     <h2>내가 좋아요한 댓글</h2>
                     {likedComments.length > 0 ? (
                         likedComments.map((comment) => (
-                            <div key={comment.id}>
+                            <div key={comment.id} onClick={() => navigateToCommentPage(comment)} style={{cursor: 'pointer'}}>
                                 <p>내용: {comment.content}</p>
                                 <p>작성자: {comment.maskedAuthor}</p>
                             </div>
@@ -565,6 +576,25 @@ function MyPage() {
                         <p>좋아요한 댓글이 없습니다.</p>
                     )}
                 </div>
+                {/* 작성한 댓글 목록 */}
+                <div className="authored-comments-section">
+                            <h2>내가 작성한 여행톡</h2>
+                            {authoredComments.length > 0 ? (
+                                authoredComments.map((comment) => (
+                                    <div
+                                        key={comment.id}
+                                        className="authored-comment-item"
+                                        onClick={() => navigateToCommentPage(comment)} // 클릭 시 해당 페이지로 이동
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <p>내용: {comment.content}</p>
+                                        <p>작성일: {new Date(comment.createdAt).toLocaleDateString()}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>작성한 댓글이 없습니다.</p>
+                            )}
+                        </div>
             </div>
             {message && <p>{message}</p>}
         </div>

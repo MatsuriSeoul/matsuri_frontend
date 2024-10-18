@@ -79,12 +79,6 @@ function App() {
     const openPasswordRecoveryModal = () => setPasswordRecoveryOpen(true);
     const closePasswordRecoveryModal = () => setPasswordRecoveryOpen(false);
 
-    useEffect(() => {
-        // 서버 실행시 초기화
-        localStorage.removeItem('token');
-        localStorage.removeItem('userNick');
-        localStorage.removeItem('userId');
-    }, []);
 
     return (
         <Router>
