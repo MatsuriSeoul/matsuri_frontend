@@ -9,6 +9,8 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedContent, setEditedContent] = useState("");
     const [user, setUser] = useState(null);
+    const [newImages, setNewImages] = useState([]); // 새로운 이미지 추가
+    const [imagePreviews, setImagePreviews] = useState([]); // 이미지 미리보기
     const token = localStorage.getItem('token');
 
     const fetchComments = async () => {
@@ -43,6 +45,28 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
         }
     };
 
+    // 이미지 파일 선택 핸들러
+        const handleImageChange = (event) => {
+            const files = Array.from(event.target.files);
+            setNewImages(files);
+            const imagePreviewUrls = files.map((file) => URL.createObjectURL(file));
+            setImagePreviews(imagePreviewUrls);
+        };
+
+        // 이미지 삭제 핸들러
+        const handleRemoveImage = async (imageId) => {
+            try {
+                await axios.delete(`/api/comment/image/${imageId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+                fetchComments(); // 이미지 삭제 후 댓글 목록 갱신
+            } catch (error) {
+                console.error('이미지 삭제 실패:', error);
+            }
+        };
+
     const handleDeleteComment = async (commentId) => {
         try {
             await axios.delete(`/api/comment/${commentId}`, {
@@ -63,16 +87,26 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
 
     const handleUpdateComment = async (commentId) => {
         try {
-            await axios.put(`/api/comment/${commentId}`, { content: editedContent }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            const formData = new FormData();
+            formData.append('content', editedContent);
+
+            // 새로운 이미지가 있는 경우 추가
+            newImages.forEach((image) => {
+                formData.append('newImages', image);
             });
-            setComments(comments.map(comment =>
-                comment.id === commentId ? { ...comment, content: editedContent } : comment
-            ));
+
+            await axios.put(`/api/comment/${commentId}`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            fetchComments(); // 수정 후 댓글 목록 갱신
             setEditingCommentId(null);
-            setEditedContent("");
+            setEditedContent('');
+            setNewImages([]);
+            setImagePreviews([]);
         } catch (error) {
             console.error('댓글 수정 실패', error);
         }
@@ -119,27 +153,57 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
                                         value={editedContent}
                                         onChange={(e) => setEditedContent(e.target.value)}
                                     />
-                                    <button onClick={() => handleUpdateComment(comment.id)}>수정 완료</button>
+
+                                    {/* 기존 이미지 및 삭제 버튼 */}
+                                    {comment.images && comment.images.length > 0 && (
+                                        <div>
+                                            {comment.images.map((image, index) => (
+                                                <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <img src={image.imagePath} alt="Comment Image" style={{ width: '100px', height: '100px', marginRight: '10px' }} />
+                                                    <button type="button" onClick={() => handleRemoveImage(image.id)}>삭제</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* 새로운 이미지 업로드 */}
+                                    <input type="file" multiple onChange={handleImageChange} accept="image/*" />
+
+                                    {/* 이미지 미리보기 */}
+                                    {imagePreviews.length > 0 && (
+                                        <div>
+                                            {imagePreviews.map((preview, index) => (
+                                                <img key={index} src={preview} alt={`Preview ${index}`} style={{ width: '100px', height: '100px', marginRight: '10px' }} />
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    <button onClick={() => {
+                                        if (window.confirm("댓글 수정이 완료되었습니다")) {
+                                           handleUpdateComment(comment.id);
+                                        }
+                                    }}>수정 완료</button>
+
                                     <button onClick={() => setEditingCommentId(null)}>취소</button>
                                 </div>
                             ) : (
                                 <div>
                                     <p>{comment.content}</p>
+                                    <div>
+                                        {comment.images && Array.isArray(comment.images) && comment.images.length > 0 && (
+                                            <div>
+                                                {comment.images.map((image, index) => (
+                                                    <img
+                                                        key={index}
+                                                        src={image.imagePath}
+                                                        alt={`Comment Image ${index}`}
+                                                        style={{ width: '100px', height: '100px', margin: '10px' }}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                     <CommentLikeButton commentId={comment.id} />
-                                </div>
-                            )}
-
-                            {/* 댓글에 이미지가 있을 경우 표시 */}
-                            {comment.images && Array.isArray(comment.images) && comment.images.length > 0 && (
-                                <div>
-                                    {comment.images.map((image, index) => (
-                                        <img
-                                            key={index}
-                                            src={image.imagePath}
-                                            alt={`Comment Image ${index}`}
-                                            style={{ width: '100px', height: '100px', margin: '10px' }}
-                                        />
-                                    ))}
                                 </div>
                             )}
 
