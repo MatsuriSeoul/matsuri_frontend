@@ -1,50 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const OpenAIChat = () => {
     const [chatHistory, setChatHistory] = useState([]);
     const [region, setRegion] = useState('');  // 지역 상태
     const [category, setCategory] = useState('');  // 카테고리 상태
-    const [loading, setLoading] = useState(false);  // 데이터 로딩 상태
 
-    // 페이지 처음 방문 시 AI의 첫 메시지를 랜덤하게 설정하는 함수
-    const getRandomGreeting = () => {
-        const greetings = [
-            '안녕하세요! 무엇을 도와드릴까요?',
-            '환영합니다! 어떤 정보를 찾고 계신가요?',
-            '안녕하세요! 지역과 카테고리를 선택해서 필요한 정보를 찾아보세요.',
-            '안녕하세요! 여행지를 찾고 계신가요? 아래에서 선택해 주세요.'
-        ];
-        return greetings[Math.floor(Math.random() * greetings.length)];
-    };
-
-    // 페이지 첫 로드 시 AI 메시지를 전송
-    useEffect(() => {
-        setChatHistory((prevHistory) => [
-            ...prevHistory,
-            { sender: 'ai', message: getRandomGreeting() }
-        ]);
-    }, []);
-
+    // 폼 제출 시 데이터 처리 및 AI API 호출
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (region.trim() === "" || category.trim() === "") {
             return;
         }
 
-        // 사용자 입력 메시지 추가
+        console.log('선택된 지역:', region);
+        console.log('선택된 카테고리:', category);
+
+        // 사용자 메시지를 추가
         setChatHistory((prevHistory) => [
             ...prevHistory,
             { sender: 'user', message: `${region}의 ${category} 정보를 알려주세요!` }
-        ]);
-
-        // 로딩 상태 활성화
-        setLoading(true);
-
-        // 검색 중 메시지 추가
-        setChatHistory((prevHistory) => [
-            ...prevHistory,
-            { sender: 'ai', message: `${region}에 대한 ${category} 정보를 찾는 중이에요! 잠시만 기다려주세요.` }
         ]);
 
         try {
@@ -52,19 +27,18 @@ const OpenAIChat = () => {
 
             console.log('AI Response:', result.data);
 
-            // titles가 유효한지 체크
-            const titles = result.data && result.data.titles ? result.data.titles : [];
+            const titles = result.data.titles; // AI 응답에서 titles 추출
 
-            if (titles.length === 0) {
+            // AI의 응답을 추가
+            if (titles && titles.length > 0) {
+                setChatHistory((prevHistory) => [
+                    ...prevHistory,
+                    { sender: 'ai', message: formatResponse(titles) }
+                ]);
+            } else {
                 setChatHistory((prevHistory) => [
                     ...prevHistory,
                     { sender: 'ai', message: `해당 지역(${region})과 카테고리(${category})에 대한 정보를 찾을 수 없습니다.` }
-                ]);
-            } else {
-                // AI 추천 문구 생성
-                setChatHistory((prevHistory) => [
-                    ...prevHistory,
-                    { sender: 'ai', message: formatResponse(titles) } // 결과 데이터 사용
                 ]);
             }
         } catch (error) {
@@ -73,24 +47,17 @@ const OpenAIChat = () => {
                 ...prevHistory,
                 { sender: 'ai', message: '오류가 발생했습니다. 다시 시도해주세요.' }
             ]);
-        } finally {
-            setLoading(false); // 로딩 상태 비활성화
         }
     };
 
-    // 텍스트 내 이미지 URL을 <img> 태그로 변환하고 "제목", "추천 문구", "이미지" 형식으로 표시
+    // 텍스트 내 이미지 URL을 <img> 태그로 변환하고 상위 2개의 행사만 표시
     const formatResponse = (titles) => {
-        if (!titles || titles.length === 0) {
-            return <p>검색 결과가 없습니다.</p>; // 검색 결과가 없을 때 처리
-        }
+        let eventCount = 0; // 상위 두 개의 행사를 카운팅하기 위한 변수
 
-        return titles.map((item, index) => (
+        return titles.slice(0, 2).map((title, index) => (
             <div key={index} style={styles.aiMessage}>
-                <p>제목: {item.title}</p>
-                <p>자동 생성 추천 문구: {generateRecommendation(item.title)}</p>
-                {item.firstimage && (
-                    <img src={item.firstimage} alt={item.title} style={styles.image} />
-                )} {/* 이미지가 있을 때만 표시 */}
+                <p>제목: {title}</p>
+                <p>자동 생성 추천 문구: {generateRecommendation(title)}</p>
             </div>
         ));
     };
@@ -143,15 +110,15 @@ const OpenAIChat = () => {
                 </div>
                 <button type="submit" style={styles.sendButton}>검색</button>
             </form>
-            {loading && <p>{region}에 대한 {category}를 찾는 중이에요!</p>} {/* 로딩중 텍스트 표시 */}
         </div>
     );
 };
 
+// 스타일 정의
 const styles = {
     chatContainer: {
-        maxWidth: '1000px', // 폼 크기 확대
-        maxHeight: '800px',
+        maxWidth: '800px',
+        maxHeight: '600px',
         margin: '0 auto',
         padding: '20px',
         fontFamily: 'Arial, sans-serif',
@@ -159,7 +126,7 @@ const styles = {
     chatBox: {
         border: '1px solid #ccc',
         padding: '10px',
-        height: '500px',  // 더 큰 채팅 박스 높이
+        height: '300px',
         overflowY: 'scroll',
         backgroundColor: '#f9f9f9',
     },
@@ -206,11 +173,6 @@ const styles = {
         cursor: 'pointer',
         marginLeft: '10px',
     },
-    image: {
-        maxWidth: '70%',  // 이미지 크기를 70%로 줄임
-        height: 'auto',
-        margin: '10px 0',
-    }
 };
 
 export default OpenAIChat;
