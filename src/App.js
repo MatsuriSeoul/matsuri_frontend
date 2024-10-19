@@ -65,6 +65,7 @@ import FreeAndPaidPage from './front-test/eventInfo/freeAndPaidPage';
 import "./css/reset.css";
 import noticePage from "./front-test/noticePage";
 import openAITest from "./OpenAITest";
+import EventItem from "./EventItem";
 
 
 function App() {
@@ -167,7 +168,9 @@ function App() {
 
                         <Route path="/:category/events/:contentid/:contenttypeid/detail" component={EventDetail} />
 
+                        {/*AI*/}
                         <Route path="/api/openai/prompt" component={openAITest}/>
+                        <Route path="/api/clicks/log" component={EventItem}/>
 
                     </Switch>
                     <LoginForm
