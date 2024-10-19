@@ -6,15 +6,16 @@ import {Link, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import LikeButton from "./LikeButton";
 import CommentEventList from './CommentEventList';
-import CreateComment from './CreateComment';
-import KakaoMap from "./KakaoMap";
 import ReviewComponent from "./ReviewComponent";
+import {useAuth} from "./AuthContext";
+import KakaoMap from "./KakaoMap";
 
 const LocalEventDetail = () => {
     const { contentid, contenttypeid } = useParams();
     const [detail, setDetail] = useState(null);
     const [intro, setIntro] = useState(null);
     const [images, setImages] = useState([]);
+    const { auth } = useAuth();
     const [thumnail, setThumnail] = useState(null);
     const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
     const location = useLocation();
@@ -22,7 +23,39 @@ const LocalEventDetail = () => {
     // URL에서 category 추출
     const category = location.pathname.split('/')[1];
 
+    // 클릭 로그 저장 로직 추가
+    const logClick = async (contentId, contentTypeId) => {
+        if (!auth || !auth.token) {
+            console.error('로그인되지 않았습니다.');
+            return;
+        }
+
+        try {
+            const clickData = {
+                contentid: contentId,
+                category: contentTypeId,
+            };
+
+            // 클릭 로그를 서버에 저장하는 API 호출
+            const response = await axios.post('http://localhost:8080/api/clicks/log', clickData, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            console.log('로그 저장 성공:', response.data);
+        } catch (error) {
+            console.error('로그 저장 중 오류:', error);
+        }
+    };
+
+
     useEffect(() => {
+
+        // 페이지에 접근할 때 클릭 로그를 저장
+        logClick(contentid, contenttypeid);  // 로그 저장 로직 실행
+
         // 숙박 상세 정보 API 불러오기 (로컬 DB에서)
         const fetchDetail = async () => {
             try {
