@@ -61,6 +61,9 @@ function MainNavigation() {
                             </li>
 
                             <li>
+                                <Link to="/api/clicks/personalized">사용자기반추천</Link>
+                            </li>
+                            <li>
                                 <LogoutButton/>
                             </li>
                         </>

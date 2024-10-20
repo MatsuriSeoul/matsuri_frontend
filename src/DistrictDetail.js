@@ -8,7 +8,6 @@ import LikeButton from "./LikeButton";
 import KakaoMap from "./KakaoMap";
 import ReviewComponent from "./ReviewComponent";
 import CommentEventList from './CommentEventList';
-import CreateComment from './CreateComment';
 
 const DistrictDetail = () => {
     const { contentid, contenttypeid } = useParams();

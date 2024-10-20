@@ -66,6 +66,7 @@ import "./css/reset.css";
 import noticePage from "./front-test/noticePage";
 import openAITest from "./OpenAITest";
 import EventItem from "./EventItem";
+import UserRecommendations from "./UserRecommendations";
 
 
 function App() {
@@ -118,16 +119,13 @@ function App() {
                         <Route path="/category/:category" component={Category}/>
                         <Route path="/category" component={Category}/>
 
-                        <Route path="/tourist-attraction/:contentid/:contenttypeid/detail"
-                               component={TouristAttractionDetail}/>
-                        <Route path="/cultural-facilities/:contentid/:contenttypeid/detail"
-                               component={CulturalFacilityDetail}/>
+                        <Route path="/tourist-attractions/:contentid/:contenttypeid/detail" component={TouristAttractionDetail}/>
+                        <Route path="/cultural-facilities/:contentid/:contenttypeid/detail" component={CulturalFacilityDetail}/>
                         <Route path="/events/:contentid/:contenttypeid/detail" component={EventDetail}/>
                         <Route path="/travel-courses/:contentid/:contenttypeid/detail" component={TravelCourseDetail}/>
                         <Route path="/leisure-sports/:contentid/:contenttypeid/detail" component={LeisureSportsDetail}/>
                         <Route path="/local-events/:contentid/:contenttypeid/detail" component={LocalEventDetail}/>
-                        <Route exact path="/shopping-events/:contentid/:contenttypeid/detail"
-                               component={ShoppingEventDetail}/>
+                        <Route exact path="/shopping-events/:contentid/:contenttypeid/detail" component={ShoppingEventDetail}/>
                         <Route path="/food-events/:contentid/:contenttypeid/detail" component={FoodEventDetail}/>
                         <Route path="/seoul-events/:svcid/detail" component={SeoulEventDetail}/>
                         <Route path="/gyeonggi-events/:id/detail" component={GyeonggiEventDetail}/>
@@ -171,6 +169,10 @@ function App() {
                         {/*AI*/}
                         <Route path="/api/openai/prompt" component={openAITest}/>
                         <Route path="/api/clicks/log" component={EventItem}/>
+                        <Route path="/api/clicks/personalized" component={UserRecommendations}/>
+                        <Route path="/api/clicks/personalized/recommendation" component={UserRecommendations}/>
+                        <Route path="/api/clicks/category-data" component={UserRecommendations}/>
+
 
                     </Switch>
                     <LoginForm
@@ -194,4 +196,3 @@ function App() {
 }
 
 export default App;
-/*jaman*/
