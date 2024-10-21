@@ -27,6 +27,7 @@ const UserRecommendation = () => {
                 }
             });
             // 데이터를 랜덤하게 섞어 화면에 출력
+            console.log(categoryDataResponse.data);  // 서버에서 받은 데이터를 확인
             const shuffledData = categoryDataResponse.data.sort(() => Math.random() - 0.5);
             setCategoryData(shuffledData.slice(0, 4));  // 3~4개 정도만 보여줌
         } catch (error) {
@@ -71,7 +72,11 @@ const UserRecommendation = () => {
     };
 
     const renderCategoryData = (item) => {
-        // contenttypeid에 맞는 링크를 렌더링하는 함수
+        if (!item.contentid || !item.contenttypeid) {
+            console.warn('contentid 또는 contenttypeid가 없습니다:', item);
+            return null;
+        }
+
         return (
             <Link to={getLinkPath(item.contentid, item.contenttypeid)}>
                 <h3>{item.title}</h3>
