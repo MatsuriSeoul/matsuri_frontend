@@ -191,6 +191,11 @@ const SelectSearchPage = () =>{
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!areaselected || !categoryselected) {
+            alert("지역과 카테고리를 모두 선택해 주세요.");
+            return;
+        }
+
         handleSearch(areaselected.value, categoryselected.value);
 
         setDateSelected(null);

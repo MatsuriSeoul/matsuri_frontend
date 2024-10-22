@@ -1,0 +1,162 @@
+.login-container{
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    flex-direction: column;
+}
+.login-container .logo{
+    background: url(C:\sideTest\side\public\img\icon\login-logo.png) no-repeat center;
+    width: 500px;
+    height: 90px;
+}
+.login-container .login-wrapper .topBox{
+    display: flex;
+    border: 1px solid #E1E3E5;
+    border-bottom: 0px;
+    border-radius: 12px;
+    margin-top: 80px;
+    width: 215px;
+    height: 70px;
+}
+.login-container .login-wrapper .topBox .loginIcon{
+    background: url(C:\sideTest\side\public\img\icon\login.png) no-repeat center;
+    background-size: contain;
+    width: 16px;
+    height: 16px;
+    margin-right: 36px;
+    margin-left: 28px;
+    margin-top: 20px;
+}
+.login-container .login-wrapper .topBox .loginText{
+    font-weight: 500;
+    margin-top: 20px;
+}
+.login-container .login-wrapper .bottomBox{
+    border: 1px solid #E1E3E5;
+    border-radius: 12px;
+    width: 620px;
+    height: 270px;
+    margin-top: -12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+}
+.login-container .login-wrapper .bottomBox .InputBox{
+    display: flex;
+    flex-direction: column;
+    width: 570px;
+    height: 120px;
+    overflow: hidden;
+    border: 1px solid #C5CCD2;
+    border-radius: 12px;
+    background-color: #fff;
+    margin-top: 16px;
+}
+.login-container .login-wrapper .bottomBox .InputBox .login-id,
+.login-container .login-wrapper .bottomBox .InputBox .login-pw{
+    width: 100%;
+    height: 60px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    padding-left: 8px;
+    font-size: 18px;
+}
+.login-container .login-wrapper .bottomBox .InputBox .login-id::placeholder,
+.login-container .login-wrapper .bottomBox .InputBox .login-pw::placeholder{
+    font-size: 12px;
+}
+.login-container .login-wrapper .bottomBox .InputBox hr{
+    margin: 0;
+    border: none;
+    border-top: 1px solid #C5CCD2;
+}
+.login-container .login-wrapper .bottomBox .autoLogin{
+    width: 100%;
+    text-align: left;
+    display: flex;
+    margin-left: 48px;
+    margin-top: 12px; 
+}
+.login-container .login-wrapper .bottomBox .autoLogin .autoLoginCheckBtn{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 8px;
+}
+.login-container .login-wrapper .bottomBox .loginBtn{
+    width: 570px;
+    height: 50px;
+    margin-top: 28px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+    background-color: #3E3E3E;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.login-container .helpBtn-wrapper{
+    display: flex;
+    margin-top: 20px;
+    color: #888888;
+    margin-right: 12px;
+}
+.login-container .helpBtn-wrapper .findPw,
+.login-container .helpBtn-wrapper .findId{
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+}
+.login-container .helpBtn-wrapper .findPw::after,
+.login-container .helpBtn-wrapper .findId::after {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 75%;
+    border-right: 2px solid #DADADA;
+    margin-left: 12px;
+}
+.login-container .helpBtn-wrapper .signUp{
+    cursor: pointer;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 800px;
+    max-height: 100vh;
+    position: relative;
+    cursor: default;
+    border-radius: 20px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+}

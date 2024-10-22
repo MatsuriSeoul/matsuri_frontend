@@ -1,0 +1,303 @@
+.userInfoContainer{
+    display: flex;
+}
+
+.userProfileWrapper {
+    position: fixed;
+    margin-top: 200px;
+    margin-left: 300px;
+}
+  
+.userProfileWrapper .userProfileTab{
+    background-color: #4a4a4a;
+    color: white;
+    padding: 20px 60px;
+    font-weight: bold;
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    border-radius: 5px 5px 0 0;
+}
+
+.userProfileWrapper .tailBox{
+    width: 10px;
+    height: 10px;
+    background: url(C:\sideTest\side\public\img\tail.png) no-repeat center;
+    position: absolute;
+    top: 38.5px;
+    left: -10px;
+}
+  
+.userProfileWrapper .userProfileContainer {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    height: 500px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+  
+.userProfileWrapper .profileIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+}
+  
+.userProfileWrapper .profileName {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+  
+.userProfileWrapper .profileEmail {
+    color: #888;
+    font-size: 14px;
+}
+.profileContainer{
+    display: flex;
+    flex-direction: column;
+    margin-top: 200px;
+    margin-left: 800px;
+}
+.profileInfoContainer {
+    width: 800px; 
+    border: 1px solid #121212;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+}
+  
+.profileInfoContainer .headText,
+.myLikeContainer .headText,
+.myRecentContainer .headText{
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+  
+.profileInfoContainer .profileInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+  
+.profileInfoContainer .profileRow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 0; 
+    border-bottom: 1px solid #CECECE; 
+}
+.profileInfoContainer .profileRow:last-child {
+    border-bottom: none;
+}
+.profileInfoContainer .profileIcon.profilePhoto{
+    width: 40px;
+    height: 40px;
+}
+  
+.profileInfoContainer .profileIcon {
+    width: 40px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+  
+.profileInfoContainer .profileDetails {
+    flex-grow: 1;
+    text-align: left;
+}
+.profileInfoContainer .profileText {
+    color: #888;
+    font-size: 14px;
+    text-align: left;
+    flex-grow: 1;
+}
+
+  
+.profileInfoContainer .profileName {
+    font-weight: bold;
+}
+  
+.profileInfoContainer .profileEmail,
+  .profileText {
+    color: #888;
+    font-size: 14px;
+}
+  
+.profileInfoContainer .actionButton {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+}
+  
+.profileInfoContainer .actionButton:hover {
+    background-color: #ddd;
+}
+
+.myLikeContainer{
+    width: 800px;
+    border: 1px solid #121212;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 40px;
+    padding-right: 0;
+}
+
+.myLikeContainer .likeSwiper .slide-content{
+    width: 200px;
+    height: 250px;
+    border-radius: 10px;
+}
+.myLikeContainer .likeSwiper-wrapper{
+    display: flex;
+    position: relative;
+}
+.myLikeContainer .likeSwiper-wrapper .like-button-wrapper{
+    display: flex;
+    position: absolute;
+    top: 210px;
+    left: 8px;
+}
+.myLikeContainer .likeSwiper-wrapper .like-button-prev,
+.myLikeContainer .likeSwiper-wrapper .like-button-next{
+    width: 36px;
+    height: 36px;
+}
+.myLikeContainer .likeSwiper-wrapper .like-button-prev{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonPreviousslide.png) no-repeat center;
+    margin-right: 4px;
+}
+.myLikeContainer .likeSwiper-wrapper .like-button-next{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonNextslide.png) no-repeat center;
+}
+.myLikeContainer .likeSwiper{
+    margin-left: 110px;
+    overflow: hidden;
+    position: relative;
+}
+.myLikeContainer .likeSwiper .slide1{
+    background-color: salmon;
+}
+.myLikeContainer .likeSwiper .slide2{
+    background-color: sandybrown;
+}
+.myLikeContainer .likeSwiper .slide3{
+    background-color: seagreen;
+}
+.myLikeContainer .likeSwiper .slide4{
+    background-color: skyblue;
+}
+.myLikeContainer .likeSwiper .slide5{
+    background-color: seashell;
+}
+.myLikeContainer .likeSwiper .slide6{
+    background-color: sienna;
+}
+.myLikeContainer .likeSwiper-wrapper .like-btn{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: 12px;
+    left: 156px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.myLikeContainer .likeSwiper-wrapper .like-btn img{
+    width: 25px;
+    height: 25px;
+}
+
+.myRecentContainer{
+    width: 800px;
+    border: 1px solid #121212;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 40px;
+    padding-right: 0;
+}
+
+.myRecentContainer .recentSwiper .slide-content{
+    width: 200px;
+    height: 250px;
+    border-radius: 10px;
+}
+.myRecentContainer .recentSwiper-wrapper{
+    display: flex;
+    position: relative;
+}
+.myRecentContainer .recentSwiper-wrapper .recent-button-wrapper{
+    display: flex;
+    position: absolute;
+    top: 210px;
+    left: 8px;
+}
+.myRecentContainer .recentSwiper-wrapper .recent-button-prev,
+.myRecentContainer .recentSwiper-wrapper .recent-button-next{
+    width: 36px;
+    height: 36px;
+}
+.myRecentContainer .recentSwiper-wrapper .recent-button-prev{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonPreviousslide.png) no-repeat center;
+    margin-right: 4px;
+}
+.myRecentContainer .recentSwiper-wrapper .recent-button-next{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonNextslide.png) no-repeat center;
+}
+.myRecentContainer .recentSwiper{
+    margin-left: 110px;
+    overflow: hidden;
+    position: relative;
+}
+.myRecentContainer .recentSwiper .slide1{
+    background-color: salmon;
+}
+.myRecentContainer .recentSwiper .slide2{
+    background-color: sandybrown;
+}
+.myRecentContainer .recentSwiper .slide3{
+    background-color: seagreen;
+}
+.myRecentContainer .recentSwiper .slide4{
+    background-color: skyblue;
+}
+.myRecentContainer .recentSwiper .slide5{
+    background-color: seashell;
+}
+.myRecentContainer .recentSwiper .slide6{
+    background-color: sienna;
+}
+.myRecentContainer .recentSwiper-wrapper .like-btn{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: 12px;
+    left: 156px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.myRecentContainer .recentSwiper-wrapper .like-btn img{
+    width: 25px;
+    height: 25px;
+}

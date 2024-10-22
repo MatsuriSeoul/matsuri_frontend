@@ -1,0 +1,141 @@
+.userInfoContainer{
+    display: flex;
+}
+
+.userProfileWrapper {
+    position: fixed;
+    margin-top: 200px;
+    margin-left: 300px;
+}
+  
+.userProfileWrapper .userProfileTab{
+    background-color: #4a4a4a;
+    color: white;
+    padding: 20px 60px;
+    font-weight: bold;
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    border-radius: 5px 5px 0 0;
+}
+
+.userProfileWrapper .tailBox{
+    width: 10px;
+    height: 10px;
+    background: url(C:\sideTest\side\public\img\tail.png) no-repeat center;
+    position: absolute;
+    top: 38.5px;
+    left: -10px;
+}
+  
+.userProfileWrapper .userProfileContainer {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    height: 500px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+  
+.userProfileWrapper .profileIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+}
+  
+.userProfileWrapper .profileName {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+  
+.userProfileWrapper .profileEmail {
+    color: #888;
+    font-size: 14px;
+}
+
+.changePwConatainer{
+    display: flex;
+    flex-direction: column;
+    margin-top: 200px;
+    margin-left: 800px;
+}
+.changePwConatainer .changePwWrapper{
+    width: 800px; 
+    border: 1px solid #121212;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    background-color: #fff;
+}
+
+.changePwConatainer .changePwWrapper .headText{
+    font-weight: 900;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+.changePwConatainer .changePwWrapper .subText{
+    font-weight: 700;
+    text-decoration: underline;
+    margin-bottom: 24px;
+}
+.changePwConatainer .changePwWrapper .warningMsg{
+    font-weight: 700;
+    color: #FF7474;
+    margin-bottom: 8px;
+}
+.changePwConatainer .changePwWrapper .warningMsg:last-of-type{
+    margin-bottom: 0;
+}
+
+.changePwConatainer .changePwWrapper .text-field{
+    display: block;
+    width: 600px;
+    height: 50px;
+    border: 1px solid #C5CCD2;
+    border-radius: 4px;
+    padding-left: 8px;
+}
+.changePwConatainer .changePwWrapper .text-field::placeholder{
+    padding-left: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.changePwConatainer .changePwWrapper .text-field:first-of-type{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.changePwConatainer .changePwWrapper .text-field:nth-of-type(2) {
+    margin-bottom: 8px;
+}
+.changePwConatainer .changePwWrapper .btn-wrap{
+    margin-top: 36px;
+}
+.changePwConatainer .changePwWrapper .btn-wrap .btnOk{
+    width: 120px;
+    height: 36px;
+    border-radius: 50px;
+    background-color: #3E3E3E;
+    color: #fff;
+    margin-right: 20px;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+}
+.changePwConatainer .changePwWrapper .btn-wrap .btnReset{
+    background-color: #A6A0A0;
+    border-radius: 50px;
+    color: #fff;
+    width: 120px;
+    height: 36px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
