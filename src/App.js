@@ -67,6 +67,7 @@ import noticePage from "./front-test/noticePage";
 import openAITest from "./OpenAITest";
 import EventItem from "./EventItem";
 import UserRecommendations from "./UserRecommendations";
+import PopularEvents from "./PopularEvents";
 
 
 function App() {
@@ -168,10 +169,12 @@ function App() {
 
                         {/*AI*/}
                         <Route path="/api/openai/prompt" component={openAITest}/>
+                        <Route path="/api/openai/personalized-recommendation/:userId" component={UserRecommendations}/>
                         <Route path="/api/clicks/log" component={EventItem}/>
                         <Route path="/api/clicks/personalized" component={UserRecommendations}/>
                         <Route path="/api/clicks/personalized/recommendation" component={UserRecommendations}/>
                         <Route path="/api/clicks/category-data" component={UserRecommendations}/>
+                        <Route path="/api/clicks/popular" component={PopularEvents}/>
 
 
                     </Switch>
