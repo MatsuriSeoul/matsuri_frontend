@@ -4,8 +4,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "pretendard";
-  }
+    font-family: "Pretendard";
+}
 textarea {
   resize: none;
 }
@@ -29,7 +29,7 @@ a{
     text-decoration: none;
 }
 input::placeholder{
-  font-family: "pretendard";
+  font-family: "Pretendard";
 }
 body{
   overflow-x: hidden;

@@ -1,13 +1,14 @@
-.findPw-form .title{
+.findId-form .title{
     text-align: center;
     font-size: 30px;
     font-weight: 700;
 }
-.findPw-form .tabbox{
+
+.findId-form .tabbox{
     display: flex;
     align-items: flex-end;
 }
-.findPw-form .tabbox .topBox{
+.findId-form .tabbox .topBox{
     display: flex;
     border: 1px solid #E1E3E5;
     border-bottom: 0px;
@@ -23,15 +24,15 @@
     position: relative;
     cursor: pointer;
 }
-.findPw-form .tabbox .topBox.active{
+.findId-form .tabbox .topBox.active{
     margin-bottom: -8px;
     background-color: #778085;
     color: #ffffff;
 }
-.findPw-form .tabbox .topBox .tab{
+.findId-form .tabbox .topBox .tab{
     font-weight: 500;
 }
-.findPw-form .bottomBox{
+.findId-form .bottomBox{
     position: relative;
     border: 1px solid #E1E3E5;
     border-radius: 12px;
@@ -42,7 +43,7 @@
     padding: 18px;
     z-index: 99;
 }
-.findPw-form .bottomBox .InputBox{
+.findId-form .bottomBox .InputBox{
     display: flex;
     flex-direction: column;
     width: 400px;
@@ -52,10 +53,11 @@
     background-color: #fff;
     margin-top: 16px;
 }
-.findPw-form .bottomBox .InputBox input[type="text"]::placeholder{
+.findId-form .bottomBox .InputBox input::placeholder{
     font-weight: 400;
+    font-size: 14px;
 }
-.findPw-form .bottomBox .InputBox .input-info{
+.findId-form .bottomBox .InputBox .input-info{
     width: 100%;
     height: 60px;
     border: none;
@@ -66,14 +68,14 @@
     font-weight: 400;
     border-bottom: 1px solid #C5CCD2;
 }
-.findPw-form .bottomBox .InputBox .check-number-box{
+.findId-form .bottomBox .InputBox .check-number-box{
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     padding: 0px 16px;
 }
-.findPw-form .bottomBox .InputBox .check-number-box .check-number{
+.findId-form .bottomBox .InputBox .check-number-box .check-number{
     width: calc(70% - 20px);
     height: 60px;
     border: none;
@@ -82,7 +84,7 @@
     font-size: 18px;
     font-weight: 400;
 }
-.findPw-form .bottomBox .InputBox .check-number-box .check-btn{
+.findId-form .bottomBox .InputBox .check-number-box .check-btn{
     width: calc(30% - 20px);
     display: flex;
     align-items: center;
@@ -93,7 +95,7 @@
     color: #ffffff;
     cursor: pointer;
 }
-.findPw-form .bottomBox .findBtn{
+.findId-form .bottomBox .findBtn{
     width: 400px;
     height: 50px;
     margin-top: 28px;
@@ -104,7 +106,7 @@
     border-radius: 12px;
     cursor: pointer;
 }
-.findPw-form .bottomBox .error{
+.findId-form .bottomBox .error{
     margin-top: 8px;
     font-size: 14px;
     font-weight: 400;
