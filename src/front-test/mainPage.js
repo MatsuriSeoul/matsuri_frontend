@@ -5,15 +5,27 @@ import Footer from "./layout/footer";
 
 import "../css/main/banner.css";
 import "../css/main/section1.css"
+import "../css/main/mainpage.css";
+import React, { useState } from "react";
+import LoginPage from "./login/LoginPage";
 
 const MainPage = () =>{
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
+
     return(
-        <>
-            <Header/>
+        <div className='main-page'>
+            <Header toggleModal={toggleModal} />
             <Banner/>
             <Section1/>
             <Footer/>
-        </>
+            {isModalOpen && (
+                <LoginPage />
+            )}
+        </div>
     )
 }
 export default MainPage;
