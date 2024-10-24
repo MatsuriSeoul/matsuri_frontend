@@ -41,15 +41,12 @@
 .signUp-wrapper .inputBox-pw .text-field{
     margin-bottom: 0;
 }
-.signUp-wrapper .inputBox-pw .warningMsg{
+.signUp-wrapper .warningMsg{
     font-size: 12px;
     color: #FF7474;
     font-weight: 800;
-    margin-top: 12px;
-}
-.signUp-wrapper .inputBox-pw .warningMsg:last-child{
+    margin-top: 10px;
     margin-bottom: 20px;
-    margin-top: 0;
 }
 .signUp-wrapper .select-box{
     width: 100%;
@@ -109,4 +106,30 @@
     transform: translateY(-80%);
     right: 12px;
     cursor: pointer;
+}
+.signUp-wrapper .inputBox-tel{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.signUp-wrapper .inputBox-tel .check-form{
+    margin-bottom: 10px;
+}
+.signUp-wrapper .inputBox-tel .overlapCheck.check1{
+    top: 22%;
+    transform: translateY(0%);
+}
+.signUp-wrapper .inputBox-tel .overlapCheck.check2{
+    top: 60%;
+    transform: translateY(0%);
+}
+.signUp-wrapper .inputBox-email{
+    position: relative;
+}
+.signUp-wrapper .inputBox-email .overlapCheck{
+    top: 35%;
+    transform: translateY(0%);
+}
+.signUp-wrapper .inputBox-checkPw.inputBox .text-field{
+    margin-bottom: 0;
 }

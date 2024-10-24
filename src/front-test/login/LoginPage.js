@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import SignUpPage from "./LoginPage/SignUpPage";
 
 import '../../css/login/LoginPage.css';
@@ -14,11 +14,12 @@ const LoginPage = ({ content, closeModal, openModal }) => {
     const handleContentClick = (e) => {
         e.stopPropagation();
     };
-
-
+    const handleBackgroundClick = (e) => {
+        closeModal(); // 배경 클릭 시 closeModal 호출
+    };
     return(
-        <div className="login-background" onClick={closeModal}>
-            <div className="login-container" onClick={handleContentClick}>
+        <div className="login-background" onMouseDown={handleBackgroundClick}>
+            <div className="login-container" onMouseDown={handleContentClick}>
                 {content === 'login' && <LoginForm/>}
                 {content === 'findId' && <FindIdForm/>}
                 {content === 'findPw' && <SearchPw/>}
