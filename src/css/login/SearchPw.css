@@ -1,0 +1,112 @@
+.findPw-form .title{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+}
+.findPw-form .tabbox{
+    display: flex;
+    align-items: flex-end;
+}
+.findPw-form .tabbox .topBox{
+    display: flex;
+    border: 1px solid #E1E3E5;
+    border-bottom: 0px;
+    border-radius: 12px 12px 0px 12px;
+    margin-top: 30px;
+    width: 160px;
+    height: 70px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 8px;
+    margin-bottom: -16px;
+    z-index: 1;
+    position: relative;
+    cursor: pointer;
+}
+.findPw-form .tabbox .topBox.active{
+    margin-bottom: -8px;
+    background-color: #778085;
+    color: #ffffff;
+}
+.findPw-form .tabbox .topBox .tab{
+    font-weight: 500;
+}
+.findPw-form .bottomBox{
+    position: relative;
+    border: 1px solid #E1E3E5;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 18px;
+    z-index: 99;
+}
+.findPw-form .bottomBox .InputBox{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    overflow: hidden;
+    border: 1px solid #C5CCD2;
+    border-radius: 12px;
+    background-color: #fff;
+    margin-top: 16px;
+}
+.findPw-form .bottomBox .InputBox input[type="text"]::placeholder{
+    font-weight: 400;
+}
+.findPw-form .bottomBox .InputBox .input-info{
+    width: 100%;
+    height: 60px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    padding-left: 16px;
+    font-size: 18px;
+    font-weight: 400;
+    border-bottom: 1px solid #C5CCD2;
+}
+.findPw-form .bottomBox .InputBox .check-number-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px 16px;
+}
+.findPw-form .bottomBox .InputBox .check-number-box .check-number{
+    width: calc(70% - 20px);
+    height: 60px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 400;
+}
+.findPw-form .bottomBox .InputBox .check-number-box .check-btn{
+    width: calc(30% - 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #567FF2;
+    color: #ffffff;
+    cursor: pointer;
+}
+.findPw-form .bottomBox .findBtn{
+    width: 400px;
+    height: 50px;
+    margin-top: 28px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+    background-color: #3E3E3E;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.findPw-form .bottomBox .error{
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #686868;
+}

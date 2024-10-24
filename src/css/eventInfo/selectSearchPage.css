@@ -80,6 +80,10 @@
     min-height: 48px;
     border-radius: 8px;
 }
+.ssp .article .selectform .css-1dimb5e-singleValue{
+    font-weight: 500;
+    color: #111111;
+}
 .ssp .article .selectform .submit-btn{
     font-size: 20px;
     font-weight: 500;

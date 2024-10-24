@@ -1,0 +1,138 @@
+.main-sec3 .titleTextBox{
+    margin-top: 110px;
+    text-align: center;
+}
+.main-sec3 .titleTextBox .headText{
+    font-size: 25px;
+    font-weight: 900;
+    text-shadow: 0px 4px 4px rgb(0, 0, 0, 25%);
+}
+.main-sec3 .titleTextBox .subText{
+    margin-top: 4px;
+    font-size: 25px;
+    color: #6A6969;
+    font-weight: bold;
+    text-shadow: 0px 4px 4px rgb(0, 0, 0, 25%);
+}
+.main-sec3 .contentWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main-sec3 .contentWrapper .show .showPic{
+    width: 75px;
+    height: 75px;
+    background: url(C:\sideTest\side\public\img\show.png) no-repeat center;
+}
+.main-sec3 .contentWrapper .education .educationPic{
+    width: 75px;
+    height: 75px;
+    background: url(C:\sideTest\side\public\img\education.png) no-repeat center;
+}
+.main-sec3 .contentWrapper .display .displayPic{
+    width: 75px;
+    height: 75px;
+    background: url(C:\sideTest\side\public\img\display.png) no-repeat center;
+}
+.main-sec3 .contentWrapper .leisure .leisurePic{
+    width: 75px;
+    height: 75px;
+    background: url(C:\sideTest\side\public\img\leisure.png) no-repeat center;
+}
+.main-sec3 .contentWrapper .event .eventPic{
+    width: 75px;
+    height: 75px;
+    background: url(C:\sideTest\side\public\img\event.png) no-repeat center;
+}
+.main-sec3 .contentWrapper .tour .tourPic{
+    width: 75px;
+    height: 75px;
+    background: url(C:\sideTest\side\public\img\tour.png) no-repeat center;
+}
+.main-sec3 .contentWrapper .experience .experiencePic{
+    width: 75px;
+    height: 75px;
+    background: url(C:\sideTest\side\public\img\experience.png) no-repeat center;
+}
+.main-sec3 .contentWrapper .contentBox{
+    margin-right: 20px;
+    margin-top: 40px;
+}
+.main-sec3 .contentWrapper .contentBox:last-child{
+    margin-right: 0px;
+}
+.main-sec3 .contentWrapper .contentText{
+    text-align: center;
+}
+.main-sec3 .sec3Swiper .slide-content{
+    height: 180px;
+    margin-top: 200px;
+}
+.main-sec3 .swiper-pagination{
+    position: static;
+    text-align: start;
+    width: fit-content;
+}
+.main-sec3 .swiper-pagination-bullet{
+    background: white;
+    border: 1px solid black;
+}
+.main-sec3 .swiper-pagination-bullet-active{
+    background: black;
+}
+.main-sec3 .sec3Swiper .sec3Slide{
+    width: 100%;
+    height: 180px;
+}
+.main-sec3 .sec3Swiper .swiper-slide{
+    display: flex;
+}
+.main-sec3 .sec3Swiper .sec3slide.HalfSlide{
+    width: 50%;
+}
+.main-sec3 .sec3Swiper .slide1{
+    background: red;
+}
+.main-sec3 .sec3Swiper .slide2{
+    background: green;
+}
+.main-sec3 .sec3Swiper .slide3{
+    background: blue;
+}
+.main-sec3 .sec3Swiper .slide4{
+    background: pink;
+}
+.main-sec3 .sec3Swiper .slide5{
+    background: palegoldenrod;
+}
+.main-sec3 .sec3Swiper .slide6{
+    background: rgb(170, 212, 238);
+}
+.main-sec3 .sec3Swiper .slide7{
+    background: rgb(238, 170, 225);
+}
+.main-sec3 .sec3Swiper .slide8{
+    background: rgb(115, 21, 98);
+}
+.main-sec3 .sec3Swiper .slide9{
+    background: rgb(229, 75, 28);
+}
+.main-sec3 .sec3Swiper .swiper-wrapper{
+    margin-top: 180px;
+}
+.main-sec3 .autoplay-control{
+    width: 20px;
+    height: 20px;
+    margin-top: 2.5px;  
+    z-index: 10;
+}
+.main-sec3 .autoplay-control img{
+    width: 100%;
+    height: 100%;
+}
+.main-sec3 .swiper-tool{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 48px;
+}

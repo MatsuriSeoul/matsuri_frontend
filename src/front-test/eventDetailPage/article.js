@@ -117,27 +117,6 @@ const Article = () => {
       }
     };
 
-    // 첫 번째 이미지를 가져오기 위한 fetchAndSaveEvents 호출
-    // const fetchFirstImage = async () => {
-    //   try {
-    //     const response = await axios.get(`http://localhost:8080/api/events/fetchAndSaveEvents`, {
-    //       params: {
-    //         numOfRows: '1',
-    //         pageNo: '1',
-    //         eventStartDate: '20240101'
-    //       }
-    //     });
-    //     if (response.data.length > 0) {
-    //       const event = response.data.find(event => event.contentid === contentid);
-    //       if (event) {
-    //         setFirstImage(event.firstimage);
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error('첫 번째 이미지 가져오기 실패', error);
-    //   }
-    // };
-
     // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
     const fetchImages = async () => {
       try {
@@ -152,7 +131,7 @@ const Article = () => {
     const fetchSimilarEvents = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/${apitype}/${contenttypeid}/similar-events`);
-        setSimilarEvents(response.data.slice(0, 6));  // 최대 4개의 유사한 이벤트만 가져옴
+        setSimilarEvents(response.data.slice(0, 6));
       } catch (error) {
         console.error('유사한 여행지 불러오기 실패', error);
       }
@@ -160,9 +139,10 @@ const Article = () => {
 
     fetchDetail();
     fetchIntro();
-    // fetchFirstImage();
     fetchImages();
     fetchSimilarEvents();
+    console.log('api 불러오기 성공');
+    console.log('images: ' + images + 'detail: ' + detail + 'intro: ' + intro );
 
   }, [contentid, contenttypeid]);
 
@@ -270,385 +250,417 @@ const Article = () => {
   if (!detail || !intro) return <div>Loading...</div>;
 
   return (
-      <article className="edp-article">
-        <div className="detail-title">
-          <h1 className="title">{detail.title}</h1>
-          <p className="address">{detail.addr1}</p>
-          <p className="sup-info">더 자세한 내용은 링크를 통해 확인하세요.
-            <div className='link' onClick={pageLinkCopy}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                   fill="#e8eaed">
-                <path
-                    d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z"/>
-              </svg>
-            </div>
-          </p>
-        </div>
-        <div className="icons">
-          <div className="likeView">
-            <div className="like">
-              <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#5f6368"
-              >
-                <path
-                    d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-              </svg>
-              <p className="like-count">1</p>
-            </div>
-            <div className="view">
-              <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#e8eaed"
-              >
-                <path
-                    d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/>
-              </svg>
-              <p className="view-count">230</p>
-            </div>
-          </div>
-          <div className="right">
-            <div className="share">
-              <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#e8eaed"
-              >
-                <path
-                    d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm480-280q17 0 28.5-11.5T720-760q0-17-11.5-28.5T680-800q-17 0-28.5 11.5T640-760q0 17 11.5 28.5T680-720Zm0 520ZM200-480Zm480-280Z"/>
-              </svg>
-              <p className="share-count">1</p>
-            </div>
-          </div>
-        </div>
-        <nav className={`scroll-tab ${isFixed ? 'active' : ''}`}>
-          <div className={`tab tab2 ${activeTab === 'tab1' ? 'active' : ''}`}
-               onClick={() => scrollToTop(300)}>
-            <p>사진보기</p>
-          </div>
-          <div className="wall"></div>
-          <div className={`tab tab2 ${activeTab === 'tab2' ? 'active' : ''}`}
-               onClick={() => scrollToTop(900)}>
-            <p>상세보기</p>
-          </div>
-          <div className="wall"></div>
-          <div className={`tab tab3 ${activeTab === 'tab3' ? 'active' : ''}`}
-               onClick={() => scrollToTop(1550)}>
-            <p>여행톡</p>
-          </div>
-          <div className="wall"></div>
-          <div className={`tab tab4 ${activeTab === 'tab4' ? 'active' : ''}`}
-               onClick={() => scrollToTop(2250)}>
-            <p>추천행사</p>
-          </div>
-        </nav>
-        {images !== null ? (
-            <Swiper
-                ref={swiperRef}
-                slidesPerView={1}
-                modules={[Navigation]}
-                navigation={{
-                  prevEl: ".swiper-button-prev",
-                  nextEl: ".swiper-button-next",
-                }}
-                className="mySwiper edpArticle-swiper"
-            >
-              {images.map((image, index) => (
-                  <SwiperSlide key={index}>
-                    <div className='detail-img'
-                         style={{
-                           backgroundImage: `url('${image.originimgurl}')`,
-                           backgroundSize: 'cover',
-                           backgroundPosition: 'center',
-                           backgroundRepeat: 'no-repeat'
-                         }}
-                    ></div>
-                  </SwiperSlide>
-              ))}
-
-              {/* pagination-count */}
-              <div className="swiper-pagination-info">
-                <p>
-                  {currentSlide} / {totalSlides}
-                </p>
+      <div className='edp-container'>
+        <article className="edp-article">
+          <div className="detail-title">
+            <h1 className="title">{detail.title}</h1>
+            <p className="address">{detail.addr1}</p>
+            <p className="sup-info">더 자세한 내용은 링크를 통해 확인하세요.
+              <div className='link' onClick={pageLinkCopy}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                     fill="#e8eaed">
+                  <path
+                      d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z"/>
+                </svg>
               </div>
-
-              <div className="swiper-button swiper-button-prev"></div>
-              <div className="swiper-button swiper-button-next"></div>
-            </Swiper>
-        ) : (
-            <img src='/img/default_img.jpeg' className='default_img'></img>
-        )}
-        <div className="detail-info">
-          <h1 className="title">상세정보</h1>
-          <p className="info-txt">
-            {detail.overview}
-          </p>
-        </div>
-
-        {/* 지도 표시 부분 */}
-        {detail.mapx && detail.mapy ? (
-            <KakaoMap mapX={detail.mapx} mapY={detail.mapy} title={detail.title}/>
-        ) : (
-            <div></div>
-        )}
-
-        <ul className="info-list">
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              관람 가능 연령
             </p>
-            <p className="propertyValue">{intro.agelimit || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              예매처
-            </p>
-            <p className="propertyValue">{intro.bookingplace || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              할인 정보
-            </p>
-            <p className="propertyValue">{intro.discountinfofestival || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              행사 장소
-            </p>
-            <p className="propertyValue">{intro.eventplace || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              행사 시작일
-            </p>
-            {intro.eventstartdate ? (
-                <p className="propertyValue">{intro.eventstartdate.slice(0, 4)}.
-                  {intro.eventstartdate.slice(4, 6)}.
-                  {intro.eventstartdate.slice(6)}</p>
-            ) : (
-                <p className="propertyValue">-</p>
-            )}
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              행사 종료일
-            </p>
-            {intro.eventenddate ? (
-                <p className="propertyValue">{intro.eventenddate.slice(0, 4)}.
-                  {intro.eventenddate.slice(4, 6)}.
-                  {intro.eventenddate.slice(6)}</p>
-            ) : (
-                <p className="propertyValue">-</p>
-            )}
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              행사 프로그램
-            </p>
-            <p className="propertyValue">{intro.program || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              관람 소요 시간
-            </p>
-            <p className="propertyValue">{intro.spendtimefestival || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              이용 요금
-            </p>
-            <p className="propertyValue">{intro.usetimefestival || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              주최자 정보
-            </p>
-            <p className="propertyValue">{intro.sponsor1 || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              주최자 연락처
-            </p>
-            <p className="propertyValue">{intro.sponsor1tel || '-'}</p>
-          </li>
-          <li>
-            <p className="propertyName">
-              <div className="bullet"></div>
-              주관사 정보
-            </p>
-            <p className="propertyValue">{intro.sponsor2 || '-'}</p>
-          </li>
-        </ul>
-
-        <div className="hashtag">
-          <div className="tag">#음식</div>
-          <div className="tag">#맛집</div>
-        </div>
-
-        <div className="comment-container">
-          <div className="title">
-            <h1>여행톡</h1>
-            <p className="comment-count">1</p>
           </div>
-          <form className="comment-write">
-            <textarea></textarea>
-            <div className="btn">
-              {/* <button className="img-update"></button> */}
-              <input type="submit" value="작성"/>
+          <div className="icons">
+            <div className="likeView">
+              <div className="like">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#5f6368"
+                >
+                  <path
+                      d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
+                </svg>
+                <p className="like-count">1</p>
+              </div>
+              <div className="view">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#e8eaed"
+                >
+                  <path
+                      d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/>
+                </svg>
+                <p className="view-count">230</p>
+              </div>
             </div>
-          </form>
-          <div className="comment-list">
-            {CommentTest.map((item) => (
-                <div className="comment-box">
-                  <div className="comment">
-                    <div className="user-profile">
-                      <img src={item.imgurl}></img>
-                    </div>
-                    <div className="comment-article">
-                      <p className="comment-txt">{item.text}</p>
-                      <div className="comment-userInfo">
-                        <p className="userName">{item.name}</p>
-                        <div className="wall"></div>
-                        <p className="date">{item.date}</p>
+            <div className="right">
+              <div className="share">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#e8eaed"
+                >
+                  <path
+                      d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm480-280q17 0 28.5-11.5T720-760q0-17-11.5-28.5T680-800q-17 0-28.5 11.5T640-760q0 17 11.5 28.5T680-720Zm0 520ZM200-480Zm480-280Z"/>
+                </svg>
+                <p className="share-count">1</p>
+              </div>
+            </div>
+          </div>
+          <nav className={`scroll-tab ${isFixed ? 'active' : ''}`}>
+            <div className={`tab tab2 ${activeTab === 'tab1' ? 'active' : ''}`}
+                 onClick={() => scrollToTop(300)}>
+              <p>사진보기</p>
+            </div>
+            <div className="wall"></div>
+            <div className={`tab tab2 ${activeTab === 'tab2' ? 'active' : ''}`}
+                 onClick={() => scrollToTop(900)}>
+              <p>상세보기</p>
+            </div>
+            <div className="wall"></div>
+            <div className={`tab tab3 ${activeTab === 'tab3' ? 'active' : ''}`}
+                 onClick={() => scrollToTop(1550)}>
+              <p>여행톡</p>
+            </div>
+            <div className="wall"></div>
+            <div className={`tab tab4 ${activeTab === 'tab4' ? 'active' : ''}`}
+                 onClick={() => scrollToTop(2250)}>
+              <p>추천행사</p>
+            </div>
+          </nav>
+          {images !== null ? (
+              <Swiper
+                  ref={swiperRef}
+                  slidesPerView={1}
+                  modules={[Navigation]}
+                  navigation={{
+                    prevEl: ".swiper-button-prev",
+                    nextEl: ".swiper-button-next",
+                  }}
+                  className="mySwiper edpArticle-swiper"
+              >
+                {images.map((image, index) => (
+                    <SwiperSlide key={index}>
+                      <div className='detail-img'
+                           style={{
+                             backgroundImage: `url('${image.originimgurl}')`,
+                             backgroundSize: 'cover',
+                             backgroundPosition: 'center',
+                             backgroundRepeat: 'no-repeat'
+                           }}
+                      ></div>
+                    </SwiperSlide>
+                ))}
+
+                {/* pagination-count */}
+                <div className="swiper-pagination-info">
+                  <p>
+                    {currentSlide} / {totalSlides}
+                  </p>
+                </div>
+
+                <div className="swiper-button swiper-button-prev"></div>
+                <div className="swiper-button swiper-button-next"></div>
+              </Swiper>
+          ) : (
+              <img src='/img/default_img.jpeg' className='default_img'></img>
+          )}
+          <div className="detail-info">
+            <h1 className="title">상세정보</h1>
+            <p className="info-txt">
+              {detail.overview}
+            </p>
+          </div>
+
+          {/* 지도 표시 부분 */}
+          {detail.mapx && detail.mapy ? (
+              <KakaoMap mapX={detail.mapx} mapY={detail.mapy} title={detail.title}/>
+          ) : (
+              <div></div>
+          )}
+
+          <ul className="info-list">
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                관람 가능 연령
+              </p>
+              <p className="propertyValue">{intro.agelimit || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                예매처
+              </p>
+              <p className="propertyValue">{intro.bookingplace || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                할인 정보
+              </p>
+              <p className="propertyValue">{intro.discountinfofestival || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                행사 장소
+              </p>
+              <p className="propertyValue">{intro.eventplace || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                행사 시작일
+              </p>
+              {intro.eventstartdate ? (
+                  <p className="propertyValue">{intro.eventstartdate.slice(0, 4)}.
+                    {intro.eventstartdate.slice(4, 6)}.
+                    {intro.eventstartdate.slice(6)}</p>
+              ) : (
+                  <p className="propertyValue">-</p>
+              )}
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                행사 종료일
+              </p>
+              {intro.eventenddate ? (
+                  <p className="propertyValue">{intro.eventenddate.slice(0, 4)}.
+                    {intro.eventenddate.slice(4, 6)}.
+                    {intro.eventenddate.slice(6)}</p>
+              ) : (
+                  <p className="propertyValue">-</p>
+              )}
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                행사 프로그램
+              </p>
+              <p className="propertyValue">{intro.program || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                관람 소요 시간
+              </p>
+              <p className="propertyValue">{intro.spendtimefestival || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                이용 요금
+              </p>
+              <p className="propertyValue">{intro.usetimefestival || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                주최자 정보
+              </p>
+              <p className="propertyValue">{intro.sponsor1 || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                주최자 연락처
+              </p>
+              <p className="propertyValue">{intro.sponsor1tel || '-'}</p>
+            </li>
+            <li>
+              <p className="propertyName">
+                <div className="bullet"></div>
+                주관사 정보
+              </p>
+              <p className="propertyValue">{intro.sponsor2 || '-'}</p>
+            </li>
+          </ul>
+
+          <div className="hashtag">
+            <div className="tag">#음식</div>
+            <div className="tag">#맛집</div>
+          </div>
+
+          <div className="comment-container">
+            <div className="title">
+              <h1>여행톡</h1>
+              <p className="comment-count">1</p>
+            </div>
+            <form className="comment-write">
+              <textarea></textarea>
+              <div className="btn">
+                {/* <button className="img-update"></button> */}
+                <input type="submit" value="작성"/>
+              </div>
+            </form>
+            <div className="comment-list">
+              {CommentTest.map((item) => (
+                  <div className="comment-box">
+                    <div className="comment">
+                      <div className="user-profile">
+                        <img src={item.imgurl}></img>
                       </div>
-                      <div className="comment-btn">
-                        <div className="like-btn btn">
-                          <div className="icon">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="24px"
-                                viewBox="0 -960 960 960"
-                                width="24px"
-                                fill="#5f6368"
-                            >
-                              <path
-                                  d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-                            </svg>
-                          </div>
-                          <p className="count">1</p>
+                      <div className="comment-article">
+                        <p className="comment-txt">{item.text}</p>
+                        <div className="comment-userInfo">
+                          <p className="userName">{item.name}</p>
+                          <div className="wall"></div>
+                          <p className="date">{item.date}</p>
                         </div>
-                        <div
-                            className="subComment-btn btn"
-                            onClick={() => handleSubCommentClick(item.id)}
-                        >
-                          <div className="icon">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="24px"
-                                viewBox="0 -960 960 960"
-                                width="24px"
-                                fill="#e8eaed"
-                            >
-                              <path
-                                  d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/>
-                            </svg>
+                        <div className="comment-btn">
+                          <div className="like-btn btn">
+                            <div className="icon">
+                              <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  height="24px"
+                                  viewBox="0 -960 960 960"
+                                  width="24px"
+                                  fill="#5f6368"
+                              >
+                                <path
+                                    d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
+                              </svg>
+                            </div>
+                            <p className="count">1</p>
                           </div>
-                          <p className="count">2</p>
+                          <div
+                              className="subComment-btn btn"
+                              onClick={() => handleSubCommentClick(item.id)}
+                          >
+                            <div className="icon">
+                              <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  height="24px"
+                                  viewBox="0 -960 960 960"
+                                  width="24px"
+                                  fill="#e8eaed"
+                              >
+                                <path
+                                    d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/>
+                              </svg>
+                            </div>
+                            <p className="count">2</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  {activeCommentIds.includes(item.id) &&
-                      item.subComments.length > 0 && (
-                          <div className="subComments">
-                            {item.subComments.map((subComment) => (
-                                <div className="subComment" key={subComment.id}>
-                                  <div className="sub-icon"></div>
-                                  <div className="user-profile">
-                                    <img
-                                        src={subComment.imgurl}
-                                        alt={subComment.name}
-                                    ></img>
-                                  </div>
-                                  <div className="comment-article">
-                                    <p className="comment-txt">{subComment.text}</p>
-                                    <div className="comment-userInfo">
-                                      <p className="userName">{subComment.name}</p>
-                                      <div className="wall"></div>
-                                      <p className="date">{subComment.date}</p>
+                    {activeCommentIds.includes(item.id) &&
+                        item.subComments.length > 0 && (
+                            <div className="subComments">
+                              {item.subComments.map((subComment) => (
+                                  <div className="subComment" key={subComment.id}>
+                                    <div className="sub-icon"></div>
+                                    <div className="user-profile">
+                                      <img
+                                          src={subComment.imgurl}
+                                          alt={subComment.name}
+                                      ></img>
                                     </div>
-                                    <div className="comment-btn">
-                                      <div className="like-btn btn">
-                                        <div className="like-icon icon">
-                                          <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              height="24px"
-                                              viewBox="0 -960 960 960"
-                                              width="24px"
-                                              fill="#5f6368"
-                                          >
-                                            <path
-                                                d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-                                          </svg>
+                                    <div className="comment-article">
+                                      <p className="comment-txt">{subComment.text}</p>
+                                      <div className="comment-userInfo">
+                                        <p className="userName">{subComment.name}</p>
+                                        <div className="wall"></div>
+                                        <p className="date">{subComment.date}</p>
+                                      </div>
+                                      <div className="comment-btn">
+                                        <div className="like-btn btn">
+                                          <div className="like-icon icon">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="24px"
+                                                viewBox="0 -960 960 960"
+                                                width="24px"
+                                                fill="#5f6368"
+                                            >
+                                              <path
+                                                  d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
+                                            </svg>
+                                          </div>
+                                          <p className="count">1</p>
                                         </div>
-                                        <p className="count">1</p>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                            ))}
-                            <div className="sub-container">
-                              <div className="sub-icon"></div>
-                              <form className="comment-write">
-                                <textarea placeholder="답글을 입력하세요"></textarea>
-                                <div className="btn">
-                                  <input type="submit" value="작성"/>
-                                </div>
-                              </form>
+                              ))}
+                              <div className="sub-container">
+                                <div className="sub-icon"></div>
+                                <form className="comment-write">
+                                  <textarea placeholder="답글을 입력하세요"></textarea>
+                                  <div className="btn">
+                                    <input type="submit" value="작성"/>
+                                  </div>
+                                </form>
+                              </div>
                             </div>
-                          </div>
-                      )}
-                </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="trip-recommend">
-          <div className="title">
-            <h2>'개떼놀이터 인천점'와(과) 유사한 여행지 추천</h2>
-            <img className="icon" src="/img/emoji/emoji1.png"></img>
-          </div>
-          <div className="recommend-list">
-            {similarEvents.slice(0, 6).map((event, index) => (
-                <Link to={`/eventDetailPage/tourapi/${event.contentid}/${event.contenttypeid}`}>
-                  <div className='recommend-img' key={index}
-                       style={{
-                         backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1] || '/img/default_img.jpeg'})`, // 이미지 URL을 url()로 감싸야 합니다.
-                         backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
-                         backgroundPosition: 'center', // 이미지를 중앙에 위치
-                       }}>
-                    <div className="like-btn" onClick={handleLikeToggle}>
-                      <img
-                          src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"}
-                      ></img>
-                    </div>
-                    <h3 className="img-title">{event.title || event[0]}</h3>
+                        )}
                   </div>
-                </Link>
-            ))}
+              ))}
+            </div>
           </div>
+          {/*<div className="trip-recommend">*/}
+          {/*  <div className="title">*/}
+          {/*    <h2>'개떼놀이터 인천점'와(과) 유사한 여행지 추천</h2>*/}
+          {/*    <img className="icon" src="/img/emoji/emoji1.png"></img>*/}
+          {/*  </div>*/}
+          {/*  <div className="recommend-list">*/}
+          {/*    {similarEvents.slice(0, 6).map((event, index) => (*/}
+          {/*        <Link to={`/eventDetailPage/tourapi/${event.contentid}/${event.contenttypeid}`}>*/}
+          {/*          <div className='recommend-img' key={index}*/}
+          {/*               style={{*/}
+          {/*                 backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1] || '/img/default_img.jpeg'})`,*/}
+          {/*                 backgroundSize: 'cover', // 이미지를 박스에 맞게 조절*/}
+          {/*                 backgroundPosition: 'center', // 이미지를 중앙에 위치*/}
+          {/*               }}>*/}
+          {/*            <div className="like-btn" onClick={handleLikeToggle}>*/}
+          {/*              <img*/}
+          {/*                  src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"}*/}
+          {/*              ></img>*/}
+          {/*            </div>*/}
+          {/*            <h3 className="img-title">{event.title || event[0]}</h3>*/}
+          {/*          </div>*/}
+          {/*        </Link>*/}
+          {/*    ))}*/}
+          {/*  </div>*/}
+          {/*</div>*/}
+        </article>
+        <div className='side-container'>
+          <div className='sub-sticky'></div>
+          <aside className='sidebar'>
+            <div className='hashtag-box'>
+              <p>#공짜로</p>
+              <p>#즐길 수 있다고??</p>
+              <p>#궁금하지않아?</p>
+              <p>#여기에 다 있어!!</p>
+            </div>
+            <div className='recommend-list'>
+              <h2 className='main-title'>유료행사는 어떠신가요?</h2>
+              {similarEvents.slice(0, 8).map((event) => (
+                  <div className='recommend'>
+                    <div className='txt'>
+                      <h3 className='title'>{event.title || event.svcnm}</h3>
+                      <p className='addr'>{event.addr1 || event.placenm}</p>
+                    </div>
+
+                    <div className="img"
+                         style={{
+                           backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1] || '/img/default_img.jpeg'})`,
+                           backgroundSize: 'cover',
+                           backgroundPosition: 'center',
+                         }}
+                    ></div>
+                  </div>
+              ))}
+            </div>
+          </aside>
         </div>
-      </article>
+      </div>
+
   );
 };
 

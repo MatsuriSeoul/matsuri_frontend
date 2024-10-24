@@ -1,0 +1,104 @@
+input:focus {
+    outline: none;
+}
+textarea:focus{
+    outline: none;
+}
+
+.notice {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.notice .headText {
+    letter-spacing: -1px;
+    font-size: 32px;
+    text-decoration: underline;
+    font-weight: 800;
+    color: #333333;
+    margin-top: 100px;
+    margin-bottom: 64px;
+}
+
+.notice .createDate {
+    font-size: 12px;
+    color: #333333;
+    width: 1200px;
+    text-align: right;
+}
+
+.notice-container {
+    width: 1200px;
+    padding: 48px 56px;
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.noticeTitleBox, .noticeContentBox, .contentCreateDate {
+    display: flex;
+    align-items: center;
+}
+
+.noticeTitleBox .headTextBox, .noticeContentBox .headTextBox, .contentCreateDate .headTextBox {
+    background-color: #3e3e3e;
+    color: #fff;
+    padding: 0 40px;
+    flex-shrink: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+.notice-container .noticeContentBox{
+    flex-direction: column;
+}
+.notice-container .noticeContentBox .headTextBox{
+    width: 100%;
+    justify-content: center;
+}
+.notice-container .noticeContentBox .contentText {
+    width: 100%;
+    height: 500px;
+    text-align: left;
+    vertical-align: top;
+    padding: 8px;
+    resize: none;
+}
+.notice-container .noticeContentBox .contentText::placeholder{
+    padding-top: 0px;
+}
+.noticeTitle, .contentText, .createDateText {
+    flex-grow: 1;
+    height: 60px;
+    padding: 0 16px;
+    border: 1px solid #ccc;
+}
+.notice .btn-wrap{
+    margin-top: 36px;
+    text-align: right;
+}
+.notice .btn-wrap .btnOk{
+    width: 120px;
+    height: 36px;
+    border-radius: 50px;
+    background-color: #3E3E3E;
+    color: #fff;
+    margin-right: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+}
+.notice .btn-wrap .btnReset{
+    background-color: #A6A0A0;
+    border-radius: 50px;
+    color: #fff;
+    width: 120px;
+    height: 36px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}

@@ -1,0 +1,98 @@
+.noticeView-container {
+    width: 60%;
+    margin: 0 auto;
+}
+.noticeView-container .headText {
+    text-align: center;
+    font-weight: 700;
+    font-size: 32px;
+    margin-top: 80px;
+    margin-bottom: 40px;
+} 
+.noticeView-container .titleText {
+    font-weight: 700;
+    font-size: 16px;
+    border-top: 4px solid #222222;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 10px;
+    background-color: #f9f9f9;
+}
+
+.noticeView-container .post-info {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    background-color: #f9f9f9;
+}
+.noticeView-container .post-info  {
+    width: 100%;
+}
+.noticeView-container .post-info  .detail-wrap{
+    display: flex;
+    flex-direction: column;
+    margin-right: 12px;
+}
+.noticeView-container .post-info  .author-info{
+    margin-bottom: 4px;
+}
+.noticeView-container .post-info .detail-info{
+    width: 90%;
+}
+.noticeView-container .post-info  .detail-info .dateView{
+    display: flex;
+    justify-content: space-between;
+}
+.noticeView-container .post-info .profile-picture {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.noticeView-container .post-info .detail-info .author-name{
+    margin-bottom: 4px;
+}
+.noticeView-container .post-info  .detail-info .author-name, .noticeView-container .post-info  .detail-info .views, .noticeView-container .post-info  .detail-info .date, .noticeView-container .post-info  .author-info
+, .noticeView-container .post-info .datetext {
+    font-size: 14px;
+    color: #666;
+}
+  
+.noticeView-container .content {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+.noticeView-container .attachment{
+    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}  
+.noticeView-container .attachment svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    margin-bottom: 20px;   
+}
+.noticeView-container .attachment p{
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+.noticeView-container .file-wrap {
+    border-bottom: 4px solid #121212;
+}
+.noticeView-container .file-wrap .attachment-icon{
+    margin-top: 20px;
+    background: url(../../../public/img/notice/attachment-Image.png) no-repeat;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 40px;
+}
+.noticeView-container .listBtn{
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #0097E0;
+    border: 1px solid rgb(0, 0, 0, 10%);
+    cursor: pointer;
+}

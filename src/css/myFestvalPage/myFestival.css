@@ -1,0 +1,344 @@
+.myfestival-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FCFFD3;
+    height: 920px;
+    text-align: center;
+}
+
+.myfestival-container .myfestival-wrapper .textBox .headText{
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -2.5px;
+    margin-bottom: 8px;
+}
+
+.myfestival-container .myfestival-wrapper{
+    width: 70%;
+}
+.myfestival-container .textBox .subText{
+    font-size: 18px;
+    color: #666666;
+}
+
+.myfestival-container .festivalSwiper-wrapper{
+    display: flex;
+    margin-top: 40px;
+    border-top: 1px solid #C9C9C9;
+}
+
+.myfestival-container .festivalSwiper-wrapper .headText{
+    font-size: 24px;
+    font-weight: 800;
+    white-space: nowrap;
+    margin-top: 40px;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper {
+    overflow: hidden;
+    width: calc(220px * 4 + 20px * 3);
+    margin: 0 auto;
+    margin-right: 0;
+    margin-top: 40px;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide-content{
+    width: 220px;
+    height: 280px;
+    border-radius: 8px;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide1{
+    background-color: saddlebrown;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide2{
+    background-color: salmon;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide3{
+    background-color: sandybrown;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide4{
+    background-color: seagreen;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide5{
+    background-color: seashell
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide6{
+    background-color: skyblue;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide7{
+    background-color: orange;
+}
+.myfestival-container .festivalSwiper-wrapper .festivalSwiper .slide8{
+    background-color: lavender;
+}
+
+.myfestival-container .festivalSwiper-wrapper .like-btn{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: 12px;
+    left: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.myfestival-container .festivalSwiper-wrapper .like-btn img{
+    width: 25px;
+    height: 25px;
+}
+
+.festivalSwiperPagination{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+.festivalSwiperPagination .festival-pagination-wrapper {
+    display: flex;
+    width: 832px;
+    height: 3px;
+    background-color: transparent;
+    align-items: center;
+    position: relative;
+    margin-right: 28px;
+}
+.festivalSwiperPagination .festival-pagination-background {
+    width: 100%;
+    height: 100%;
+    background-color: #B2B2B2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.festivalSwiperPagination .festival-pagination-progress {
+    height: 100%;
+    width: 100%;
+    background-color: #000000;
+    transition: width 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0; 
+}
+
+.festivalSwiperPagination .festival-button-prev{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonPreviousslide.png) no-repeat center;
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+}
+.festivalSwiperPagination .festival-button-next{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonNextslide.png) no-repeat center;
+    width: 36px;
+    height: 36px;
+}
+
+.interestContent-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+.interestContent-container .interestContent-wrapper{
+    width: 70%;
+}
+.interestContent-container .interestSwiper-wrapper .textBox .headText{
+    font-size: 24px;
+    font-weight: 800;
+}
+.interestContent-container .interestSwiper-wrapper .textBox .subText{
+    margin-top: 4px;
+    font-size: 16px;
+}
+.interestContent-container .interestSwiper-wrapper .textBox .subText.hashtag{
+    font-weight: 300;
+    color: #666666;
+}
+.interestContent-container .interestSwiper-wrapper{
+    display: flex;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper {
+    overflow: hidden;
+    width: calc(220px * 4 + 20px * 3);
+    margin: 0 auto;
+    margin-right: 0;
+}
+
+
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide1{
+    background-color: saddlebrown;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide2{
+    background-color: salmon;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide3{
+    background-color: sandybrown;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide4{
+    background-color: seagreen;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide5{
+    background-color: seashell
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide6{
+    background-color: skyblue;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide7{
+    background-color: orange;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .slide8{
+    background-color: lavender;
+}
+.interestContent-container .interestSwiper-wrapper .interestSwiper .interest-content{
+    width: 220px;
+    height: 280px;
+    border-radius: 8px;
+}
+
+.interestSwiperPagination{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+.interestSwiperPagination .interest-pagination-wrapper {
+    display: flex;
+    width: 832px;
+    height: 3px;
+    background-color: transparent;
+    align-items: center;
+    position: relative;
+    margin-right: 28px;
+}
+.interestSwiperPagination .interest-pagination-background {
+    width: 100%;
+    height: 100%;
+    background-color: #B2B2B2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.interestSwiperPagination .interest-pagination-progress {
+    height: 100%;
+    width: 100%;
+    background-color: #000000;
+    transition: width 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0; 
+}
+
+.interestSwiperPagination .interest-button-prev{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonPreviousslide.png) no-repeat center;
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+}
+.interestSwiperPagination .interest-button-next{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonNextslide.png) no-repeat center;
+    width: 36px;
+    height: 36px;
+}
+
+.wishlist-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 80px;
+}
+.wishlist-container .wishlist-wrapper{
+    width: 70%;
+}
+.wishlist-container .wishlist-wrapper .textBox .headText{
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+.wishlist-container .wishlist-wrapper .textBox .subText{
+    font-size: 16px;
+    margin-bottom: 12px;
+}    
+    
+.wishlist-container .wishlist-wrapper .wishSwiper .slide1{
+    background-color: sandybrown;
+}
+.wishlist-container .wishlist-wrapper .wishSwiper .slide2{
+    background-color: seagreen;
+}
+.wishlist-container .wishlist-wrapper .wishSwiper .slide3{
+    background-color: seashell
+}
+.wishlist-container .wishlist-wrapper .wishSwiper .slide4{
+    background-color: skyblue;
+}
+.wishlist-container .wishlist-wrapper .wishSwiper .slide5{
+    background-color: orange;
+}
+.wishlist-container .wishlist-wrapper .wishSwiper .slide6{
+    background-color: lavender;
+}
+
+.wishlist-container .wishlist-wrapper .wishSwiper .wish-content{
+    width: 444px;
+    height: 444px;
+    border-radius: 8px;
+}
+
+.wishlist-container .wishlist-wrapper .wishSwiper {
+    overflow: hidden;
+    width: calc(444px * 3 + 22px * 2);
+    margin: 0 auto;
+    margin-right: 0;
+}
+
+.wishSwiperPagination{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+.wishSwiperPagination .wish-pagination-wrapper {
+    display: flex;
+    width: 832px;
+    height: 3px;
+    background-color: transparent;
+    align-items: center;
+    position: relative;
+    margin-right: 28px;
+}
+.wishSwiperPagination .wish-pagination-background {
+    width: 100%;
+    height: 100%;
+    background-color: #B2B2B2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.wishSwiperPagination .wish-pagination-progress {
+    height: 100%;
+    width: 100%;
+    background-color: #000000;
+    transition: width 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0; 
+}
+
+.wishSwiperPagination .wish-button-prev{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonPreviousslide.png) no-repeat center;
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+}
+.wishSwiperPagination .wish-button-next{
+    background: url(C:\sideTest\side\public\img\mypage\ButtonNextslide.png) no-repeat center;
+    width: 36px;
+    height: 36px;
+}
