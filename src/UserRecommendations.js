@@ -123,7 +123,7 @@ const UserRecommendation = () => {
                 alt={item.title}
                 style={{ width: '100%', height: '150px', objectFit: 'cover' }}
             />
-            <p>추천: {item.aiRecommendation || '추천 문구 없음'}</p>
+            <p>{item.aiRecommendation || '추천 문구 없음'}</p>
         </div>
     );
 

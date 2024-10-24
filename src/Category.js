@@ -109,14 +109,10 @@ const CategoryEvents = () => {
     const renderEventLink = (event) => {
         if (category === '관광지') {
             return (
-                <Link to={`/tourist-attraction/${event.contentid}/${event.contenttypeid}/detail`}>
+                <Link to={`/tourist-attractions/${event.contentid}/${event.contenttypeid}/detail`}>
                     <h2>{event.title}</h2>
                     <img src={event.firstimage} alt={event.title} width="200" />
                 </Link>
-                // <Link to={`/eventDetailPage/tourist-attractions/${event.contentid}/${event.contenttypeid}`}>
-                //     <h2>{event.title}</h2>
-                //     <img src={event.firstimage} alt={event.title} width="200" />
-                // </Link>
             );
         } else if (category === '문화시설') {
             return (

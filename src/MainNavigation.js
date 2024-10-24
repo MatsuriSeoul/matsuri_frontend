@@ -55,6 +55,7 @@ function MainNavigation() {
                     <li><Link to="/scheduled-events">개최예정중인행사</Link></li>
                     <li><Link to="/api/openai/prompt">AI 챗봇</Link></li>
                     <li><Link to="/api/clicks/popular">인기있는행사</Link></li>
+                    <li><Link to="/plan-section1">여행 계획 AI</Link></li>
                     {auth.token && (
                         <>
                             <li>

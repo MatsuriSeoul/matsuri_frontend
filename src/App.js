@@ -68,6 +68,9 @@ import openAITest from "./OpenAITest";
 import EventItem from "./EventItem";
 import UserRecommendations from "./UserRecommendations";
 import PopularEvents from "./PopularEvents";
+import AIPlanerSection1 from "./AIPlanerSection1";
+import AIPlanerSection2 from "./AIPlanerSection2";
+import AIPlanerSection3 from "./AIPlanerSection3";
 
 
 function App() {
@@ -175,6 +178,9 @@ function App() {
                         <Route path="/api/clicks/personalized/recommendation" component={UserRecommendations}/>
                         <Route path="/api/clicks/category-data" component={UserRecommendations}/>
                         <Route path="/api/clicks/popular" component={PopularEvents}/>
+                        <Route path="/plan-section1" component={AIPlanerSection1} />    {/*AI여행 플래너*/}
+                        <Route path="/plan-section2" component={AIPlanerSection2} />    {/*AI여행 플래너*/}
+                        <Route path="/plan-section3" component={AIPlanerSection3} />    {/*AI여행 플래너*/}
 
 
                     </Switch>
