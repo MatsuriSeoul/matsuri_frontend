@@ -134,11 +134,10 @@ const EventSearch = () => {
 
             if (region === '경기' && ['전시', '교육', '공연', '행사'].includes(category) && month) {
                 try {
-                    // 로그 추가: category 값을 확인
-                    console.log("현재 카테고리:", category);
+
 
                     const params = {category: category, month: month === '전체' ? '' : month.replace('월', '')}; // "1월"을 숫자 1로 변환
-                    console.log("경기 특정 카테고리 및 월 선택 시 엔드포인트로 요청 보냄:", params);
+
 
                     // 해당 조건에 맞는 요청을 별도의 엔드포인트로 보냄
                     const gyeonggiResponse = await axios.get(gyeonggiApiUrl, {
@@ -151,7 +150,7 @@ const EventSearch = () => {
                         );
                     }
 
-                    console.log("요청이 성공적으로 보내졌습니다.", params.category, params.month);
+
                     setResults(gyeonggiResponse.data); // 결과 데이터 설정
                     setCurrentPage(1); // 검색 시 첫 페이지로 이동
                     return results; // 기본 API 호출을 생략하기 위해 리턴
@@ -165,11 +164,10 @@ const EventSearch = () => {
             // 서울 이벤트 조회
             if (region === '서울' && ['전시/관람', '산림여가', '문화행사', '농장체험', '교육체험', '공원탐방'].includes(category) && month) {
                 try {
-                    // 로그 추가: category 값을 확인
-                    console.log("현재 카테고리:", category);
+
 
                     const params = {category: category, month: month === '전체' ? '' : month.replace('월', '')}; // "1월"을 숫자 1로 변환
-                    console.log("경기 특정 카테고리 및 월 선택 시 엔드포인트로 요청 보냄:", params);
+
 
                     const seoulResponse = await axios.get(seoulApiUrl, {
                         params: params
@@ -179,7 +177,7 @@ const EventSearch = () => {
                             <h3>진행중인 행사가 없습니다 😭</h3>
                         );
                     }
-                    console.log("요청이 성공적으로 보내졌습니다.", params.category, params.month);
+
                     setResults(seoulResponse.data); // 결과 데이터 설정
                     setCurrentPage(1); // 검색 시 첫 페이지로 이동
                     return results; // 기본 API 호출을 생략하기 위해 리턴
@@ -205,7 +203,7 @@ const EventSearch = () => {
                         <h3>진행중인 행사가 없습니다 😭</h3>
                     );
                 }
-                console.log(fullRegionName, month);
+
                 setResults(response.data);
                 setCurrentPage(1);
                 return;
@@ -220,15 +218,6 @@ const EventSearch = () => {
         }
     };
 
-    // // 날짜 형식 변환 함수
-    // const formatDate = (dateString) => {
-    //     if (!dateString) return 'Invalid Date';
-    //     const date = new Date(dateString);
-    //     if (isNaN(date.getTime())) {
-    //         return 'Invalid Date';
-    //     }
-    //     return date.toLocaleDateString();
-    // };
 
     const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE); // 총 페이지 수 계산
     const paginatedResults = results.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE); // 페이지에 따른 결과 분할

@@ -26,7 +26,6 @@ const LeisureSportsDetail = () => {
     // 클릭 로그 저장 로직 추가
     const logClick = async (contentId, contentTypeId) => {
         if (!auth || !auth.token) {
-            console.error('로그인되지 않았습니다.');
             return;
         }
 
@@ -44,7 +43,7 @@ const LeisureSportsDetail = () => {
                 },
             });
 
-            console.log('로그 저장 성공:', response.data);
+
         } catch (error) {
             console.error('로그 저장 중 오류:', error);
         }
@@ -80,7 +79,6 @@ const LeisureSportsDetail = () => {
         const fetchThumNail = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/leisure-sports/firstimage/${contentid}`);
-                console.log(thumnail);
                 setThumnail(response.data);
             } catch (error) {
                 console.error('이미지 못 불러옴', error);

@@ -11,14 +11,11 @@ const CreateInquiry = () => {
         const token = localStorage.getItem('token'); // JWT 토큰 사용
         try {
             const inquiry = { title, content, isPublic };  // isPublic 값 추가
-            console.log('프론트엔드 전송되는 inquiry 객체:', inquiry);  // 전송되는 데이터를 콘솔에 출력
             await axios.post('/api/inquiries', inquiry, {
                 headers: {
                     'Authorization': `Bearer ${token}` // 인증된 사용자만 작성 가능
                 }
             });
-
-            console.log('공개 여부 :' + isPublic);
 
             setTitle('');
             setContent('');

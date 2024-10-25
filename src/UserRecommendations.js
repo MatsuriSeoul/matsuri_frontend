@@ -98,7 +98,6 @@ const UserRecommendation = () => {
     // 추천 데이터를 렌더링하는 함수
     const renderCategoryData = (item) => {
         if (!item.contentid || !item.contenttypeid) {
-            console.warn('contentid 또는 contenttypeid가 없습니다:', item);
             return null;
         }
 

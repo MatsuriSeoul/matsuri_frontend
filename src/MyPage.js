@@ -149,7 +149,6 @@ function MyPage() {
             route = getRouteByContentType(contentid, contenttypeid);
         }
 
-        console.log(`Navigating to: ${route}`);  // 경로 확인
         // 경로로 이동
         history.push(route);
     };
@@ -188,7 +187,7 @@ function MyPage() {
                 // 중첩된 배열을 평탄화하는 코드
                 const flattenedEvents = likedEventsResponse.data.flat();
 
-                console.log('받은 데이터:', flattenedEvents);
+
                 setLikedEvents(flattenedEvents);
             } catch (error) {
                 console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);

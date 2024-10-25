@@ -41,7 +41,6 @@ const CulturalFacilityDetail = () => {
                 },
             });
 
-            console.log('로그 저장 성공:', response.data);
         } catch (error) {
             console.error('로그 저장 중 오류:', error);
         }
@@ -76,7 +75,6 @@ const CulturalFacilityDetail = () => {
         const fetchThumNail = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/cultural-facilities/firstimage/${contentid}`);
-                console.log(thumnail);
                 setThumnail(response.data);
             } catch (error) {
                 console.error('이미지 못 불러옴', error);

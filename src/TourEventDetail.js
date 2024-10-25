@@ -14,7 +14,6 @@ const TourEventDetail = () => {
                 params: { contentid: contentId }
             });
 
-            console.log('API Response:', response.data); // 응답 데이터 로그
 
             if (response.data) {
                 setEventDetail(response.data);

@@ -22,7 +22,6 @@ const EventItem = ({ event }) => {
                 },
             });
 
-            console.log(response.data);
         } catch (error) {
             console.error("클릭 로그 저장 중 오류:", error);
         }

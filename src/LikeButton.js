@@ -11,15 +11,12 @@ const LikeButton = ({ contentId, contentType }) => {  // contentType 추가
 
     // 콘솔 로그로 전달된 props 확인
     useEffect(() => {
-        console.log('contentId:', contentId);
-        console.log('contentType:', contentType);
     }, [contentId, contentType]);
 
     useEffect(() => {
         // 좋아요 상태 및 좋아요 숫자 불러오기
         const fetchLikeStatus = async () => {
             if (!contentId || !contentType) {
-                console.error('ContentId or ContentType is missing');
                 return;
             }
 
@@ -48,7 +45,6 @@ const LikeButton = ({ contentId, contentType }) => {  // contentType 추가
         }
 
         if (!contentId || !contentType) {
-            console.error('contentId 또는 contentType이 null입니다.');
             return;
         }
 

@@ -57,7 +57,6 @@ const EditNotice = () => {
         // 서버에 이미지 삭제 요청
         try {
             await axios.delete(`/api/notice/image/${removedImage.id}`);
-            console.log("이미지 삭제 완료:", removedImage.id);
 
             // 삭제 성공 시 프론트엔드에서도 이미지 제거
             const updatedImages = existingImages.filter((_, imgIndex) => imgIndex !== index);
@@ -79,7 +78,6 @@ const EditNotice = () => {
     };
 
     useEffect(() => {
-        console.log("삭제된 이미지 ID 목록 업데이트됨:", deletedImageIds);
     }, [deletedImageIds]);
 
 

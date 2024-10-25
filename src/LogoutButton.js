@@ -15,7 +15,6 @@ function LogoutButton() {
             console.error('로그아웃 실패:', error);
         }
 
-        console.log(`닉네임 : ${auth.userName} 님이 로그아웃 하였습니다.`);
 
         // 로컬 스토리지에서 인증 정보 제거
         localStorage.removeItem('token');

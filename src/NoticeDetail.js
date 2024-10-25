@@ -13,7 +13,7 @@ const NoticeDetail = () => {
     const extractUserIdFromToken = (token) => {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
-           // console.log("Extracted userId from token:", payload.userId);
+
             return payload.userId;
         } catch (error) {
             console.error("토큰에서 사용자 ID 추출 오류:", error);
@@ -47,7 +47,7 @@ const NoticeDetail = () => {
                 });
                 const noticeData = response.data;
 
-                // console.log("Fetched notice data:", noticeData);
+
 
                 // 이미지가 없는 경우 빈 배열로 초기화
                 noticeData.images = noticeData.images || [];
@@ -87,8 +87,7 @@ const NoticeDetail = () => {
 
     if (!notice) return <div>Loading...</div>;
 
-    // console.log("Current User ID:", currentUserId);
-    // console.log("Notice User ID:", notice.userId);
+
 
     return (
         <div>

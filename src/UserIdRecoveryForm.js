@@ -22,14 +22,10 @@ const UserIdRecoveryForm = ({ isOpen, onClose }) => {
         e.preventDefault();
         setLoading(true); // 로딩 상태 시작
 
-        console.log('name:', name);
-        console.log('identities:', identities);
-        console.log('recoveryOption:', recoveryOption);
 
         try {
             const data = { name, identifier: identities, option: recoveryOption };
 
-            console.log('Data to be sent:', data); // 데이터 확인
 
             await axios.post('/api/user-recovery/send-verification-code', data);
 
@@ -70,9 +66,9 @@ const UserIdRecoveryForm = ({ isOpen, onClose }) => {
 
         try {
             const data = { name, identifier: identities, option: recoveryOption, code: verificationCode };
-            console.log("아이디 복구를 위한 데이터:", data); // 데이터 확인
+
             const response = await axios.post('/api/user-recovery/recover-userid', data);
-            console.log("서버 응답 데이터:", response.data); // 응답 데이터 확인
+
             alert(`귀하의 ID는 ${response.data.userId} 입니다.`);
             // 상태 초기화
             resetState();

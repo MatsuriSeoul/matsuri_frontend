@@ -8,8 +8,7 @@ const KakaoMap = ({ mapX, mapY, title }) => {
         const parsedMapX = parseFloat(mapX);
         const parsedMapY = parseFloat(mapY);
 
-        // 좌표 값이 숫자로 변환되지 않은 경우를 대비한 로그
-        console.log('KakaoMap 좌표:', { mapX: parsedMapX, mapY: parsedMapY, title });
+
 
         // 스크립트 추가
         const script = document.createElement('script');

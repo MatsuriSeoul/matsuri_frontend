@@ -17,7 +17,6 @@ const TourList = () => {
                     }
                 });
 
-                console.log('API Response:', response.data); // 응답 데이터 로그
 
                 if (response.data && Array.isArray(response.data) && response.data.length > 0) {
                     setEvents(response.data);

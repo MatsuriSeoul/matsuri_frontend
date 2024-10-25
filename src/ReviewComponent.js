@@ -10,7 +10,6 @@ const ReviewComponent = ({ query }) => {
                 const response = await axios.get(`http://localhost:8080/api/reviews`, {
                     params: { title: query },
                 });
-                console.log("받은 데이터 :", response.data);
                 setReviews(response.data);
             } catch (error) {
                 console.error('Error fetching reviews:', error);

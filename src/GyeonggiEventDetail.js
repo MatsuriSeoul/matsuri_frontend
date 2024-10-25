@@ -67,7 +67,6 @@ const GyeonggiEventDetail = () => {
         const fetchEventDetail = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/events/gyeonggi-events/${id}`);
-                console.log(response.data);  // 서버 응답을 콘솔에 출력
                 setEventDetail(response.data);
             } catch (error) {
                 setError('경기 이벤트 상세 정보 가져오기 실패: ' + error.message);
