@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const AIPlanerSection3 = () => {
-    const location = useLocation(); // history에서 state를 받아옴
-    const { region, category } = location.state; // state에서 지역과 카테고리 정보를 추출
-    const [duration, setDuration] = useState(''); // 여행 기간 상태
-    const [responseMessage, setResponseMessage] = useState(''); // 서버 응답 메시지
-    const [loading, setLoading] = useState(false); // 로딩 상태
+    const history = useHistory();
+    const location = useLocation();
+    const { region, categories } = location.state; // 전달된 지역과 카테고리 받기
+    const [duration, setDuration] = useState('');
+    const [responseMessage, setResponseMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    // 서버에 지역, 카테고리 및 기간 정보 전송
+    // 기간 선택 및 서버 요청
     const handleDurationSubmit = async () => {
         if (!duration) {
             alert("여행 기간을 선택하세요!");
@@ -19,13 +20,18 @@ const AIPlanerSection3 = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post('/api/openai/plan', {
+            const response = await axios.post('/api/openai/result', {
                 region: region,
-                category: category,
+                categories: categories,  // 배열로 전달
                 duration: duration
             });
             console.log('서버 응답:', response.data);
-            setResponseMessage('여행 계획이 완료되었습니다! 결과를 확인하세요.');
+
+            // 결과 페이지로 이동, 서버 응답 데이터를 함께 전달
+            history.push({
+                pathname: '/plan-result',
+                state: { result: response.data, region, categories, duration }
+            });
         } catch (error) {
             console.error('오류 발생:', error);
             setResponseMessage('서버 요청 중 오류가 발생했습니다.');
@@ -36,7 +42,7 @@ const AIPlanerSection3 = () => {
 
     return (
         <div>
-            <h2>{region} 지역에서 {category} 카테고리로 여행할 기간을 선택하세요</h2>
+            <h2>{region} 지역에서 {categories.join(', ')} 카테고리로 여행할 기간을 선택하세요</h2>
             <div>
                 {['당일', '1박 2일', '2박 3일'].map((d) => (
                     <button
@@ -52,7 +58,6 @@ const AIPlanerSection3 = () => {
             <button onClick={handleDurationSubmit}>여행 기간 선택</button>
 
             <p>{responseMessage}</p>
-
             {loading && <p>서버 요청 중...</p>}
         </div>
     );

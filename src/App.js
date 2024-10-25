@@ -71,6 +71,7 @@ import PopularEvents from "./PopularEvents";
 import AIPlanerSection1 from "./AIPlanerSection1";
 import AIPlanerSection2 from "./AIPlanerSection2";
 import AIPlanerSection3 from "./AIPlanerSection3";
+import AIPlanerResult from "./AIPlanerResult";
 
 
 function App() {
@@ -181,6 +182,7 @@ function App() {
                         <Route path="/plan-section1" component={AIPlanerSection1} />    {/*AI여행 플래너*/}
                         <Route path="/plan-section2" component={AIPlanerSection2} />    {/*AI여행 플래너*/}
                         <Route path="/plan-section3" component={AIPlanerSection3} />    {/*AI여행 플래너*/}
+                        <Route path="/plan-result" component={AIPlanerResult} />    {/*AI여행 플래너*/}
 
 
                     </Switch>
