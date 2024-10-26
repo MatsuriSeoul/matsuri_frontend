@@ -25,7 +25,10 @@ const AIPlanerResult = () => {
                                     <div style={styles.eventContent}>
                                         <h4 style={styles.eventTitle}>{event.title}</h4>
                                         <p style={styles.eventAddress}>주소: {event.addr1}</p>
-                                        <p style={styles.eventRecommendation}>{event.recommendation}</p>
+                                        <p style={styles.eventTime}>
+                                            {event.time === "오전" ? "오전: " : "오후: "}
+                                            {event.recommendation}
+                                        </p>
                                     </div>
                                 </li>
                             ))}
@@ -35,7 +38,13 @@ const AIPlanerResult = () => {
             </div>
             <div style={styles.aiMessageSection}>
                 <h3 style={styles.aiMessageTitle}>AI 추천 메시지</h3>
-                <p style={styles.aiMessageContent}>{result.aiResponse}</p>
+                <div style={styles.aiMessageContent}>
+                    {result.aiResponse && (
+                        <div style={{ whiteSpace: 'pre-line' }}>
+                            {result.aiResponse}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
@@ -97,7 +106,7 @@ const styles = {
         fontSize: '14px',
         color: '#777',
     },
-    eventRecommendation: {
+    eventTime: {
         fontSize: '14px',
         color: '#333',
         marginTop: '5px',
