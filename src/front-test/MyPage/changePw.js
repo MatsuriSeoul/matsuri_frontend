@@ -1,41 +1,121 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import '../../css/MyPage/changePw.css';
+import axios from "axios";
+import {useHistory} from "react-router-dom";
 
-const ChangePw = () => {
+const ChangePw = ({ closeModal }) => {
+
+    const history = useHistory();
+    const [newPassword, setNewPassword] = useState('');
+    const [userPasswordConfirm, setUserPasswordConfirm] = useState(''); // 비밀번호 확인
+    const [passwordError, setPasswordError] = useState(''); // 비밀번호 오류 메시지
+    const [currentPassword, setCurrentPassword] = useState('');
+
+    // 비밀번호 확인 로직
+    useEffect(() => {
+        if (newPassword && userPasswordConfirm) {
+            if (newPassword === userPasswordConfirm) {
+                setPasswordError(validatePassword(newPassword));  // 조건 검증 추가
+            } else {
+                setPasswordError('입력한 비밀번호와 일치하지 않습니다.');
+            }
+        } else {
+            setPasswordError('');
+        }
+    }, [newPassword, userPasswordConfirm]);
+
+    // 비밀번호 조건 검사 함수 (최소 8자, 대문자와 특수문자 포함)
+    const validatePassword = (password) => {
+        if (password.length < 8) {
+            return '비밀번호는 최소 8자 이상이어야 합니다.';
+        }
+        if (!/[A-Z]/.test(password)) {
+            return '비밀번호는 적어도 하나의 대문자를 포함해야 합니다.';
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            return '비밀번호는 적어도 하나의 특수문자를 포함해야 합니다.';
+        }
+        return '';
+    };
+
+    const handleContentClick = (e) => {
+        e.stopPropagation();
+    };
+    const handleBackgroundClick = (e) => {
+        closeModal(); // 배경 클릭 시 closeModal 호출
+    };
+
+    // 비밀번호 변경 처리 함수
+    const handlePasswordChange = async () => {
+        if (newPassword !== userPasswordConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post('/api/users/change-password', {
+                currentPassword,
+                newPassword
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // 성공 응답 처리
+            if (response.status === 200) {
+                alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
+
+                // 세션 초기화
+                localStorage.clear();
+
+                // 메인 페이지로 리다이렉트
+                history.push('/');
+            }
+        } catch (error) {
+            console.error('비밀번호 변경 중 오류 발생:', error); // 오류 로그 확인
+
+            if (error.response && error.response.status === 400) {
+                alert(error.response.data);  // 서버 응답에 따른 메시지 처리
+            } else if (error.response && error.response.status === 500) {
+                alert('서버 오류로 인해 비밀번호 변경에 실패했습니다.');
+            } else {
+                alert('비밀번호 변경 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
     return(
-        <div>
-            <div className="userInfoContainer">
-                <div className="userProfileWrapper">
-                    <div className="userProfileTab">마이페이지</div>
-                    <div className="tailBox"></div>
-                    <div className="userProfileContainer">
-                        <div className="profileIcon"><svg width="146" height="146" viewBox="0 0 146 146" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M122.042 113.743C128.595 105.86 133.152 96.514 135.328 86.4967C137.505 76.4795 137.237 66.0854 134.547 56.1937C131.857 46.302 126.824 37.2037 119.874 29.6685C112.924 22.1333 104.261 16.3829 94.6183 12.9036C84.9759 9.42441 74.6373 8.31875 64.4771 9.6802C54.3169 11.0417 44.6341 14.8302 36.2478 20.7252C27.8614 26.6203 21.0183 34.4485 16.2972 43.5476C11.5761 52.6467 9.11605 62.7491 9.12502 73C9.12886 87.9019 14.3802 102.327 23.9577 113.743L23.8665 113.821C24.1858 114.204 24.5508 114.532 24.8793 114.911C25.29 115.381 25.7325 115.824 26.1568 116.28C27.4283 117.67 28.7514 118.993 30.1262 120.249C30.552 120.626 30.9779 120.994 31.4037 121.353C32.8637 122.616 34.3693 123.805 35.9206 124.921C36.1213 125.058 36.3038 125.236 36.5046 125.378V125.323C47.1902 132.843 59.9379 136.879 73.0046 136.879C86.0713 136.879 98.819 132.843 109.505 125.323V125.378C109.705 125.236 109.883 125.058 110.089 124.921C111.64 123.802 113.145 122.613 114.605 121.353C115.031 120.991 115.457 120.623 115.883 120.249C117.255 118.993 118.578 117.67 119.852 116.28C120.277 115.824 120.715 115.381 121.13 114.911C121.454 114.532 121.823 114.204 122.143 113.816L122.042 113.743ZM73 36.5C77.0607 36.5 81.0302 37.7042 84.4066 39.9602C87.7829 42.2162 90.4145 45.4227 91.9684 49.1743C93.5224 52.9259 93.929 57.0541 93.1368 61.0367C92.3446 65.0194 90.3892 68.6777 87.5178 71.5491C84.6465 74.4204 80.9882 76.3758 77.0055 77.168C73.0228 77.9602 68.8947 77.5536 65.1431 75.9997C61.3915 74.4457 58.1849 71.8142 55.9289 68.4378C53.6729 65.0615 52.4688 61.092 52.4688 57.0313C52.4688 51.5861 54.6319 46.3639 58.4822 42.5135C62.3326 38.6632 67.5548 36.5 73 36.5ZM36.532 113.743C36.6111 107.752 39.0457 102.034 43.3089 97.8243C47.5722 93.6149 53.3213 91.2531 59.3125 91.25H86.6875C92.6788 91.2531 98.4279 93.6149 102.691 97.8243C106.954 102.034 109.389 107.752 109.468 113.743C99.4618 122.76 86.4697 127.75 73 127.75C59.5303 127.75 46.5382 122.76 36.532 113.743Z" fill="#CACACA"/>
-                        </svg>
+        <div className='changePw-bg' onMouseDown={handleBackgroundClick}>
+            <div className='container' onMouseDown={handleContentClick}>
+                <h1 className='title'>회원가입</h1>
+                <from className='changePw-from'>
+                    <div className="inputBox-pw inputBox">
+                        <div className="inputBox-headText">현재 비밀번호</div>
+                        <input type="password"
+                               className="text-field"
+                               value={currentPassword}
+                               onChange={(e) => setCurrentPassword(e.target.value)}
+                               placeholder="현재 비밀번호"></input>
                     </div>
-                        <div className="profileName">정민철</div>
-                        <div className="profileEmail">xhflzm123@naver.com</div>
+                    <div className="inputBox-newpw inputBox">
+                        <div className="inputBox-headText">새 비밀번호</div>
+                        <input type="password" placeholder="새 비밀번호" className="text-field"
+                               value={newPassword} onChange={(e) =>
+                            setNewPassword(e.target.value)} required></input>
+                        <div className="warningMsg">*대문자, 특수문자 포함해서 8자리 이상으로 이루어진 비밀번호</div>
                     </div>
-                </div>
+                    <div className="inputBox-checkPw inputBox">
+                        <input type="password" placeholder="새 비밀번호 확인" className="text-field"
+                               value={userPasswordConfirm} onChange={(e) =>
+                            setUserPasswordConfirm(e.target.value)} required></input>
+                        <p className="warningMsg">{passwordError}</p>
+                    </div>
+                </from>
+                <button className='btn btnOk' onClick={handlePasswordChange}>비밀번호 변경</button>
             </div>
 
-            <div className="changePwConatainer">
-                <div className="changePwWrapper">
-                    <div className="headText">비밀번호 변경</div>
-                    <div className="subText">안전한 비밀번호로 내 정보를 보호하세요.</div>
-                    <div className="warningMsg">*다른 아이디/사이트에서 사용한 적 없는 비밀번호</div>
-                    <div className="warningMsg">*이전에 사용한 적 없는 비밀번호가 안전합니다</div>
-
-                    <input placeholder="비밀번호" type="password" className="text-field"></input>
-                    <input placeholder="새 비밀번호" type="password" className="text-field"></input>
-                    <input placeholder="새 비밀번호 확인" type="password" className="text-field"></input>
-                    
-                    <div className="btn-wrap">
-                        <button className="btnOk">확인</button>
-                        <button className="btnReset">취소</button>
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }

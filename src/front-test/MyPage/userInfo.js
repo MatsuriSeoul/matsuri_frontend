@@ -1,10 +1,13 @@
 import '../../css/MyPage/userInfo.css';
 import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {Navigation} from "swiper/modules";
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import "swiper/css";
 import "swiper/css/navigation";
+import LoginPage from "../login/LoginPage";
+import ChangePw from "./changePw";
 
 
 const SlideTest = [
@@ -17,45 +20,500 @@ const SlideTest = [
   ];
 
 const UserInfo = () => {
+    const [userInfo, setUserInfo] = useState({
+        userName: '',
+        userEmail: '',
+        userPhone: '',
+        userBirthday: '',
+        profileImage: ''
+    });
+    const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+    const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isPhoneValid, setIsPhoneValid] = useState(true);
+    const [isVerified, setIsVerified] = useState(false);
+    const [isEmailDuplicate, setIsEmailDuplicate] = useState(false); // 중복된 이메일 여부
+    const [isEmailChecked, setIsEmailChecked] = useState(false); // 중복 검사 통과 여부
+    const [newEmail, setNewEmail] = useState('');  // 새로 설정한 이메일
+    const [verificationCode, setVerificationCode] = useState(''); // 인증번호 입력 필드
+    const [likedComments, setLikedComments] = useState([]); // 댓글 좋아요 저장
+    const [authoredComments, setAuthoredComments] = useState([]); //내가 작성한 댓글 목록
+    const [editMode, setEditMode] = useState({
+        userName: false,
+        userEmail: false,
+        userPhone: false,
+        userBirthday: false
+    });
+    const [message, setMessage] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
+    const history = useHistory();
+    const [likedEvents, setLikedEvents] = useState([]); // 내가 좋아요 누른 콘텐츠 목록 저장
+    const token = localStorage.getItem('token');
+    const fileInputRef = useRef(null);
 
-    const [isLiked, setIsLiked] = useState(false);
 
-    const handleLikeToggle = () => {
-        setIsLiked(prevState => !prevState);
+
+    // 이메일 형식 검사 함수
+    const validateEmail = (email) => {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net)$/;
+        return emailPattern.test(email);
     };
-    
-    const modules = [Navigation];
+
+    // 전화번호 형식 검사 함수 (숫자 10~11자리만 허용)
+    const validatePhone = (phone) => {
+        const phonePattern = /^010\d{8}$/;
+        return phonePattern.test(phone);
+    };
+
+    // 생일의 유효한 범위를 체크 (미래 날짜 또는 먼 과거 금지)
+    const validateBirthday = (birthday) => {
+        const today = new Date();
+        const birthDate = new Date(birthday);
+        const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate()); // 120년 전까지 허용
+        return birthDate <= today && birthDate >= minDate;
+    };
+
+    const isValidEvent = (event) => {
+        return event && typeof event === 'object';
+    };
+
+    // 이미지 URL을 통합하는 함수
+    const getUnifiedImageUrl = (event) => {
+        if (!isValidEvent(event)) return '/img/mainlogo.png'; // 유효하지 않으면 기본값 반환
+        return event.firstImage || event.imageUrl || event.imgurl || '/img/mainlogo.png';
+    };
+
+    // 제목을 통합하는 함수
+    const getUnifiedTitle = (event) => {
+        if (!isValidEvent(event)) return '제목 없음'; // 유효하지 않으면 기본값 반환
+        return event.title || event.svcnm || '제목 없음';
+    };
+
+    // 썸네일 상세내용 데이터 변환 함수
+    const getUnifiedContent = (event) => {
+        if (!isValidEvent(event)) return '상세 내용이 없습니다'; // 유효하지 않으면 기본값 반환
+
+        const content = event.overview || '상세 내용이 없습니다'; // overview가 없으면 기본값 반환
+
+        if (event.overview == null) return '상세 내용이 없습니다'  // overview가 null값이면
+
+        // 내용이 40자를 넘으면 자르고 '...'를 붙임
+        return content.length > 40 ? `${content.substring(0, 40)}...` : content;
+    };
+
+    // 서울과 경기 이벤트의 상세 페이지 경로 설정 함수
+    const getEventDetailRoute = (event) => {
+        if (!isValidEvent(event)) return '#';
+
+        if (event.svcid) {  // 서울 이벤트의 경우
+            return `/seoul-events/${event.svcid}/detail`;
+        } else if (event.id) {  // 경기 이벤트의 경우
+            return `/gyeonggi-events/${event.id}/detail`;
+        } else {
+            return '#';  // 기본 경로 처리
+        }
+    };
+
+
+    // 상세 페이지 경로 설정 함수
+    const getRouteByContentType = (contentid, contenttypeid, svcid, id) => {
+        if (!contenttypeid) return '#'; // contenttypeid가 없는 경우 예외 처리
+
+        switch (contenttypeid) {
+            case '12':  // 관광지 (숫자)
+            case 'TouristAttractionDetail':  // 관광지 (문자열)
+                return `/tourist-attraction/${contentid}/${contenttypeid}/detail`;
+            case '14':  // 문화 시설 (숫자)
+            case 'CulturalFacilityDetail':  // 문화 시설 (문자열)
+                return `/cultural-facilities/${contentid}/${contenttypeid}/detail`;
+            case '15':  // 축제 공연 행사 (숫자)
+            case 'TourEventDetail':  // 축제 공연 행사 (문자열)
+                return `/events/${contentid}/${contenttypeid}/detail`;
+            case '25':  // 여행코스 (숫자)
+            case 'TravelCourseDetail':  // 여행코스 (문자열)
+                return `/travel-courses/${contentid}/${contenttypeid}/detail`;
+            case '28':  // 레포츠 (숫자)
+            case 'LeisureSportsEventDetail':  // 레포츠 (문자열)
+                return `/leisure-sports/${contentid}/${contenttypeid}/detail`;
+            case '32':  // 숙박 (숫자)
+            case 'LocalEventDetail':  // 숙박 (문자열)
+                return `/local-events/${contentid}/${contenttypeid}/detail`;
+            case '38':  // 쇼핑 (숫자)
+            case 'ShoppingEventDetail':  // 쇼핑 (문자열)
+                return `/shopping-events/${contentid}/${contenttypeid}/detail`;
+            case '39':  // 음식 (숫자)
+            case 'FoodEventDetail':  // 음식 (문자열)
+                return `/food-events/${contentid}/${contenttypeid}/detail`;
+            case 'EventDetail':
+                return `/events/${contentid}/detail`;
+            default:
+                alert("상세 페이지 이동 중 오류 발생.")
+                return `/`;  // 기본 경로 처리
+        }
+    };
+
+    // 상세 페이지로 이동하는 함수
+    const handleNavigate = (event) => {
+        const { contentid, contenttypeid, svcid, id } = event;
+
+        let route = '#';  // 기본 경로
+
+        // contenttypeid가 없는 경우 서울과 경기 이벤트의 경로를 확인
+        if (contenttypeid && (contenttypeid.includes('SeoulEvent') || contenttypeid.includes('GyeonggiEvent'))) {
+            route = getEventDetailRoute(event);
+        } else {
+            // 일반 Tour API 이벤트의 경우
+            route = getRouteByContentType(contentid, contenttypeid);
+        }
+
+        // 경로로 이동
+        history.push(route);
+    };
+
+    // 댓글 작성된 페이지로 이동
+    const navigateToCommentPage = (comment) => {
+        handleNavigate({
+            contentid: comment.contentid || '',
+            contenttypeid: comment.contenttypeid || '',  // 없을 경우 빈 문자열로 설정
+            svcid: comment.svcid,
+            id: comment.gyeonggiEvent?.id || comment.contentid  // 경기도 이벤트 또는 contentid
+        });
+    };
+
+
+    useEffect(() => {
+        if (!token) {
+            alert('로그인이 필요한 기능입니다.');
+            history.push('/'); // 메인 페이지로 리다이렉션
+            return;
+        }
+
+        const fetchData = async () => {
+            try {
+                // 사용자 정보 불러오기
+                const userInfoResponse = await axios.get('/api/users/profile', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                setUserInfo(userInfoResponse.data);
+                setNewEmail(userInfoResponse.data.userEmail);
+
+                // 좋아요한 게시글 목록 불러오기
+                const likedEventsResponse = await axios.get('/api/users/liked-events', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                // 중첩된 배열을 평탄화하는 코드
+                const flattenedEvents = likedEventsResponse.data.flat();
+
+
+                setLikedEvents(flattenedEvents);
+            } catch (error) {
+                console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+            }
+        };
+
+
+        const fetchLikedComments = async () => {
+            try {
+                const response = await axios.get('/api/users/liked-comments', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
+                setLikedComments(response.data);
+            } catch (error) {
+                console.error('좋아요한 댓글 불러오기 실패:', error);
+            }
+        };
+
+        const fetchAuthoredComments = async () => {
+            try {
+                const response = await axios.get('/api/users/authored-comments', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                setAuthoredComments(response.data);
+            } catch (error) {
+                console.error('작성한 댓글 불러오기 실패:', error);
+            }
+        };
+
+        fetchAuthoredComments();
+        fetchLikedComments();
+        fetchData();
+    }, [history, token, userInfo.profileImage]);
+
+    const goToPasswordChange = () => {
+        history.push('/change-password'); // 비밀번호 변경 페이지로 이동
+    };
+
+    const handleEmailChange = (e) => {
+        const email = e.target.value;
+        setNewEmail(email);
+        const isValid = validateEmail(email);
+        setIsEmailValid(isValid);
+        setIsEmailChecked(false); // 이메일이 변경될 때마다 중복 검사 초기화
+    };
+
+    const handleCheckEmailDuplicate = async () => {
+        if (!isEmailValid) {
+            alert('유효하지 않은 이메일입니다.');
+            return;
+        }
+
+        try {
+            // 이메일 중복 검사
+            const response = await axios.get(`/api/users/check-email/${newEmail}`);
+            if (response.data.exists) {
+                setIsEmailDuplicate(true); // 중복된 이메일
+                setIsEmailChecked(false);
+                alert('이미 사용 중인 이메일입니다.');
+            } else {
+                setIsEmailDuplicate(false); // 중복되지 않음
+                setIsEmailChecked(true); // 중복 검사 통과
+                alert('사용 가능한 이메일입니다.');
+            }
+        } catch (error) {
+            console.error('이메일 중복 검사 오류', error);
+            alert('이메일 중복 검사 중 오류가 발생했습니다.');
+        }
+    };
+
+    const handleSendVerificationCode = async () => {
+        if (!isEmailChecked || isEmailDuplicate) {
+            alert('중복 검사를 통과한 후 인증번호를 발송할 수 있습니다.');
+            return;
+        }
+
+        try {
+            await axios.post('/api/users/send-verification-code', { identifier: newEmail, type: 'email' });
+            setEmailVerificationSent(true);
+            alert('인증번호가 발송되었습니다.');
+        } catch (error) {
+            console.error('인증번호 발송 오류', error);
+            alert('인증번호 발송 실패');
+        }
+    };
+
+    const handleVerifyCode = async () => {
+        try {
+            const response = await axios.post('/api/users/verify-code', { identifier: newEmail, code: verificationCode });
+            if (response.data.verified) {
+                setIsVerified(true);
+                alert('인증번호 확인 완료.');
+            } else {
+                setIsVerified(false);
+                alert('인증번호가 일치하지 않습니다.');
+            }
+        } catch (error) {
+            console.error('인증번호 검증 오류', error);
+        }
+    };
+
+    const handleEmailUpdate = async () => {
+        if (!isVerified) {
+            alert('이메일 인증을 완료해주세요.');
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            await axios.put('/api/users/profile', { userEmail: newEmail }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setUserInfo(prevState => ({ ...prevState, userEmail: newEmail }));
+            setMessage('이메일이 성공적으로 변경되었습니다.');
+            setEmailVerificationSent(false);
+            setIsVerified(false);
+            setNewEmail('');
+        } catch (error) {
+            console.error('이메일 변경 실패', error);
+            setMessage('이메일 변경에 실패했습니다.');
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === 'userPhone') {
+            setIsPhoneValid(validatePhone(value));
+        }
+
+        setUserInfo(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const toggleEditMode = (field) => {
+        setEditMode(prevState => ({
+            ...prevState,
+            [field]: !prevState[field]
+        }));
+    };
+
+    const handleUpdate = async (fieldName) => {
+        try {
+            const token = localStorage.getItem('token');
+            const validBirthday = fieldName === 'userBirthday' ? validateBirthday(userInfo.userBirthday) : true;
+
+            if (fieldName === 'userPhone' && !isPhoneValid) {
+                alert('유효한 전화번호 형식이 아닙니다.');
+                return;
+            }
+            if (fieldName === 'userBirthday' && !validBirthday) {
+                alert('생일은 유효한 범위 내에서 선택해야 합니다.');
+                return;
+            }
+
+            await axios.put(`/api/users/profile`, { [fieldName]: userInfo[fieldName] }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setMessage(`${fieldName}이(가) 업데이트되었습니다.`);
+            toggleEditMode(fieldName);
+        } catch (error) {
+            console.error(`${fieldName} 업데이트 실패`, error);
+            setMessage(`${fieldName} 업데이트에 실패했습니다.`);
+        }
+    };
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        setSelectedImage(file);
+
+        if (file) {
+            await handleImageUpload(file); // 파일을 선택하면 즉시 업로드
+        }
+    };
+
+    const handleImageUpload = async (file) => {
+        if (!file) {
+            alert("이미지를 선택하세요.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post('/api/users/profile-image', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            const newImageFileName = response.data; // 업로드된 이미지 이름을 가져옴
+
+            setMessage("프로필 이미지가 업데이트되었습니다.");
+            setUserInfo(prevState => ({
+                ...prevState,
+                profileImage: newImageFileName
+            }));
+
+            setSelectedImage(null); // 이미지 선택 필드 초기화
+        } catch (error) {
+            console.error("프로필 이미지 업데이트 실패", error);
+            setMessage("프로필 이미지 업데이트에 실패했습니다.");
+        }
+    };
+
+    const handleImageDelete = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            await axios.delete('/api/users/profile-image', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setMessage("프로필 이미지가 삭제되었습니다.");
+
+            // 삭제 후 기본 이미지로 설정
+            setUserInfo(prevState => ({
+                ...prevState,
+                profileImage: null
+            }));
+        } catch (error) {
+            console.error("프로필 이미지 삭제 실패", error);
+            setMessage("프로필 이미지 삭제에 실패했습니다.");
+        }
+    };
+
+    const handleButtonClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
     return (
         <div className="userInfoContainer">
+            {isModalOpen && (
+                <ChangePw closeModal={() => setIsModalOpen(false)}/>
+            )}
             <div className="userProfileWrapper">
                 <div className="userProfileTab">마이페이지</div>
-                <div className="tailBox"></div>
+                <div className="tailBox"
+                style={{
+                    backgroundImage: `url(/img/tail.png)`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}></div>
                 <div className="userProfileContainer">
-                    <div className="profileIcon"><svg width="146" height="146" viewBox="0 0 146 146" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M122.042 113.743C128.595 105.86 133.152 96.514 135.328 86.4967C137.505 76.4795 137.237 66.0854 134.547 56.1937C131.857 46.302 126.824 37.2037 119.874 29.6685C112.924 22.1333 104.261 16.3829 94.6183 12.9036C84.9759 9.42441 74.6373 8.31875 64.4771 9.6802C54.3169 11.0417 44.6341 14.8302 36.2478 20.7252C27.8614 26.6203 21.0183 34.4485 16.2972 43.5476C11.5761 52.6467 9.11605 62.7491 9.12502 73C9.12886 87.9019 14.3802 102.327 23.9577 113.743L23.8665 113.821C24.1858 114.204 24.5508 114.532 24.8793 114.911C25.29 115.381 25.7325 115.824 26.1568 116.28C27.4283 117.67 28.7514 118.993 30.1262 120.249C30.552 120.626 30.9779 120.994 31.4037 121.353C32.8637 122.616 34.3693 123.805 35.9206 124.921C36.1213 125.058 36.3038 125.236 36.5046 125.378V125.323C47.1902 132.843 59.9379 136.879 73.0046 136.879C86.0713 136.879 98.819 132.843 109.505 125.323V125.378C109.705 125.236 109.883 125.058 110.089 124.921C111.64 123.802 113.145 122.613 114.605 121.353C115.031 120.991 115.457 120.623 115.883 120.249C117.255 118.993 118.578 117.67 119.852 116.28C120.277 115.824 120.715 115.381 121.13 114.911C121.454 114.532 121.823 114.204 122.143 113.816L122.042 113.743ZM73 36.5C77.0607 36.5 81.0302 37.7042 84.4066 39.9602C87.7829 42.2162 90.4145 45.4227 91.9684 49.1743C93.5224 52.9259 93.929 57.0541 93.1368 61.0367C92.3446 65.0194 90.3892 68.6777 87.5178 71.5491C84.6465 74.4204 80.9882 76.3758 77.0055 77.168C73.0228 77.9602 68.8947 77.5536 65.1431 75.9997C61.3915 74.4457 58.1849 71.8142 55.9289 68.4378C53.6729 65.0615 52.4688 61.092 52.4688 57.0313C52.4688 51.5861 54.6319 46.3639 58.4822 42.5135C62.3326 38.6632 67.5548 36.5 73 36.5ZM36.532 113.743C36.6111 107.752 39.0457 102.034 43.3089 97.8243C47.5722 93.6149 53.3213 91.2531 59.3125 91.25H86.6875C92.6788 91.2531 98.4279 93.6149 102.691 97.8243C106.954 102.034 109.389 107.752 109.468 113.743C99.4618 122.76 86.4697 127.75 73 127.75C59.5303 127.75 46.5382 122.76 36.532 113.743Z" fill="#CACACA"/>
-                    </svg>
+                    <div className="profileIcon"
+                         style={{
+                             backgroundImage: `url(${userInfo.profileImage ? userInfo.profileImage : `/img/icon/user.svg`})`,
+                             backgroundSize: 'cover',
+                             backgroundPosition: 'center',
+                         }}>
+                    </div>
+                    <div className="profileName">{userInfo.userName}</div>
+                    <div className="profileEmail">{userInfo.userEmail}</div>
+                    <div className='ch-img'>
+                        <input type="file" name="profileImage" onChange={handleImageChange} ref={fileInputRef}
+                               style={{display: 'none'}}/>
+                        <button className='change-btn' onClick={handleButtonClick}>프로필 수정</button>
+                        {userInfo.profileImage && (
+                            <button className='change-btn delete-img' onClick={handleImageDelete}>이미지 삭제</button>
+                        )}
+                    </div>
                 </div>
-                    <div className="profileName">정민철</div>
-                    <div className="profileEmail">xhflzm123@naver.com</div>
-                </div>
+
             </div>
-            
+
             <div className="profileContainer">
                 <div className="profileInfoContainer">
                     <div className="headText">기본 정보</div>
                     <div className="profileInfo">
                         <div className="profileRow">
-                        <div className="profileIcon profilePhoto">
-                        <svg width="146" height="146" viewBox="0 0 146 146" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M122.042 113.743C128.595 105.86 133.152 96.514 135.328 86.4967C137.505 76.4795 137.237 66.0854 134.547 56.1937C131.857 46.302 126.824 37.2037 119.874 29.6685C112.924 22.1333 104.261 16.3829 94.6183 12.9036C84.9759 9.42441 74.6373 8.31875 64.4771 9.6802C54.3169 11.0417 44.6341 14.8302 36.2478 20.7252C27.8614 26.6203 21.0183 34.4485 16.2972 43.5476C11.5761 52.6467 9.11605 62.7491 9.12502 73C9.12886 87.9019 14.3802 102.327 23.9577 113.743L23.8665 113.821C24.1858 114.204 24.5508 114.532 24.8793 114.911C25.29 115.381 25.7325 115.824 26.1568 116.28C27.4283 117.67 28.7514 118.993 30.1262 120.249C30.552 120.626 30.9779 120.994 31.4037 121.353C32.8637 122.616 34.3693 123.805 35.9206 124.921C36.1213 125.058 36.3038 125.236 36.5046 125.378V125.323C47.1902 132.843 59.9379 136.879 73.0046 136.879C86.0713 136.879 98.819 132.843 109.505 125.323V125.378C109.705 125.236 109.883 125.058 110.089 124.921C111.64 123.802 113.145 122.613 114.605 121.353C115.031 120.991 115.457 120.623 115.883 120.249C117.255 118.993 118.578 117.67 119.852 116.28C120.277 115.824 120.715 115.381 121.13 114.911C121.454 114.532 121.823 114.204 122.143 113.816L122.042 113.743ZM73 36.5C77.0607 36.5 81.0302 37.7042 84.4066 39.9602C87.7829 42.2162 90.4145 45.4227 91.9684 49.1743C93.5224 52.9259 93.929 57.0541 93.1368 61.0367C92.3446 65.0194 90.3892 68.6777 87.5178 71.5491C84.6465 74.4204 80.9882 76.3758 77.0055 77.168C73.0228 77.9602 68.8947 77.5536 65.1431 75.9997C61.3915 74.4457 58.1849 71.8142 55.9289 68.4378C53.6729 65.0615 52.4688 61.092 52.4688 57.0313C52.4688 51.5861 54.6319 46.3639 58.4822 42.5135C62.3326 38.6632 67.5548 36.5 73 36.5ZM36.532 113.743C36.6111 107.752 39.0457 102.034 43.3089 97.8243C47.5722 93.6149 53.3213 91.2531 59.3125 91.25H86.6875C92.6788 91.2531 98.4279 93.6149 102.691 97.8243C106.954 102.034 109.389 107.752 109.468 113.743C99.4618 122.76 86.4697 127.75 73 127.75C59.5303 127.75 46.5382 122.76 36.532 113.743Z" fill="#CACACA"/>
-                        </svg>
-
-                        </div>
-                            <div className="profileDetails">
-                                <div className="profileName">정민철</div>
-                                <div className="profileEmail">xhflzm123@naver.com</div>
-                            </div>
-                            <button className="actionButton">실명 수정</button>
+                            <div className="profileIcon profilePhoto"
+                                 style={{
+                                     backgroundImage: `url(${userInfo.profileImage ? userInfo.profileImage : `/img/icon/user.svg`})`,
+                                     backgroundSize: 'cover',
+                                     backgroundPosition: 'center',
+                                 }}></div>
+                            {editMode.userName ? (
+                                <div className='profileDetails-box'>
+                                    <div className="profileDetails">
+                                        <input className='name-change' type="text" name="userName" value={userInfo.userName} onChange={handleInputChange}/>
+                                    </div>
+                                    <div className='btn-box'>
+                                        <button className="actionButton" onClick={() => handleUpdate('userName')}>저장</button>
+                                        <button className="actionButton cancle" onClick={() => toggleEditMode('userName')}>취소</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className='profileDetails-box'>
+                                    <div className="profileDetails">
+                                        <div className="profileName">{userInfo.userName}</div>
+                                        <div className="profileEmail">{userInfo.userEmail}</div>
+                                    </div>
+                                    <button className="actionButton" onClick={() => toggleEditMode('userName')}>수정</button>
+                                </div>
+                            )}
                         </div>
 
                         <div className="profileRow">
@@ -64,8 +522,7 @@ const UserInfo = () => {
                             <path d="M11.4245 0H1.49185C0.736195 0 0.121826 0.5125 0.121826 1.14286V14.8571C0.121826 15.4875 0.736195 16 1.49185 16H11.4245C12.1801 16 12.7945 15.4875 12.7945 14.8571V1.14286C12.7945 0.5125 12.1801 0 11.4245 0ZM11.2532 14.7143H1.6631V1.28571H11.2532V14.7143ZM5.60191 12.8929C5.60191 13.0823 5.69212 13.264 5.8527 13.3979C6.01328 13.5319 6.23107 13.6071 6.45817 13.6071C6.68526 13.6071 6.90306 13.5319 7.06364 13.3979C7.22422 13.264 7.31443 13.0823 7.31443 12.8929C7.31443 12.7034 7.22422 12.5217 7.06364 12.3878C6.90306 12.2538 6.68526 12.1786 6.45817 12.1786C6.23107 12.1786 6.01328 12.2538 5.8527 12.3878C5.69212 12.5217 5.60191 12.7034 5.60191 12.8929Z" fill="#333333"/>
                             </svg>
                             </div>
-                            <div className="profileText">+82 010-****-****</div>
-                            <button className="actionButton">수정</button>
+                            <div className="profileText">{userInfo.userPhone}</div>
                         </div>
 
                         <div className="profileRow">
@@ -75,8 +532,7 @@ const UserInfo = () => {
                             </svg>
 
                             </div>
-                            <div className="profileText">xh****@n****.com</div>
-                            <button className="actionButton">수정</button>
+                            <div className="profileText">{userInfo.userEmail}</div>
                         </div>
 
                         <div className="profileRow">
@@ -86,8 +542,7 @@ const UserInfo = () => {
                             </svg>
 
                             </div>
-                            <div className="profileText">1999.09.20</div>
-                            <button className="actionButton">수정</button>
+                            <div className="profileText">{userInfo.userBirthday}</div>
                         </div>
 
                         <div className="profileRow">
@@ -98,7 +553,7 @@ const UserInfo = () => {
 
                             </div>
                             <div className="profileText">비밀번호</div>
-                            <button className="actionButton">수정</button>
+                            <button className="actionButton" onClick={openModal}>수정</button>
                         </div>
                     </div>
                 </div>
@@ -107,15 +562,24 @@ const UserInfo = () => {
                     <div className="headText">좋아요</div>
                     <div className='likeSwiper-wrapper'>
                         <div className='like-button-wrapper'>
-                            <div className='like-button-prev'></div>
-                            <div className='like-button-next'></div>
+                            <div className='like-button-prev'
+                                 style={{
+                                     backgroundImage: `url(/img/mypage/ButtonPreviousslide.png)`,
+                                     backgroundSize: 'cover',
+                                     backgroundPosition: 'center',
+                                 }}></div>
+                            <div className='like-button-next'
+                                 style={{
+                                     backgroundImage: `url(/img/mypage/ButtonNextslide.png)`,
+                                     backgroundSize: 'cover',
+                                     backgroundPosition: 'center',
+                                 }}></div>
                         </div>
                         <Swiper
                             slidesPerView={3}
                             spaceBetween={10}
                             loop={true}
                             loopedSlides={3}
-                            modules={modules}
                             navigation={{
                             prevEl: ".like-button-prev",
                             nextEl: ".like-button-next",
@@ -125,11 +589,6 @@ const UserInfo = () => {
                             {SlideTest.map((slide) => (
                                 <SwiperSlide key={slide.id}>
                                     <div className={`slide-content slide${slide.id}`}></div>
-                                    <div className="like-btn" onClick={handleLikeToggle}>
-                                        <img
-                                            src={isLiked  ? "/img/icon/heart-fill.svg"  : "/img/icon/heart.svg"}
-                                        ></img>
-                                    </div>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -140,15 +599,24 @@ const UserInfo = () => {
                     <div className="headText">최근 본 페이지</div>
                     <div className='recentSwiper-wrapper'>
                         <div className='recent-button-wrapper'>
-                            <div className='recent-button-prev'></div>
-                            <div className='recent-button-next'></div>
+                            <div className='recent-button-prev'
+                                 style={{
+                                     backgroundImage: `url(/img/mypage/ButtonPreviousslide.png)`,
+                                     backgroundSize: 'cover',
+                                     backgroundPosition: 'center',
+                                 }}></div>
+                            <div className='recent-button-next'
+                                 style={{
+                                     backgroundImage: `url(/img/mypage/ButtonNextslide.png)`,
+                                     backgroundSize: 'cover',
+                                     backgroundPosition: 'center',
+                                 }}></div>
                         </div>
                         <Swiper
                             slidesPerView={3}
                             spaceBetween={10}
                             loop={true}
                             loopedSlides={3}
-                            modules={modules}
                             navigation={{
                             prevEl: ".recent-button-prev",
                             nextEl: ".recent-button-next",
@@ -158,11 +626,6 @@ const UserInfo = () => {
                             {SlideTest.map((slide) => (
                                 <SwiperSlide key={slide.id}>
                                     <div className={`slide-content slide${slide.id}`}></div>
-                                    <div className="like-btn" onClick={handleLikeToggle}>
-                                        <img
-                                            src={isLiked  ? "/img/icon/heart-fill.svg"  : "/img/icon/heart.svg"}
-                                        ></img>
-                                    </div>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
