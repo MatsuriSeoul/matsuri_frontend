@@ -1,9 +1,11 @@
 .userInfoContainer{
     display: flex;
+    position: relative;
 }
 
 .userProfileWrapper {
-    position: fixed;
+    position: absolute;
+    /*position: fixed;*/
     margin-top: 200px;
     margin-left: 300px;
 }
@@ -22,7 +24,6 @@
 .userProfileWrapper .tailBox{
     width: 10px;
     height: 10px;
-    background: url(C:\sideTest\side\public\img\tail.png) no-repeat center;
     position: absolute;
     top: 38.5px;
     left: -10px;
@@ -59,7 +60,30 @@
 .userProfileWrapper .profileEmail {
     color: #888;
     font-size: 14px;
+    margin-bottom: 10px;
 }
+.userProfileWrapper .ch-img{
+    display: flex;
+    align-items: center;
+}
+.userProfileWrapper .change-btn{
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    font-weight: 400;
+}
+.userProfileWrapper .change-btn:hover{
+    background-color: #ddd;
+}
+.userProfileWrapper .change-btn.delete-img{
+    margin-left: 6px;
+}
+
+
 .profileContainer{
     display: flex;
     flex-direction: column;
@@ -71,7 +95,7 @@
     border: 1px solid #121212;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 20px 30px 10px;
     background-color: #fff;
 }
   
@@ -85,14 +109,13 @@
 .profileInfoContainer .profileInfo {
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
   
 .profileInfoContainer .profileRow {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 10px 0; 
+    padding: 16px 0;
     border-bottom: 1px solid #CECECE; 
 }
 .profileInfoContainer .profileRow:last-child {
@@ -101,6 +124,7 @@
 .profileInfoContainer .profileIcon.profilePhoto{
     width: 40px;
     height: 40px;
+    min-width: 40px;
 }
   
 .profileInfoContainer .profileIcon {
@@ -109,7 +133,11 @@
     border-radius: 50%;
     margin-right: 15px;
 }
-  
+.profileInfoContainer .profileDetails-box{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
 .profileInfoContainer .profileDetails {
     flex-grow: 1;
     text-align: left;
@@ -125,7 +153,15 @@
 .profileInfoContainer .profileName {
     font-weight: bold;
 }
-  
+.profileInfoContainer .name-change{
+    height: 100%;
+    border: 2px solid #6b6b6b;
+    padding-left: 6px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+}
 .profileInfoContainer .profileEmail,
   .profileText {
     color: #888;
@@ -135,11 +171,16 @@
 .profileInfoContainer .actionButton {
     background-color: #f0f0f0;
     border: none;
-    padding: 5px 10px;
+    padding: 8px 10px;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 14px;
     color: #333;
     cursor: pointer;
+    font-weight: 400;
+    height: min-content;
+}
+.profileInfoContainer .actionButton.cancle{
+    margin-left: 6px;
 }
   
 .profileInfoContainer .actionButton:hover {
@@ -178,11 +219,9 @@
     height: 36px;
 }
 .myLikeContainer .likeSwiper-wrapper .like-button-prev{
-    background: url(C:\sideTest\side\public\img\mypage\ButtonPreviousslide.png) no-repeat center;
     margin-right: 4px;
 }
 .myLikeContainer .likeSwiper-wrapper .like-button-next{
-    background: url(C:\sideTest\side\public\img\mypage\ButtonNextslide.png) no-repeat center;
 }
 .myLikeContainer .likeSwiper{
     margin-left: 110px;
@@ -256,11 +295,9 @@
     height: 36px;
 }
 .myRecentContainer .recentSwiper-wrapper .recent-button-prev{
-    background: url(C:\sideTest\side\public\img\mypage\ButtonPreviousslide.png) no-repeat center;
     margin-right: 4px;
 }
 .myRecentContainer .recentSwiper-wrapper .recent-button-next{
-    background: url(C:\sideTest\side\public\img\mypage\ButtonNextslide.png) no-repeat center;
 }
 .myRecentContainer .recentSwiper{
     margin-left: 110px;

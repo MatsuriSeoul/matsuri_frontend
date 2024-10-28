@@ -60,6 +60,7 @@ import ThemePage from './front-test/themePage';
 import FNoticePage from './front-test/noticePage'
 import SelectSearchPage from './front-test/eventInfo/selectSearchPage';
 import FreeAndPaidPage from './front-test/eventInfo/freeAndPaidPage';
+import UserInfo from "./front-test/MyPage/userInfo";
 
 // css
 import "./css/reset.css";
@@ -168,6 +169,7 @@ function App() {
                         <Route path="/noticePage" component={FNoticePage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
+                        <Route path="/userInfo" component={UserInfo} />
 
                         <Route path="/:category/events/:contentid/:contenttypeid/detail" component={EventDetail} />
 
