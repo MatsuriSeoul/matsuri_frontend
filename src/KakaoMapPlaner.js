@@ -9,19 +9,15 @@ const KakaoMapPlaner = ({ locations }) => {
         script.onload = () => {
             window.kakao.maps.load(() => {
                 const container = document.getElementById('kakaomap');
-                const options = {
-                    center: new window.kakao.maps.LatLng(37.5665, 126.9780),
-                    level: 8,
-                };
+                const options = { center: new window.kakao.maps.LatLng(37.5665, 126.9780), level: 8 };
                 const map = new window.kakao.maps.Map(container, options);
                 const bounds = new window.kakao.maps.LatLngBounds();
 
                 // 각 일차에 따른 색상 설정
                 const colors = {
-                    '1일차': '#87CEEB',  // 하늘색
-                    '2일차': '#8B4513',  // 갈색
-                    '3일차': '#ADFF2F',  // 연두색
-                    '당일': '#87CEEB'    // 당일은 하늘색
+                    '1일차': '#0077FF',  // 파란색 (더 진한 색)
+                    '2일차': '#D2691E',  // 초코브라운
+                    '3일차': '#32CD32',  // 라임그린
                 };
 
                 // 일차별로 데이터 그룹화 및 선 그리기
@@ -34,10 +30,7 @@ const KakaoMapPlaner = ({ locations }) => {
                         bounds.extend(markerPosition);
 
                         // 마커 생성
-                        const marker = new window.kakao.maps.Marker({
-                            position: markerPosition,
-                            map,
-                        });
+                        const marker = new window.kakao.maps.Marker({ position: markerPosition, map });
 
                         // 번호 표시 오버레이
                         new window.kakao.maps.CustomOverlay({
@@ -48,12 +41,12 @@ const KakaoMapPlaner = ({ locations }) => {
                     });
 
                     // Polyline 생성하여 선 그리기
-                    if (linePath.length > 1) {  // 선을 그릴 위치가 2개 이상일 경우에만 그리기
+                    if (linePath.length > 1) {
                         const polyline = new window.kakao.maps.Polyline({
                             path: linePath,
-                            strokeWeight: 3,
-                            strokeColor: colors[day] || '#000000', // 일차에 맞는 색상
-                            strokeOpacity: 1,
+                            strokeWeight: 5, // 선 굵기를 5로 설정하여 가독성 강화
+                            strokeColor: colors[day] || '#FF4500', // 일차에 맞는 색상 (기본값: 주황색)
+                            strokeOpacity: 0.9, // 약간의 투명도를 추가하여 지도와 대비
                             strokeStyle: 'solid',
                         });
 
@@ -66,28 +59,28 @@ const KakaoMapPlaner = ({ locations }) => {
         };
 
         return () => {
-            // Clean up the script tag and remove map instance if component unmounts
             document.head.removeChild(script);
         };
     }, [locations]);
 
     return (
-        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <div id="kakaomap" style={{ width: '100%', height: '100%' }} />
+        <div style={{position: 'relative', width: '100%', height: '100%'}}>
+            <div id="kakaomap" style={{width: '100%', height: '100%'}}/>
             <div style={{
                 position: 'absolute',
-                top: '10px',
-                right: '10px',
-                padding: '10px',
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: '5px',
-                boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)',
-                fontSize: '12px',
+                top: '20px',
+                right: '20px',
+                padding: '15px',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                borderRadius: '8px',
+                boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.3)',
+                fontSize: '16px',
                 zIndex: 1000,
+                lineHeight: '1.8',
             }}>
-                <p><span style={{ color: '#87CEEB' }}>■</span> 1일차</p>
-                <p><span style={{ color: '#8B4513' }}>■</span> 2일차</p>
-                <p><span style={{ color: '#ADFF2F' }}>■</span> 3일차</p>
+                <p><span style={{color: '#0077FF', fontSize: '20px'}}>■</span> 1일차</p>
+                <p><span style={{color: '#D2691E', fontSize: '20px'}}>■</span> 2일차</p>
+                <p><span style={{color: '#32CD32', fontSize: '20px'}}>■</span> 3일차</p>
             </div>
         </div>
     );
