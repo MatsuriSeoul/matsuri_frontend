@@ -19,7 +19,6 @@ const SignUpPage = () => {
     const [codeSent, setCodeSent] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [birthdayError, setBirthdayError] = useState('');
-    const [userBirthday, setUserBirthday] = useState('');
 
     const history = useHistory();
 
@@ -114,11 +113,10 @@ const SignUpPage = () => {
             alert('비밀번호가 일치하지 않습니다.');
             return;
         }
+        let userBirthday = '';
+
         if (yearselected && monthselected && dayselected) {
-            const formattedBirthday = `${yearselected.value}-${monthselected.value}-${dayselected.value}`;
-            setUserBirthday(formattedBirthday);
-            console.log('생년월일: ' + formattedBirthday);
-            console.log('useState 생년월일: ' + userBirthday);
+            userBirthday = `${yearselected.value}-${monthselected.value}-${dayselected.value}`;
         } else {
             alert('생일을 입력해주세요.');
             return;
@@ -139,6 +137,7 @@ const SignUpPage = () => {
         };
 
         try {
+            console.log('userInfo: ' + userInfo.userBirthday);
             const response = await axios.post('/api/users/save', userInfo);
             alert('회원가입 성공');
             history.push('/');

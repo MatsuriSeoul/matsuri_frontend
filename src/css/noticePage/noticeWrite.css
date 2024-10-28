@@ -1,3 +1,8 @@
+.noticle-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 input:focus {
     outline: none;
 }
@@ -23,10 +28,11 @@ textarea:focus{
 }
 
 .notice .createDate {
-    font-size: 12px;
+    font-size: 14px;
     color: #333333;
     width: 1200px;
     text-align: right;
+    margin-bottom: 10px;
 }
 
 .notice-container {
@@ -38,6 +44,38 @@ textarea:focus{
     flex-direction: column;
     gap: 16px;
 }
+.notice-container .file-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.notice-container .file-container .name-container{
+    display: flex;
+    align-items: center;
+}
+.notice-container .file-container .name-container .title{
+    margin-right: 10px;
+}
+.notice-container .file-container .name-box{
+    display: flex;
+    align-items: center;
+}
+.notice-container .file-container .name-box:nth-child(1){
+    margin-bottom: 4px;
+}
+.notice-container .file-container .name-box p{
+    margin-right: 4px;
+    color: #555555;
+}
+.notice-container .file-container .name-box button{
+    font-size: 12px;
+    background-color: #b5b5b5;
+    color: #ffffff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
 
 .noticeTitleBox, .noticeContentBox, .contentCreateDate {
     display: flex;
@@ -53,6 +91,21 @@ textarea:focus{
     display: flex;
     align-items: center;
 }
+.notice-container .file-btn{
+    display: flex;
+    align-items: center;
+}
+
+.notice-container .file-btn .btn{
+    background-color: #3e3e3e;
+    color: #fff;
+    padding: 0 40px;
+    flex-shrink: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
 .notice-container .noticeContentBox{
     flex-direction: column;
 }
@@ -62,7 +115,7 @@ textarea:focus{
 }
 .notice-container .noticeContentBox .contentText {
     width: 100%;
-    height: 500px;
+    height: 350px;
     text-align: left;
     vertical-align: top;
     padding: 8px;
@@ -80,6 +133,8 @@ textarea:focus{
 .notice .btn-wrap{
     margin-top: 36px;
     text-align: right;
+    display: flex;
+    justify-content: right;
 }
 .notice .btn-wrap .btnOk{
     width: 120px;
@@ -101,4 +156,7 @@ textarea:focus{
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

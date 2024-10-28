@@ -48,7 +48,7 @@ import HotSpotMainPage from "./HotSpotMainPage";
 import FreePaidEvents from "./FreePaidEvents";
 import ScheduledEvents from "./ScheduledEvents";
 import DistrictDetail from "./DistrictDetail";
-
+import NoticePage from "./NoticePage";
 
 
 // frontend
@@ -61,10 +61,11 @@ import FNoticePage from './front-test/noticePage'
 import SelectSearchPage from './front-test/eventInfo/selectSearchPage';
 import FreeAndPaidPage from './front-test/eventInfo/freeAndPaidPage';
 import UserInfo from "./front-test/MyPage/userInfo";
+import InQuiryPage from "./front-test/InQuiryPage";
+import NoticeView from "./front-test/notice/noticeView";
 
 // css
 import "./css/reset.css";
-import noticePage from "./front-test/noticePage";
 import openAITest from "./OpenAITest";
 import EventItem from "./EventItem";
 import UserRecommendations from "./UserRecommendations";
@@ -73,6 +74,7 @@ import AIPlanerSection1 from "./AIPlanerSection1";
 import AIPlanerSection2 from "./AIPlanerSection2";
 import AIPlanerSection3 from "./AIPlanerSection3";
 import AIPlanerResult from "./AIPlanerResult";
+import NoticeWrite from "./front-test/notice/noticeWrite";
 
 
 function App() {
@@ -108,7 +110,7 @@ function App() {
                         <Route path="/create-notice" component={CreateNotice}/> {/*공지사항 작성*/}
                         <Route path="/notice/:noticeId" component={NoticeDetail}/> {/*공지사항 디테일*/}
                         <Route path="/edit/:noticeId" component={EditNotice}/> {/*공지사항 수정*/}
-                        <Route path="/api/notice" component={noticePage}/> {/*공지사항 테이블*/}
+                        <Route path="/api/notice" component={NoticePage}/> {/*공지사항 테이블*/}
                         <Route path="/comment" component={CreateComment}/>{/*공지사항에 댓글 작성 */}
                         <Route path="/comment/notice/:noticeId" component={CommentList}/> {/*공지사항에 댓글 목록*/}
 
@@ -166,7 +168,10 @@ function App() {
                         <Route path="/areaPage/:areaId" component={AreaPage} />
                         <Route path="/hotPlacePage/:hareaId" component={HotPlacePage} />
                         <Route path="/themePage/:themeItem?" component={ThemePage} />
+                        <Route path="/noticePage/write" component={NoticeWrite} />
+                        <Route path="/noticePage/:noticeId" component={NoticeView} />
                         <Route path="/noticePage" component={FNoticePage} />
+                        <Route path="/inQuiryPage" component={InQuiryPage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
                         <Route path="/userInfo" component={UserInfo} />

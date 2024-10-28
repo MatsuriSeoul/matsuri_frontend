@@ -39,7 +39,13 @@ const NoticeView = () => {
                 <p>첨부파일</p>
             </div>
             <div className='file-wrap'>
-                <div className='attachment-icon'></div>
+                <div className='attachment-icon'
+                     style={{
+                    backgroundImage: `url('/img/notice/attachment-Image.png')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}></div>
             </div>
             <button className='listBtn'>목록보기</button>
         </div>

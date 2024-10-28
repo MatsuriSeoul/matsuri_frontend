@@ -128,7 +128,7 @@ const Header = ({toggleModal}) => {
                 </div>
                 <div className='list notice-list'>
                     <Link to={'/noticePage'}><p>공지사항</p></Link>
-                    <p>문의사항</p>
+                    <Link to={'/inQuiryPage'}><p>문의사항</p></Link>
                 </div>
             </div>
         </header>
