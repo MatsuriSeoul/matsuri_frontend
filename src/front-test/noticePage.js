@@ -89,7 +89,7 @@ const FNoticePage = () =>{
     ];
     const [selected, setSelected] = useState(options[0]); 
 
-    const onChangeSelect = (e: any) => {
+    const onChangeSelect = (e) => {
         if (e) setSelected(e);
         else setSelected(options[0]); 
     };
@@ -153,6 +153,9 @@ const FNoticePage = () =>{
                         <p className='th-title th4'>작성일</p>
                         <p className='th-title th5'>조회수</p>
                     </div>
+                    {!notices.length > 0 && (
+                        <div className='notices-x'>공지사항이 없습니다.</div>
+                    )}
                     {currentPosts.map(notice => (
                         <Link to={`./noticePage/${notice.id}`}>
                             <div className="post" key={notice.id}>
@@ -198,8 +201,7 @@ const FNoticePage = () =>{
                   options={options}
                   value={selected}
                 />
-                {/* https://1two13.tistory.com/entry/React-react-select-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-select-%EB%A7%8C%EB%93%A4%EA%B8%B0-select-%EC%A0%84%EB%B6%80-%EC%B4%88%EA%B8%B0%ED%99%94%ED%95%98%EB%8A%94-%EB%B2%95 */}
-                
+
                 <input 
                     type='text' 
                     placeholder='검색' 

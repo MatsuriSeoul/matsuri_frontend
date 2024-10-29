@@ -153,7 +153,7 @@
 .profileInfoContainer .profileName {
     font-weight: bold;
 }
-.profileInfoContainer .name-change{
+.profileInfoContainer .input-change{
     height: 100%;
     border: 2px solid #6b6b6b;
     padding-left: 6px;
@@ -166,6 +166,51 @@
   .profileText {
     color: #888;
     font-size: 14px;
+}
+.profileInfoContainer .change-emailbox{
+    display: flex;
+    width: 100%;
+}
+.profileInfoContainer .change-emailbox svg{
+    width: 24px;
+    height: 24px;
+    margin: 0px 10px;
+}
+.profileInfoContainer .email-check1,
+.profileInfoContainer .email-check2,
+.profileInfoContainer .email-change-btns{
+    display: flex;
+    align-items: center;
+}
+.profileInfoContainer .email-check1 .actionButton,
+.profileInfoContainer .email-check2 .actionButton{
+    margin-left: 6px;
+    background-color: #4c90e6;
+    color: #ffffff;
+    font-weight: 400;
+}
+.profileInfoContainer .email-check1 .actionButton:hover,
+.profileInfoContainer .email-check2 .actionButton:hover{
+    background-color: #8abaff;
+}
+.profileInfoContainer .email-change-btns{
+    margin-left: auto;
+}
+.profileInfoContainer .email-change-btns .cancle-btn{
+    margin-left: 10px;
+}
+.profileInfoContainer .email-check1 .email-change{
+    width: 190px;
+    font-size: 14px;
+}
+.profileInfoContainer .email-check2 .email-code{
+    width: 120px;
+}
+.profileInfoContainer .email-textbox{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
   
 .profileInfoContainer .actionButton {

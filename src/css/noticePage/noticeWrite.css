@@ -75,7 +75,17 @@ textarea:focus{
     border-radius: 4px;
     margin-right: 10px;
 }
-
+.notice-container .select{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.notice-container .select .css-13cymwt-control{
+    width: 140px;
+}
+.notice-container .select .css-t3ipsp-control{
+    min-width: 140px;
+}
 
 .noticeTitleBox, .noticeContentBox, .contentCreateDate {
     display: flex;

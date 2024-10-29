@@ -92,6 +92,8 @@ function MainNavigation() {
                     <li><Link to={'/noticePage'}>noticePage</Link></li>
                     <li><Link to={'/selectSearchPage'}>selectSearchPage</Link></li>
                     <li><Link to={'/freeAndPaidPage'}>freeAndPaidPage</Link></li>
+                    <li><Link to={'/userInfo'}>myPage</Link></li>
+                    <li><Link to={'/noticePage/1'}>NoticeDetailPage</Link></li>
                 </ul>
             </nav>
         </>

@@ -139,15 +139,15 @@ const LoginForm = () => {
                                value={userPassword} onChange={(e) =>
                                 setUserPassword(e.target.value)} placeholder="비밀번호" required></input>
                     </div>
-                    <div className="autoLogin">
-                        <div className="autoLoginCheckBtn" onClick={toggleCheck}>
-                            <img
-                                src={isChecked ? "img/icon/checked-icon.png" : "img/icon/unchecked-icon.png"}
-                                alt="Toggle Icon"
-                            />
-                        </div>
-                        <div className="autoLoginText">로그인 상태 유지</div>
-                    </div>
+                    {/*<div className="autoLogin">*/}
+                    {/*    <div className="autoLoginCheckBtn" onClick={toggleCheck}>*/}
+                    {/*        <img*/}
+                    {/*            src={isChecked ? "img/icon/checked-icon.png" : "img/icon/unchecked-icon.png"}*/}
+                    {/*            alt="Toggle Icon"*/}
+                    {/*        />*/}
+                    {/*    </div>*/}
+                    {/*    <div className="autoLoginText">로그인 상태 유지</div>*/}
+                    {/*</div>*/}
                     <button className="loginBtn">로그인</button>
                     <div className="wall">
                         <div></div>

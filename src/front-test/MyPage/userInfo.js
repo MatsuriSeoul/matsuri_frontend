@@ -323,6 +323,8 @@ const UserInfo = () => {
             setEmailVerificationSent(false);
             setIsVerified(false);
             setNewEmail('');
+            setVerificationCode('');
+            toggleEditMode('userEmail');
         } catch (error) {
             console.error('이메일 변경 실패', error);
             setMessage('이메일 변경에 실패했습니다.');
@@ -498,7 +500,7 @@ const UserInfo = () => {
                             {editMode.userName ? (
                                 <div className='profileDetails-box'>
                                     <div className="profileDetails">
-                                        <input className='name-change' type="text" name="userName" value={userInfo.userName} onChange={handleInputChange}/>
+                                        <input className='name-change input-change' type="text" name="userName" value={userInfo.userName} onChange={handleInputChange}/>
                                     </div>
                                     <div className='btn-box'>
                                         <button className="actionButton" onClick={() => handleUpdate('userName')}>저장</button>
@@ -532,13 +534,59 @@ const UserInfo = () => {
                             </svg>
 
                             </div>
-                            <div className="profileText">{userInfo.userEmail}</div>
+                            {editMode.userEmail ? (
+                                <div className='change-emailbox'>
+                                    <div className='email-check1'>
+                                        <input className='email-change input-change' type="text" name="userName" value={newEmail}
+                                               onChange={handleEmailChange}/>
+                                        {!isEmailChecked && (
+                                            <button className='actionButton' onClick={handleCheckEmailDuplicate}
+                                                    disabled={!isEmailValid}>
+                                                중복검사
+                                            </button>
+                                        )}
+
+                                        {isEmailChecked && (
+                                            <button className='actionButton' onClick={handleSendVerificationCode} disabled={isEmailDuplicate}>
+                                                인증번호 발송
+                                            </button>
+                                        )}
+                                    </div>
+                                    {isEmailChecked && (
+                                        <div className='email-check2'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                                 width="24px" fill="#555555">
+                                                <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
+                                            </svg>
+                                            <input
+                                                className='email-code input-change'
+                                                type="text"
+                                                placeholder="인증번호 입력"
+                                                value={verificationCode}
+                                                onChange={(e) => setVerificationCode(e.target.value)} // 인증번호 입력 필드
+                                            />
+                                            <button className='actionButton' onClick={handleVerifyCode}>인증번호 확인</button>
+                                        </div>
+                                    )}
+                                    <div className='email-change-btns'>
+                                        {isVerified && <button onClick={handleEmailUpdate} className='actionButton'>변경</button>}
+                                        <button className='actionButton cancle-btn' onClick={() => toggleEditMode('userEmail')}>취소</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className='email-textbox'>
+                                    <div className="profileText">{userInfo.userEmail}</div>
+                                    <button type='button' className='actionButton' onClick={() => toggleEditMode('userEmail')}>수정</button>
+                                </div>
+                            )}
+
                         </div>
 
                         <div className="profileRow">
                             <div className="profileIcon birthdayIcon">
-                            <svg width="21" height="14" viewBox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19.704 0H1.2122C0.818804 0 0.500977 0.284375 0.500977 0.636364V13.3636C0.500977 13.7156 0.818804 14 1.2122 14H19.704C20.0974 14 20.4152 13.7156 20.4152 13.3636V0.636364C20.4152 0.284375 20.0974 0 19.704 0ZM18.8149 12.5682H2.10123V1.43182H18.8149V12.5682ZM12.6429 6.28409H15.3855C15.4144 6.28409 15.4366 6.2125 15.4366 6.125V5.17045C15.4366 5.08295 15.4144 5.01136 15.3855 5.01136H12.6429C12.614 5.01136 12.5918 5.08295 12.5918 5.17045V6.125C12.5918 6.2125 12.614 6.28409 12.6429 6.28409ZM12.7496 9.14773H16.8769C16.9636 9.14773 17.0347 9.07614 17.0347 8.98864V8.03409C17.0347 7.94659 16.9636 7.875 16.8769 7.875H12.7496C12.6629 7.875 12.5918 7.94659 12.5918 8.03409V8.98864C12.5918 9.07614 12.6629 9.14773 12.7496 9.14773ZM4.05709 10.2017H5.0328C5.12614 10.2017 5.20171 10.1361 5.20838 10.0526C5.29284 9.0483 6.23076 8.25284 7.36872 8.25284C8.50667 8.25284 9.4446 9.0483 9.52905 10.0526C9.53572 10.1361 9.61129 10.2017 9.70464 10.2017H10.6803C10.7045 10.2017 10.7283 10.1974 10.7505 10.1889C10.7727 10.1804 10.7927 10.168 10.8093 10.1523C10.826 10.1367 10.8389 10.1182 10.8473 10.098C10.8557 10.0778 10.8594 10.0562 10.8582 10.0347C10.7959 8.97472 10.1469 8.05199 9.20011 7.52699C9.61765 7.11632 9.84836 6.58074 9.84688 6.02557C9.84688 4.7946 8.73782 3.7983 7.37094 3.7983C6.00406 3.7983 4.895 4.7946 4.895 6.02557C4.895 6.60426 5.13948 7.12926 5.54176 7.52699C5.05975 7.79424 4.65719 8.16191 4.36847 8.59859C4.07974 9.03527 3.91343 9.52798 3.88373 10.0347C3.87484 10.1261 3.95485 10.2017 4.05709 10.2017ZM7.36872 4.99148C8.00215 4.99148 8.51779 5.45483 8.51779 6.02557C8.51779 6.59631 8.00215 7.05966 7.36872 7.05966C6.73528 7.05966 6.21965 6.59631 6.21965 6.02557C6.21965 5.45483 6.73528 4.99148 7.36872 4.99148Z" fill="#333333"/>
+                                <svg width="21" height="14" viewBox="0 0 21 14" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19.704 0H1.2122C0.818804 0 0.500977 0.284375 0.500977 0.636364V13.3636C0.500977 13.7156 0.818804 14 1.2122 14H19.704C20.0974 14 20.4152 13.7156 20.4152 13.3636V0.636364C20.4152 0.284375 20.0974 0 19.704 0ZM18.8149 12.5682H2.10123V1.43182H18.8149V12.5682ZM12.6429 6.28409H15.3855C15.4144 6.28409 15.4366 6.2125 15.4366 6.125V5.17045C15.4366 5.08295 15.4144 5.01136 15.3855 5.01136H12.6429C12.614 5.01136 12.5918 5.08295 12.5918 5.17045V6.125C12.5918 6.2125 12.614 6.28409 12.6429 6.28409ZM12.7496 9.14773H16.8769C16.9636 9.14773 17.0347 9.07614 17.0347 8.98864V8.03409C17.0347 7.94659 16.9636 7.875 16.8769 7.875H12.7496C12.6629 7.875 12.5918 7.94659 12.5918 8.03409V8.98864C12.5918 9.07614 12.6629 9.14773 12.7496 9.14773ZM4.05709 10.2017H5.0328C5.12614 10.2017 5.20171 10.1361 5.20838 10.0526C5.29284 9.0483 6.23076 8.25284 7.36872 8.25284C8.50667 8.25284 9.4446 9.0483 9.52905 10.0526C9.53572 10.1361 9.61129 10.2017 9.70464 10.2017H10.6803C10.7045 10.2017 10.7283 10.1974 10.7505 10.1889C10.7727 10.1804 10.7927 10.168 10.8093 10.1523C10.826 10.1367 10.8389 10.1182 10.8473 10.098C10.8557 10.0778 10.8594 10.0562 10.8582 10.0347C10.7959 8.97472 10.1469 8.05199 9.20011 7.52699C9.61765 7.11632 9.84836 6.58074 9.84688 6.02557C9.84688 4.7946 8.73782 3.7983 7.37094 3.7983C6.00406 3.7983 4.895 4.7946 4.895 6.02557C4.895 6.60426 5.13948 7.12926 5.54176 7.52699C5.05975 7.79424 4.65719 8.16191 4.36847 8.59859C4.07974 9.03527 3.91343 9.52798 3.88373 10.0347C3.87484 10.1261 3.95485 10.2017 4.05709 10.2017ZM7.36872 4.99148C8.00215 4.99148 8.51779 5.45483 8.51779 6.02557C8.51779 6.59631 8.00215 7.05966 7.36872 7.05966C6.73528 7.05966 6.21965 6.59631 6.21965 6.02557C6.21965 5.45483 6.73528 4.99148 7.36872 4.99148Z" fill="#333333"/>
                             </svg>
 
                             </div>

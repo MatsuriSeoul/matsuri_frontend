@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import axios from "axios";
 
-const CreateComment = ({ category, noticeId, contentid, svcid, refreshComments }) => {
+const CommentWrite = ({ category, noticeId, contentid, svcid, refreshComments }) => {
     const [content, setContent] = useState('');
     const [user, setUser] = useState(null);
     const [images, setImages] = useState([]); //이미지 선택
@@ -28,7 +29,7 @@ const CreateComment = ({ category, noticeId, contentid, svcid, refreshComments }
         }
     }, [images]);
 
-        // 이미지 삭제 핸들러
+    // 이미지 삭제 핸들러
     const handleImageRemove = (index) => {
         setImages((prevImages) => prevImages.filter((_, i) => i !== index));
         setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
@@ -71,8 +72,8 @@ const CreateComment = ({ category, noticeId, contentid, svcid, refreshComments }
         if (category) formData.append('category', category);
         if (svcid) formData.append('svcid', svcid);
         if (category === 'gyeonggi-events' && contentid) {
-                formData.append('gyeonggiEventId', contentid);
-            }
+            formData.append('gyeonggiEventId', contentid);
+        }
         images.forEach((image) => {
             formData.append('images', image); // `images` 배열로 다중 이미지 추가
         });
@@ -98,48 +99,21 @@ const CreateComment = ({ category, noticeId, contentid, svcid, refreshComments }
     };
 
     if (!user) {
-        return <div>댓글을 작성하려면 로그인이 필요합니다.</div>;
+        return <div className='login-x'>댓글을 작성하려면 로그인이 필요합니다.</div>;
     }
 
     return (
-        <form className="comment-write" onSubmit={handleSubmit}>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="댓글을 입력하세요."></textarea>
-            <div className="btn">
-                {/* <button className="img-update"></button> */}
-                <input type="submit" value="댓글 작성"/>
-            </div>
+        <form className='comment-write' onSubmit={handleSubmit}>
+            <input className='write' type='text' placeholder='댓글을 입력해주세요'
+                   value={content} onChange={(e) => setContent(e.target.value)}/>
+            <button type='submit' className='enter-btn'>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                     fill="#111111">
+                    <path
+                        d="M760-200v-160q0-50-35-85t-85-35H273l144 144-57 56-240-240 240-240 57 56-144 144h367q83 0 141.5 58.5T840-360v160h-80Z"/>
+                </svg>
+            </button>
         </form>
-    /*<form onSubmit={handleSubmit}>
-        <div>
-            <label>내용 :</label>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="댓글을 입력하세요."/>
-        </div>
-        {!noticeId && (
-            <div>
-                <label>이미지 첨부:</label>
-                <input type="file" multiple onChange={handleImageChange} accept="image/*" />
-                <div>
-                    {imagePreviews.map((preview, index) => (
-                        <div key={index} style={{ display: "flex", alignItems: "center" }}>
-                            <img
-                                src={preview}
-                                alt={`Preview ${index}`}
-                                style={{ width: "100px", height: "100px", marginRight: "10px" }}
-                            />
-                            <button type="button" onClick={() => handleImageRemove(index)}>
-                                삭제
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            )}
-            <div>
-                <label>작성자 : {user.userName}</label>
-            </div>
-            <button type="submit">댓글 작성</button>
-        </form>*/
-    );
-};
-
-export default CreateComment;
+    )
+}
+export default CommentWrite;

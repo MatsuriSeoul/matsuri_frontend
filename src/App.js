@@ -63,7 +63,6 @@ import FreeAndPaidPage from './front-test/eventInfo/freeAndPaidPage';
 import UserInfo from "./front-test/MyPage/userInfo";
 import InQuiryPage from "./front-test/InQuiryPage";
 import NoticeView from "./front-test/notice/noticeView";
-
 // css
 import "./css/reset.css";
 import openAITest from "./OpenAITest";
@@ -75,6 +74,8 @@ import AIPlanerSection2 from "./AIPlanerSection2";
 import AIPlanerSection3 from "./AIPlanerSection3";
 import AIPlanerResult from "./AIPlanerResult";
 import NoticeWrite from "./front-test/notice/noticeWrite";
+import InquiryDetail from "./InquiryDetail";
+import IQWrite from "./front-test/inQuiry/inquiryWrite";
 
 
 function App() {
@@ -171,6 +172,8 @@ function App() {
                         <Route path="/noticePage/write" component={NoticeWrite} />
                         <Route path="/noticePage/:noticeId" component={NoticeView} />
                         <Route path="/noticePage" component={FNoticePage} />
+                        <Route path="/inQuiryPage/iqWrite" component={IQWrite} />
+                        <Route path="/noticePage/inquiryView" component={InquiryDetail} />
                         <Route path="/inQuiryPage" component={InQuiryPage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
