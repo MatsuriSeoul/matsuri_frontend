@@ -15,6 +15,7 @@ const SignUpPage = () => {
     const [passwordError, setPasswordError] = useState(''); // 비밀번호 오류 메시지
     const [isIdValid, setIsIdValid] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isUserNameValid, setIsUserNameValid] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
     const [codeSent, setCodeSent] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
@@ -27,6 +28,11 @@ const SignUpPage = () => {
         const phonePattern = /^010\d{8}$/;
         return phonePattern.test(phone);
     };
+
+    const validateName = (name) => {
+        const regex = /^[a-zA-Z0-9가-힣_-]{6,12}$/;
+        return regex.test(name);
+    }
 
     // 이메일 형식 검사 함수
     const validateEmail = (email) => {
@@ -77,6 +83,12 @@ const SignUpPage = () => {
             alert('이름을 입력해주세요.');
             return;
         }
+
+        if (!validateName(userName)) {
+            alert('닉네임 형식이 올바르지 않습니다. 한글, 영어, 숫자,-,_를 사용하여 6자 이상 12자 이내로 작성해주세요. ');
+            return;
+        }
+
         if (!userEmail) {
             alert('이메일을 입력해주세요.');
             return;
@@ -194,6 +206,32 @@ const SignUpPage = () => {
         } catch (error) {
             alert('이메일 중복 검사 오류');
             setIsEmailValid(false);
+        }
+    };
+
+    const checkNameAvailability = async () => {
+        if (userName.trim() === '') {
+            alert('닉네임를 입력하세요.');
+            setIsUserNameValid(false);
+            return;
+        }
+        if (!validateName(userName)) {
+            alert('닉네임 형식이 잘못되었습니다.');
+            setIsUserNameValid(false);
+            return;
+        }
+        try {
+            const response = await axios.get(`/api/users/check-name/${userName}`);
+            if (response.data.exists) {
+                alert('이미 사용 중인 닉네임입니다.');
+                setIsUserNameValid(false);
+            } else {
+                alert('사용 가능한 닉네임입니다.');
+                setIsUserNameValid(true);
+            }
+        } catch (error) {
+            alert('닉네임 중복 검사 오류');
+            setIsUserNameValid(false);
         }
     };
 
@@ -351,9 +389,19 @@ const SignUpPage = () => {
                 </div>
             </div>
             <div className='inputBox-name inputBox'>
-                <div className='inputBox-headText'>이름</div>
-                <input placeholder='이름' className='text-field'
-                       value={userName} onChange={(e) => setUserName(e.target.value)} required></input>
+                <div className='inputBox-headText'>닉네임</div>
+                <input placeholder='닉네임' className='text-field'
+                       value={userName}
+                       onChange={(e) => {
+                           setUserName(e.target.value);
+                           setIsUserNameValid(false);
+                       }}
+                       required></input>
+                <div className="warningMsg">*(한글, 영어, 숫자, -, _ 를 사용하여 6자 이상 12자 이내로 작성해주세요)</div>
+                <button type="button" className='overlapCheck'
+                        onClick={checkNameAvailability}
+                >중복확인
+                </button>
             </div>
             <div className='inputBox-tel inputBox'>
                 <div className='inputBox-headText'>휴대폰 번호</div>
