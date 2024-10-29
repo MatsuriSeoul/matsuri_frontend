@@ -105,7 +105,7 @@ function MyPage() {
         switch (contenttypeid) {
             case '12':  // 관광지 (숫자)
             case 'TouristAttractionDetail':  // 관광지 (문자열)
-                return `/tourist-attraction/${contentid}/${contenttypeid}/detail`;
+                return `/tourist-attractions/${contentid}/${contenttypeid}/detail`;
             case '14':  // 문화 시설 (숫자)
             case 'CulturalFacilityDetail':  // 문화 시설 (문자열)
                 return `/cultural-facilities/${contentid}/${contenttypeid}/detail`;

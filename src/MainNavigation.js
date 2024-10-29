@@ -9,7 +9,6 @@ import PasswordRecoveryForm from "./PasswordRecoveryForm";
 function MainNavigation() {
     const { auth } = useContext(AuthContext);
 
-    console.log('현재 로그인 상태:', auth);
 
     const [isLoginOpen, setIsLoginOpen] = useState(false); // 로그인 모달 상태
     const [isUserIdRecoveryOpen, setIsUserIdRecoveryModalOpen] = useState(false); // 아이디 찾기 모달 상태
