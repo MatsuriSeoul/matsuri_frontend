@@ -2,13 +2,34 @@
     width: 60%;
     margin: 0 auto;
 }
+.noticeView-container .image-css{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 700px;
+}
 .noticeView-container .headText {
     text-align: center;
     font-weight: 700;
     font-size: 32px;
     margin-top: 80px;
     margin-bottom: 40px;
-} 
+}
+.noticeView-container .titleText .isEditing-btn{
+    display: flex;
+}
+.noticeView-container .titleText .isEditing-btn button{
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    color: #333;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    height: min-content;
+    margin-left: 10px;
+    padding: 8px 10px;
+}
 .noticeView-container .titleText {
     display: flex;
     justify-content: space-between;
@@ -16,6 +37,7 @@
     border-top: 4px solid #222222;
     border-bottom: 1px solid #e0e0e0;
     background-color: #f9f9f9;
+    height: 64px;
 }
 .noticeView-container .titleText input{
     padding: 8px 6px;
@@ -101,6 +123,16 @@
     display: flex;
     height: 60px;
     justify-content: flex-end;
+    margin-top: 80px;
+}.noticeView-container .file-wrap.file-wrap2{
+     justify-content: space-between;
+ }
+.noticeView-container .file-wrap.notice-file-wrap{
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    height: 60px;
+    justify-content: flex-start;
     margin-top: 80px;
 }
 .noticeView-container .file-wrap button{
@@ -231,4 +263,49 @@
 }
 .noticeView-container .comment-container .comment-write .enter-btn svg{
     transform: scaleY(-1);
+}
+.noticeView-container .file-btn{
+    display: flex;
+    align-items: center;
+}
+.noticeView-container .file-btn .btn{
+    background-color: #3e3e3e;
+    color: #fff;
+    padding: 0 40px;
+    flex-shrink: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+.noticeView-container .file-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.noticeView-container .file-container .name-container{
+    display: flex;
+    align-items: center;
+}
+.noticeView-container .file-container .name-container .title{
+    margin-right: 10px;
+}
+.noticeView-container .file-container .name-box{
+    display: flex;
+    align-items: center;
+}
+.noticeView-container .file-container .name-box:nth-child(1){
+    margin-bottom: 4px;
+}
+.noticeView-container .file-container .name-box p{
+    margin-right: 4px;
+    color: #555555;
+}
+.noticeView-container .file-container .name-box button{
+    font-size: 12px;
+    background-color: #b5b5b5;
+    color: #ffffff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin-right: 10px;
 }
