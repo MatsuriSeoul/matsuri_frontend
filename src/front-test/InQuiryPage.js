@@ -36,18 +36,17 @@ const InQuiryPage = () =>{
         }
     }, []);
 
-    const handleInquiryClick = (inquiry) => {
-        // 비공개 문의는 작성자나 관리자만 볼 수 있도록 제한
+    const handleLinkClick = (e, inquiry) => {
         const userId = localStorage.getItem('userId');
-        if (!inquiry.isPublic && userRole !== 'ADMIN' && userId != inquiry.userId) {
-            alert('비공개 문의입니다. 관리자 또는 작성자만 볼 수 있습니다.');
-            return;
-        }
-        // inquiry를 JSON 문자열로 변환
-        const inquiryData = encodeURIComponent(JSON.stringify(inquiry));
+        const userRole = localStorage.getItem('userRole'); // 'ADMIN' 또는 'USER'
 
-        // URL에 inquiry 데이터를 추가
-        history.push(`/inQuiryPage/inquiryView?data=${inquiryData}`);
+        // 비공개 문의 접근 조건
+        const canAccess = inquiry.isPublic || userRole === 'ADMIN' || userId == inquiry.userId;
+
+        if (!canAccess) {
+            e.preventDefault(); // 접근 불가능하면 이동을 막음
+            alert('비공개 문의입니다. 관리자 또는 작성자만 볼 수 있습니다.');
+        }
     };
 
     // 문의사항 작성 폼으로 이동하는 함수
@@ -178,13 +177,19 @@ const InQuiryPage = () =>{
                         <div className='notices-x'>문의사항이 없습니다.</div>
                     )}
                     {currentPosts.map(inquiry => (
-                        <div className="post" key={inquiry.id} onClick={() => handleInquiryClick(inquiry)}>
-                            <p className='division'>문의사항</p>
-                            <p className='post-title'>{inquiry.title}</p>
-                            <p className='author'>{new Date(inquiry.createdTime).toLocaleString()}</p>
-                            <p className='creation-date'>{inquiry.isPublic ? '공개' : '비공개'}</p>
-                            <p className='viewcnt'>{inquiry.status}</p>
-                        </div>
+                        <Link
+                            key={inquiry.id}
+                            to={`/inQuiryPage/inquiryView/${inquiry.id}`}
+                            onClick={(e) => handleLinkClick(e, inquiry)}
+                        >
+                            <div className="post" key={inquiry.id}>
+                                <p className='division'>문의사항</p>
+                                <p className='post-title'>{inquiry.title}</p>
+                                <p className='author'>{new Date(inquiry.createdTime).toLocaleString()}</p>
+                                <p className='creation-date'>{inquiry.isPublic ? '공개' : '비공개'}</p>
+                                <p className='viewcnt'>{inquiry.status}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
                 {totalPages > 0 ? (

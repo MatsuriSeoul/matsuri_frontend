@@ -173,7 +173,7 @@ function App() {
                         <Route path="/noticePage/:noticeId" component={NoticeView} />
                         <Route path="/noticePage" component={FNoticePage} />
                         <Route path="/inQuiryPage/iqWrite" component={IQWrite} />
-                        <Route path="/inQuiryPage/inquiryView" component={InQuiryView} />
+                        <Route path="/inQuiryPage/inquiryView/:id" component={InQuiryView} />
                         <Route path="/inQuiryPage" component={InQuiryPage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />

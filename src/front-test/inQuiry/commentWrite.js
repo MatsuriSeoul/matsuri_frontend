@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const CommentWrite = ({ inquiryId }) => {
+const CommentWrite = ({ inquiryId, onCommentSubmit }) => {
     const [content, setContent] = useState('');
 
     const handleSubmit = async (e) => {
@@ -16,6 +16,7 @@ const CommentWrite = ({ inquiryId }) => {
             });
             setContent('');
             alert('답변 게시 완료!');
+            onCommentSubmit();
         } catch (error) {
             console.error('답변 게시 오류:', error);
         }
