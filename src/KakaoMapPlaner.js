@@ -1,6 +1,7 @@
+// KakaoMapPlaner.js
 import React, { useEffect } from 'react';
 
-const KakaoMapPlaner = ({ locations }) => {
+const KakaoMapPlaner = ({ locations, selectedEvent }) => {
     useEffect(() => {
         const script = document.createElement('script');
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=385055cf5aeb63a6e5db2a0bbb867f09&autoload=false`;
@@ -15,9 +16,9 @@ const KakaoMapPlaner = ({ locations }) => {
 
                 // 각 일차에 따른 색상 설정
                 const colors = {
-                    '1일차': '#0077FF',  // 파란색 (더 진한 색)
-                    '2일차': '#D2691E',  // 초코브라운
-                    '3일차': '#32CD32',  // 라임그린
+                    '1일차': '#0077FF',
+                    '2일차': '#D2691E',
+                    '3일차': '#32CD32',
                 };
 
                 // 일차별로 데이터 그룹화 및 선 그리기
@@ -40,32 +41,40 @@ const KakaoMapPlaner = ({ locations }) => {
                         });
                     });
 
-                    // Polyline 생성하여 선 그리기
                     if (linePath.length > 1) {
                         const polyline = new window.kakao.maps.Polyline({
                             path: linePath,
-                            strokeWeight: 5, // 선 굵기를 5로 설정하여 가독성 강화
-                            strokeColor: colors[day] || '#FF4500', // 일차에 맞는 색상 (기본값: 주황색)
-                            strokeOpacity: 0.9, // 약간의 투명도를 추가하여 지도와 대비
+                            strokeWeight: 5,
+                            strokeColor: colors[day] || '#FF4500',
+                            strokeOpacity: 0.9,
                             strokeStyle: 'solid',
                         });
-
                         polyline.setMap(map);
                     }
                 });
 
-                map.setBounds(bounds);
+                // 클릭된 이벤트 위치로 부드러운 지도 이동
+                if (selectedEvent) {
+                    const position = new window.kakao.maps.LatLng(selectedEvent.mapy, selectedEvent.mapx);
+                    map.setLevel(6);
+                    setTimeout(() => {
+                        map.panTo(position);
+                        setTimeout(() => map.setLevel(2), 1000);
+                    }, 500);
+                } else {
+                    map.setBounds(bounds);
+                }
             });
         };
 
         return () => {
             document.head.removeChild(script);
         };
-    }, [locations]);
+    }, [locations, selectedEvent]);
 
     return (
-        <div style={{position: 'relative', width: '100%', height: '100%'}}>
-            <div id="kakaomap" style={{width: '100%', height: '100%'}}/>
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div id="kakaomap" style={{ width: '100%', height: '100%' }} />
             <div style={{
                 position: 'absolute',
                 top: '20px',
@@ -78,9 +87,9 @@ const KakaoMapPlaner = ({ locations }) => {
                 zIndex: 1000,
                 lineHeight: '1.8',
             }}>
-                <p><span style={{color: '#0077FF', fontSize: '20px'}}>■</span> 1일차</p>
-                <p><span style={{color: '#D2691E', fontSize: '20px'}}>■</span> 2일차</p>
-                <p><span style={{color: '#32CD32', fontSize: '20px'}}>■</span> 3일차</p>
+                <p><span style={{ color: '#0077FF', fontSize: '20px' }}>■</span> 1일차</p>
+                <p><span style={{ color: '#D2691E', fontSize: '20px' }}>■</span> 2일차</p>
+                <p><span style={{ color: '#32CD32', fontSize: '20px' }}>■</span> 3일차</p>
             </div>
         </div>
     );
