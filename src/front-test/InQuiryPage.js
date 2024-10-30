@@ -47,7 +47,7 @@ const InQuiryPage = () =>{
         const inquiryData = encodeURIComponent(JSON.stringify(inquiry));
 
         // URL에 inquiry 데이터를 추가
-        history.push(`/noticePage/inquiryView?data=${inquiryData}`);
+        history.push(`/inQuiryPage/inquiryView?data=${inquiryData}`);
     };
 
     // 문의사항 작성 폼으로 이동하는 함수
@@ -158,7 +158,7 @@ const InQuiryPage = () =>{
             </section>
             <article className="article">
                 <div className='wriht-box'>
-                    <p className='post-count'>총 500개의 글이 있습니다.</p>
+                    <p className='post-count'>총 {inquiries.length}개의 글이 있습니다.</p>
                     {userRole === 'USER' && (
 
                         <button className='write-btn' onClick={handleCreateInquiry}>글작성</button>

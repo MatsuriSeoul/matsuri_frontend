@@ -58,9 +58,10 @@
     color: #666;
 }
   
-.noticeView-container .content {
+.noticeView-container .content{
     margin: 20px 0;
     line-height: 1.6;
+    min-height: 200px;
 }
 .noticeView-container .file-wrap{
     margin-top: 80px;
@@ -145,6 +146,7 @@
     font-size: 14px;
     width: 76%;
     margin-top: 5px;
+    min-height: auto;
 }
 .noticeView-container .comment-container .comment .btn-box{
     margin-left: auto;

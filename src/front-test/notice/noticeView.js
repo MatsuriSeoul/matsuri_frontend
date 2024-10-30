@@ -201,7 +201,7 @@ const NoticeView = () => {
             <div className='comment-container'>
                 <h2 className='title'>댓글</h2>
                 <div className='comment-list'>
-                    {!comments && (
+                    {comments.length > 0 || (
                         <div className='comment-x'>댓글이 없습니다.</div>
                     )}
                     {comments.map((comment) => (

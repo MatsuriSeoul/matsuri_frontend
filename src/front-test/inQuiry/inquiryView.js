@@ -9,6 +9,8 @@ const InQuiryView = () => {
     const query = new URLSearchParams(location.search);
     const inquiryData = query.get('data');
 
+    const token = localStorage.getItem('token');
+
     let inquiry = null;
     if (inquiryData) {
         // JSON 문자열을 다시 객체로 변환
@@ -70,6 +72,7 @@ const InQuiryView = () => {
             <div className="content">
                 {inquiry.content}
             </div>
+            <div className="file-wrap"></div>
             <div className='comment-container'>
                 <h2 className='title'>답글</h2>
                 <div className='comment-list'>
@@ -86,7 +89,7 @@ const InQuiryView = () => {
                     </div>
                 </div>
                 {inquiry.response && (
-                    userRole === 'ADMIN' && <CommentWrite inquiryId={inquiry.id} />
+                    userRole === 'ADMIN' && <CommentWrite inquiryId={inquiry.id}/>
                 )}
 
             </div>
