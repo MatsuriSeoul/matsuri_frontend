@@ -41,6 +41,11 @@
 .signUp-wrapper .inputBox-pw .text-field{
     margin-bottom: 0;
 }
+
+.signUp-wrapper .inputBox-name .text-field{
+    margin-bottom: 0;
+}
+
 .signUp-wrapper .warningMsg{
     font-size: 12px;
     color: #FF7474;
@@ -48,6 +53,15 @@
     margin-top: 10px;
     margin-bottom: 20px;
 }
+
+.signUp-wrapper .inputBox-name .warningMsg {
+    font-size: 12px;
+    color: #FF7474;
+    font-weight: 800;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
 .signUp-wrapper .select-box{
     width: 100%;
     display: flex;
@@ -115,6 +129,16 @@
 .signUp-wrapper .inputBox-tel .check-form{
     margin-bottom: 10px;
 }
+
+.signUp-wrapper .inputBox-name {
+    position: relative;
+}
+
+.signUp-wrapper .inputBox-name .overlapCheck{
+    top: 28%;
+    transform: translateY(0%);
+}
+
 .signUp-wrapper .inputBox-tel .overlapCheck.check1{
     top: 22%;
     transform: translateY(0%);
