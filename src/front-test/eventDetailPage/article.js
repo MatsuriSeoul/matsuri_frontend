@@ -11,57 +11,9 @@ import "swiper/css/navigation";
 import KakaoMap from "../../KakaoMap";
 import LikeButton from "../../LikeButton";
 import CommentEventList from "../../CommentEventList";
+import {useAuth} from "../../AuthContext";
 
 
-const CommentTest = [
-  {
-    id: 1,
-    name: "최윤서",
-    imgurl: "/img/test/emoji1.png",
-    date: "2024.7.1",
-    text: "실내 실외 알차게 구성 돼있어서 아이들과 방문하기 좋은 곳입니다",
-    subComments: [
-      {
-        id: 1.1,
-        name: "김영희",
-        text: "이 댓글 너무 좋아요!",
-        date: "2024.7.1",
-        imgurl: "/img/test/emoji1.png",
-      },
-      {
-        id: 1.2,
-        name: "이철수",
-        text: "저도 같은 생각이에요.",
-        date: "2024.7.1",
-        imgurl: "/img/test/emoji1.png",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "임민섭",
-    imgurl: "/img/test/emoji1.png",
-    date: "2024.7.2",
-    text: "아이들과 왔는데 놀거리도 다양하고 화랑이 있던 시절 역사이야기도 할수 있어서 즐거운 경험이 되네요.",
-    subComments: [
-      {
-        id: 2.1,
-        name: "박지혜",
-        imgurl: "/img/test/emoji1.png",
-        text: "잘 보고 갑니다.",
-        date: "2024.7.2",
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "박성욱",
-    imgurl: "/img/test/emoji1.png",
-    date: "2024.7.3",
-    text: "화랑배움터 ,4D 돔 영상관은 만 4세이상 이용가능해요, 특히 돔 영상관은 천장에 스크린이 있기 때문에 뒷쪽에 앉아서 보시는게 좋은것 같아요. 볼풀공 총 놀이 할수 있는 곳이 있는 귀화랑성을 아이가 가장 좋아했어요.안쪽에는 클라이밍 하고 미끄럼틀도 타고 놀수 있구요. 아이와 가볼만한곳으로 추천합니다.",
-    subComments: [],
-  },
-];
 
 const Article = () => {
   //content-api (EventDetail.js 참고)
@@ -71,8 +23,38 @@ const Article = () => {
   // const [firstImage, setFirstImage] = useState(null);
   const [images, setImages] = useState([]);
   const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
+  const { auth } = useAuth();
+
+  // 클릭 로그 저장 로직 추가
+  const logClick = async (contentId, contentTypeId) => {
+    if (!auth || !auth.token) {
+
+      return;
+    }
+
+    try {
+      const clickData = {
+        contentid: contentId,
+        category: contentTypeId,
+      };
+
+      // 클릭 로그를 서버에 저장하는 API 호출
+      const response = await axios.post('http://localhost:8080/api/clicks/log', clickData, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+
+    } catch (error) {
+      console.error('로그 저장 중 오류:', error);
+    }
+  };
 
   useEffect(() => {
+    // 페이지에 접근할 때 클릭 로그를 저장
+    logClick(contentid, contenttypeid);  // 로그 저장 로직 실행
 
     window.scrollTo({
       top: 0,
