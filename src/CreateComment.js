@@ -37,7 +37,6 @@ const CreateComment = ({ category, noticeId, contentid, svcid, refreshComments }
     useEffect(() => {
         const fetchUser = async () => {
             if (!token) {
-                alert('로그인이 필요한 기능입니다.');
                 return;
             }
 

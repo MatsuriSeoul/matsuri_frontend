@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
+import AuthContext from "../../AuthContext";
+import {Link} from "react-router-dom";
 
 const Section1 = () =>{
     //section1_logic
@@ -39,6 +41,24 @@ const Section1 = () =>{
     const handleLikeToggle = () => {
         setlLikeToggled(prevState => !prevState);
       };
+
+
+    //공지사항///////////////////////
+    const { auth } = useContext(AuthContext);
+
+    const [notices, setNotices] = useState([]);
+
+    useEffect(() => {
+        const fetchNotices = async () => {
+            try {
+                const response = await axios.get('/api/notice');
+                setNotices(response.data);
+            } catch (error) {
+                console.error('Error fetching notices', error);
+            }
+        };
+        fetchNotices();
+    }, [auth.token]);
 
     return(
         <section className="main_sec1">
@@ -89,46 +109,9 @@ const Section1 = () =>{
                                 </div>
                             ))
                         ) : (
-                            <p>이벤트가 없습니다.</p> // 이벤트가 없을 때 표시할 내용
+                            <p className='event-x'>이벤트가 없습니다.</p> // 이벤트가 없을 때 표시할 내용
                         )
                     )}
-                    {/*<div className="box box1">*/}
-                    {/*    <div className="like-btn" onClick={handleLikeToggle}>*/}
-                    {/*    <img src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"}></img>*/}
-                    {/*    </div>*/}
-                    {/*    <div className="txt">*/}
-                    {/*        <h4 className="title">황룡원</h4>*/}
-                    {/*        <p className="address">경상북도 경주시</p>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    {/*<div className="box box2">*/}
-                    {/*    <div className="like-btn" onClick={handleLikeToggle}>*/}
-                    {/*        <img src="/img/icon/heart.svg"></img>*/}
-                    {/*    </div>*/}
-                    {/*    <div className="txt">*/}
-                    {/*        <h4 className="title">황룡원</h4>*/}
-                    {/*        <p className="address">경상북도 경주시</p>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    {/*/!* right-box *!/*/}
-                    {/*<div className="box box3">*/}
-                    {/*    <div className="like-btn" onClick={handleLikeToggle}>*/}
-                    {/*        <img src="/img/icon/heart.svg"></img>*/}
-                    {/*    </div>*/}
-                    {/*    <div className="txt">*/}
-                    {/*        <h4 className="title">황룡원</h4>*/}
-                    {/*        <p className="address">경상북도 경주시</p>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    {/*<div className="box box4">*/}
-                    {/*    <div className="like-btn" onClick={handleLikeToggle}>*/}
-                    {/*        <img src="/img/icon/heart.svg"></img>*/}
-                    {/*    </div>*/}
-                    {/*    <div className="txt">*/}
-                    {/*        <h4 className="title">황룡원</h4>*/}
-                    {/*        <p className="address">경상북도 경주시</p>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             </article>
             <div className="announcement">
@@ -138,30 +121,24 @@ const Section1 = () =>{
                     </div>
                     <h3>공지사항</h3>
                 </div>
-                <ul className="announcement-list">
-                    <li>
-                        <div className="icon">공지</div>
-                        <p className="announcement-info">웹 서버 점검 안내</p>
-                    </li>
-                    <li>
-                        <div className="icon">공지</div>
-                        <p className="announcement-info">웹 서버 점검 안내</p>
-                    </li>
-                    <li>
-                        <div className="icon">공지</div>
-                        <p className="announcement-info">경기도에서 열리는 행사 모음</p>
-                    </li>
-                    <li>
-                        <div className="icon">공지</div>
-                        <p className="announcement-info">달력 기능 업데이트 안내</p>
-                    </li>
-                    <li className="last-li">
-                        <div className="icon">공지</div>
-                        <p className="announcement-info">자주 묻는 질문</p>
-                    </li>
-                </ul>
-            </div> 
+                {notices.length > 0 ? (
+                    <ul className="announcement-list">
+                        {notices.map(notice => (
+                            <Link to={`/noticePage/${notice.id}`}>
+                                <li>
+                                    <div className="icon">공지</div>
+                                    <p className="announcement-info">{notice.title}</p>
+                                </li>
+                            </Link>
+                        ))}
+                    </ul>
+                ) : (
+                    <ul className="announcement-list">
+                        <p className='notices-x'>공지사항이 없습니다.</p>
+                    </ul>
+                )}
+            </div>
         </section>
     )
 }
-export default Section1;
+                export default Section1;

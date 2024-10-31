@@ -155,6 +155,7 @@
     color: #ffffff;
     text-shadow: 1px 1px rgba(0, 0, 0, 0.4);
     margin-top: 8px;
+    text-align: center;
 }
 .ssp .article .main-event .event .txt .active-txt .area{
     font-size: 18px;

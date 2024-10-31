@@ -8,6 +8,8 @@ import "../css/main/section1.css"
 import "../css/main/mainpage.css";
 import React, { useState } from "react";
 import LoginPage from "./login/LoginPage";
+import Section2 from "./main/section2";
+import Section3 from "./main/section3";
 
 const MainPage = () =>{
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +30,7 @@ const MainPage = () =>{
             <Header toggleModal={toggleModal} />
             <Banner/>
             <Section1/>
+            <Section2/>
             <Footer/>
             {isModalOpen && (
                 <LoginPage content={modalContent}
