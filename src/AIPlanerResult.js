@@ -98,12 +98,16 @@ const AIPlanerResult = () => {
     };
 
     const fetchImages = async (contentid) => {
-        const endpoint = getCategoryEndpoint(selectedEvent.category);
+        if (!selectedEvent) return;
+        const category = categoryMap[selectedEvent.contenttypeid] || 'default';
+        const endpoint = getCategoryEndpoint(category);
+
         try {
             const response = await axios.get(`http://localhost:8080/api/${endpoint}/${contentid}/images`);
-            setImages(response.data);
+            setImages(response.data || []); // response.data가 null이거나 undefined인 경우 빈 배열로 설정
         } catch (error) {
             console.error('이미지 목록 불러오기 실패', error);
+            setImages([]); // 오류 발생 시 빈 배열로 설정
         }
     };
 
@@ -354,9 +358,25 @@ const AIPlanerResult = () => {
                         style={styles.detailImage}
                     />
                     <p style={styles.detailAddress}>주소: {selectedEvent.addr1}</p>
+                    <p>개요: {detail.overview || '정보 없음'}</p>
                     <p style={styles.detailDescription}>{selectedEvent.recommendation}</p>
                     <h3>추가 정보</h3>
                     {renderAdditionalInfo()}
+                    {images.length > 0 ? (
+                        <div>
+                            <h2>이미지 갤러리</h2>
+                            {images.map((image, index) => (
+                                <div key={index} style={{ marginBottom: '20px' }}>
+                                    <p>원본 이미지:</p>
+                                    <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="100"/>
+                                    <p>썸네일 이미지:</p>
+                                    <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="100"/>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>이미지가 없습니다.</p>
+                    )}
                 </div>
             )}
             <div style={styles.mapContainer}>
@@ -367,10 +387,10 @@ const AIPlanerResult = () => {
 };
 
 const styles = {
-    container: { display: 'flex', height: '100vh', overflow: 'hidden' },
-    sidebar: { width: '400px', padding: '20px', overflowY: 'auto', backgroundColor: '#f5f5f5' },
-    title: { textAlign: 'center', fontSize: '24px', marginBottom: '20px', color: '#333' },
-    planSection: { marginBottom: '20px' },
+    container: {display: 'flex', height: '100vh', overflow: 'hidden'},
+    sidebar: {width: '400px', padding: '20px', overflowY: 'auto', backgroundColor: '#f5f5f5'},
+    title: {textAlign: 'center', fontSize: '24px', marginBottom: '20px', color: '#333'},
+    planSection: {marginBottom: '20px' },
     daySection: { marginBottom: '10px' },
     dayTitle: { fontSize: '20px', color: '#555', marginBottom: '5px' },
     eventList: { listStyleType: 'none', padding: 0 },
