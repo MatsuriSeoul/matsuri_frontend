@@ -234,6 +234,7 @@
 
 .myLikeContainer{
     width: 800px;
+    min-height: 200px;
     border: 1px solid #121212;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -241,8 +242,13 @@
     background-color: #fff;
     margin-top: 40px;
     padding-right: 0;
+    position: relative;
 }
-
+.profileContainer .likedEvents-x{
+    width: 100%;
+    text-align: center;
+    line-height: 80px;
+}
 .myLikeContainer .likeSwiper .slide-content{
     width: 200px;
     height: 250px;
@@ -250,13 +256,12 @@
 }
 .myLikeContainer .likeSwiper-wrapper{
     display: flex;
-    position: relative;
 }
 .myLikeContainer .likeSwiper-wrapper .like-button-wrapper{
     display: flex;
     position: absolute;
-    top: 210px;
-    left: 8px;
+    bottom: 20px;
+    left: 16px;
 }
 .myLikeContainer .likeSwiper-wrapper .like-button-prev,
 .myLikeContainer .likeSwiper-wrapper .like-button-next{
@@ -270,6 +275,7 @@
 }
 .myLikeContainer .likeSwiper{
     margin-left: 110px;
+    width: 100%;
     overflow: hidden;
     position: relative;
 }
@@ -316,17 +322,125 @@
     padding: 20px;
     background-color: #fff;
     margin-top: 40px;
+}
+.myLikeContainer{
+    width: 800px;
+    border: 1px solid #121212;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 40px;
     padding-right: 0;
 }
-
-.myRecentContainer .recentSwiper .slide-content{
+.myLikeContainer .slide-content{
     width: 200px;
     height: 250px;
     border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+}
+.myLikeContainer .slide-content::before{
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: linear-gradient(rgba(0,0,0,0) 80%, rgba(0,0,0,0.7));
+}
+.myLikeContainer .slide-content .slide-content-txt{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 10px;
+    z-index: 2;
+}
+.myLikeContainer .slide-content .slide-content-txt .title{
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    z-index: 2;
+    max-width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .myRecentContainer .recentSwiper-wrapper{
     display: flex;
+    flex-direction: column;
     position: relative;
+    max-height: 210px;
+    overflow-y: auto; /* 수직 스크롤 가능 */
+    overflow-x: hidden; /* 수평 스크롤 제거 */
+}
+/* Chrome, Safari 및 Edge에서 스크롤바 스타일 수정 */
+.myRecentContainer .recentSwiper-wrapper::-webkit-scrollbar {
+    width: 4px; /* 스크롤바 너비를 4px로 설정하여 얇게 */
+}
+
+/* 스크롤바 배경 */
+.myRecentContainer .recentSwiper-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 스크롤바 배경 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+}
+
+/* 스크롤바 */
+.myRecentContainer .recentSwiper-wrapper::-webkit-scrollbar-thumb {
+    background: #888; /* 스크롤바 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+}
+
+/* 스크롤바에 마우스를 올렸을 때 */
+.myRecentContainer .recentSwiper-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 마우스 오버 시 색상 변경 */
+}
+
+.myRecentContainer .recentSwiper-wrapper .item {
+    flex: 0 0 auto; /* 항목 크기를 고정 */
+    margin: 5px 0; /* 항목 간 간격 */
+    /* 필요에 따라 추가 스타일링 */
+}
+.myRecentContainer .recentSwiper-wrapper .name{
+    width: 10%;
+    font-weight: 500;
+    color: #444444;
+}
+.myRecentContainer .like-comment .content{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 85%;
+}
+.myRecentContainer .authored-comment-item .content{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 85%;
+}
+.myRecentContainer .authored-comment-item .date{
+
+}
+
+.myRecentContainer .recentSwiper-wrapper .like-comment,
+.myRecentContainer .recentSwiper-wrapper .authored-comment-item{
+    display: flex;
+    align-items: center;
+    padding-bottom: 12px;
+    margin-bottom: 10px;
+    width: 98%;
+    border-bottom: 1px solid #c1c1c1;
+}
+.myRecentContainer .recentSwiper-wrapper .wall{
+    height: 16px;
+    width: 1px;
+    margin: 0px 10px;
+    background: #7d7d7d;
 }
 .myRecentContainer .recentSwiper-wrapper .recent-button-wrapper{
     display: flex;

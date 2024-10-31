@@ -3,8 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-// import LikeButton from "../../LikeButton";
-import KaKaoMap from "../../KakaoMap";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -24,6 +22,32 @@ const Article = () => {
   const [images, setImages] = useState([]);
   const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
   const { auth } = useAuth();
+
+
+  const categoryTypeMap = {
+    12: "tourist-attractions",  //관광지
+    14: "cultural-facilities",  //문화시설
+    15: "events",               //행사
+    25: "travel-courses",   //여행코스
+    28: "leisure-sports",   //레포츠
+    32: "local-events",     //숙박
+    38: "shopping-events",  //쇼핑
+    39: "food-events"       //음식
+  };
+
+  const likeCategoryTypeMap = {
+    12: "TouristAttractionDetail",
+    14: "CulturalFacilityDetail",
+    15: "EventDetail",
+    25: "TravelCourseDetail",
+    28: "LeisureSportsEventDetail",
+    32: "LocalEventDetail",
+    38: "ShoppingEventDetail",
+    39: "FoodEventDetail"
+  };
+
+  let categoryType = categoryTypeMap[contenttypeid] || "unknown";
+  let likeCategoryType = likeCategoryTypeMap[contenttypeid] || "UnknownDetail";
 
   // 클릭 로그 저장 로직 추가
   const logClick = async (contentId, contentTypeId) => {
@@ -53,6 +77,9 @@ const Article = () => {
   };
 
   useEffect(() => {
+    categoryType = categoryTypeMap[contenttypeid] || "unknown";
+    likeCategoryType = likeCategoryTypeMap[contenttypeid] || "UnknownDetail";
+
     // 페이지에 접근할 때 클릭 로그를 저장
     logClick(contentid, contenttypeid);  // 로그 저장 로직 실행
 
@@ -84,8 +111,9 @@ const Article = () => {
     // 상세 정보 API 불러오기 (로컬 DB에서)
     const fetchDetail = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contentid}/detail`);
+        const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/detail`);
         setDetail(response.data);
+        console.log('setDetail: ', response.data);
       } catch (error) {
         console.error('상세 정보 불러오기 실패', error);
       }
@@ -94,7 +122,7 @@ const Article = () => {
     // 소개 정보 API 불러오기 (외부 API에서)
     const fetchIntro = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contentid}/${contenttypeid}/intro`);
+        const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/${contenttypeid}/intro`);
         setIntro(response.data);
       } catch (error) {
         console.error('소개 정보 불러오기 실패', error);
@@ -104,7 +132,7 @@ const Article = () => {
     // 이미지 정보 조회 API 호출하여 이미지 목록 가져오기
     const fetchImages = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contentid}/images`);
+        const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/images`);
         setImages(response.data);
       } catch (error) {
         console.error('이미지 정보 불러오기 실패', error);
@@ -114,17 +142,22 @@ const Article = () => {
     // 유사한 여행지 정보 가져오기
     const fetchSimilarEvents = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/${apitype}/${contenttypeid}/similar-events`);
+        const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contenttypeid}/similar-events`);
         setSimilarEvents(response.data.slice(0, 6));
       } catch (error) {
         console.error('유사한 여행지 불러오기 실패', error);
       }
     };
 
-    fetchDetail();
-    fetchIntro();
-    fetchImages();
-    fetchSimilarEvents();
+    if(contenttypeid === 'seoulevent'){
+      fetchSeoulEventDetail();
+    }
+    else{
+      fetchDetail();
+      fetchIntro();
+      fetchImages();
+      fetchSimilarEvents();
+    }
     console.log('api 불러오기 성공');
     console.log('images: ' + images + 'detail: ' + detail + 'intro: ' + intro );
 
@@ -251,22 +284,9 @@ const Article = () => {
           </div>
           <div className="icons">
             <div className="likeView">
-              <LikeButton contentId={contentid} contentType={contenttypeid} />
+              <LikeButton contentId={contentid} contentType={likeCategoryType} />
             </div>
             <div className="right">
-              {/*<div className="share">*/}
-              {/*  <svg*/}
-              {/*      xmlns="http://www.w3.org/2000/svg"*/}
-              {/*      height="24px"*/}
-              {/*      viewBox="0 -960 960 960"*/}
-              {/*      width="24px"*/}
-              {/*      fill="#e8eaed"*/}
-              {/*  >*/}
-              {/*    <path*/}
-              {/*        d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm480-280q17 0 28.5-11.5T720-760q0-17-11.5-28.5T680-800q-17 0-28.5 11.5T640-760q0 17 11.5 28.5T680-720Zm0 520ZM200-480Zm480-280Z"/>*/}
-              {/*  </svg>*/}
-              {/*  <p className="share-count">1</p>*/}
-              {/*</div>*/}
             </div>
           </div>
           <nav className={`scroll-tab ${isFixed ? 'active' : ''}`}>
@@ -290,7 +310,7 @@ const Article = () => {
               <p>추천행사</p>
             </div>
           </nav>
-          {images !== null ? (
+          {images.length > 0 ? (
               <Swiper
                   ref={swiperRef}
                   slidesPerView={1}
@@ -445,33 +465,6 @@ const Article = () => {
             <div className="tag">#맛집</div>
           </div>
           <CommentEventList category={apitype} contentid={contentid} contenttypeid={contenttypeid} />
-
-
-          {/*<div className="trip-recommend">*/}
-          {/*  <div className="title">*/}
-          {/*    <h2>'개떼놀이터 인천점'와(과) 유사한 여행지 추천</h2>*/}
-          {/*    <img className="icon" src="/img/emoji/emoji1.png"></img>*/}
-          {/*  </div>*/}
-          {/*  <div className="recommend-list">*/}
-          {/*    {similarEvents.slice(0, 6).map((event, index) => (*/}
-          {/*        <Link to={`/eventDetailPage/tourapi/${event.contentid}/${event.contenttypeid}`}>*/}
-          {/*          <div className='recommend-img' key={index}*/}
-          {/*               style={{*/}
-          {/*                 backgroundImage: `url(${event.firstimage || event.firstImage || event.first_image || event[1] || '/img/default_img.jpeg'})`,*/}
-          {/*                 backgroundSize: 'cover', // 이미지를 박스에 맞게 조절*/}
-          {/*                 backgroundPosition: 'center', // 이미지를 중앙에 위치*/}
-          {/*               }}>*/}
-          {/*            <div className="like-btn" onClick={handleLikeToggle}>*/}
-          {/*              <img*/}
-          {/*                  src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"}*/}
-          {/*              ></img>*/}
-          {/*            </div>*/}
-          {/*            <h3 className="img-title">{event.title || event[0]}</h3>*/}
-          {/*          </div>*/}
-          {/*        </Link>*/}
-          {/*    ))}*/}
-          {/*  </div>*/}
-          {/*</div>*/}
         </article>
         <div className='side-container'>
           <div className='sub-sticky'></div>

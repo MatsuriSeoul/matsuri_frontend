@@ -108,36 +108,6 @@ const CreateComment = ({ category, noticeId, contentid, svcid, refreshComments }
                 <input type="submit" value="댓글 작성"/>
             </div>
         </form>
-    /*<form onSubmit={handleSubmit}>
-        <div>
-            <label>내용 :</label>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="댓글을 입력하세요."/>
-        </div>
-        {!noticeId && (
-            <div>
-                <label>이미지 첨부:</label>
-                <input type="file" multiple onChange={handleImageChange} accept="image/*" />
-                <div>
-                    {imagePreviews.map((preview, index) => (
-                        <div key={index} style={{ display: "flex", alignItems: "center" }}>
-                            <img
-                                src={preview}
-                                alt={`Preview ${index}`}
-                                style={{ width: "100px", height: "100px", marginRight: "10px" }}
-                            />
-                            <button type="button" onClick={() => handleImageRemove(index)}>
-                                삭제
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            )}
-            <div>
-                <label>작성자 : {user.userName}</label>
-            </div>
-            <button type="submit">댓글 작성</button>
-        </form>*/
     );
 };
 

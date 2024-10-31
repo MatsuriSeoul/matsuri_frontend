@@ -121,9 +121,11 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
         <div className="comment-container">
             <div className="title">
                 <h1>여행톡</h1>
-                <p className="comment-count">1</p>
+                <p className="comment-count">{comments.length}</p>
             </div>
-            <CreateComment category={category} contentid={contentid} svcid={svcid} refreshComments={fetchComments}/>
+            {token && (
+                <CreateComment category={category} contentid={contentid} svcid={svcid} refreshComments={fetchComments}/>
+            )}
             <div className="comment-list">
                 {comments.length === 0 ? (
                     <p className='comment-x'> 아직 댓글이 없어요 </p>

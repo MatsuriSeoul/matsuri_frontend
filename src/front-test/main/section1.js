@@ -96,16 +96,10 @@ const Section1 = () =>{
                                         backgroundPosition: 'center', // 이미지를 중앙에 위치
                                     }}
                                 >
-                                    <div className="like-btn" onClick={handleLikeToggle}>
-                                        <img src={likeToglled ? "/img/icon/heart-fill.svg" : "/img/icon/heart.svg"} alt="좋아요 아이콘"/>
-                                    </div>
                                     <div className="txt">
                                         <h4 className="title">{event.title || event.svcnm}</h4>
                                         <p className="address">{event.addr1}</p>
                                     </div>
-                                    {/*<Link*/}
-                                    {/*    to={`/${event.contenttypeid ? 'events' : ''}/${event.contentid}/${event.contenttypeid}/detail`}*/}
-                                    {/*></Link>*/}
                                 </div>
                             ))
                         ) : (

@@ -45,11 +45,6 @@
     justify-content: space-between;
     margin-bottom: 24px;
 }
-.edp-article .icons svg{
-    width: 24px;
-    height: 24px;
-    fill: #111111;
-}
 .edp-article .icons p{
     font-size: 15px;
     font-weight: 400;
@@ -359,9 +354,6 @@
     width: 20px;
     height: 20px;
     margin-right: 4px;
-}
-.edp-article .comment-container .comment-list .comment-box .comment-article .comment-btn .icon svg{
-    fill: #333333;
 }
 .edp-article .comment-container .comment-list .comment-box .comment-article .comment-btn p{
     font-size: 15px;
