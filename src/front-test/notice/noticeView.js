@@ -156,7 +156,7 @@ const NoticeView = () => {
 
     const handleUpdateComment = async (commentId) => {
         try {
-            await axios.put(`/api/comment/${commentId}`, { content: editedContent }, {
+            await axios.put(`/api/comment/noticeComment/${commentId}`, { content: editedContent }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

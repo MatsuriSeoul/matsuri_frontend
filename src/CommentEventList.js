@@ -95,7 +95,7 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
                 formData.append('newImages', image);
             });
 
-            await axios.put(`/api/comment/${commentId}`, formData, {
+            await axios.put(`/api/comment/TravelTalkComment/${commentId}`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
@@ -172,7 +172,7 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
                                                 />
                                                 <div className="input-btn">
                                                     <button className='update-btn' onClick={() => {
-                                                        if (window.confirm("댓글 수정이 완료되었습니다")) {
+                                                        if (window.confirm("확인을 누르면 댓글이 수정됩니다.")) {
                                                             handleUpdateComment(comment.id);
                                                         }
                                                     }}>수정
