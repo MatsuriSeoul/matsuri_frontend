@@ -76,6 +76,7 @@ import AIPlanerResult from "./AIPlanerResult";
 import NoticeWrite from "./front-test/notice/noticeWrite";
 import InQuiryView from "./front-test/inQuiry/inquiryView";
 import IQWrite from "./front-test/inQuiry/inquiryWrite";
+import OngoingUpComingPage from "./front-test/eventInfo/OngoingUpComingPage";
 
 
 function App() {
@@ -176,6 +177,7 @@ function App() {
                         <Route path="/inQuiryPage/inquiryView/:id" component={InQuiryView} />
                         <Route path="/inQuiryPage" component={InQuiryPage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
+                        <Route path="/ongoingUpComingPage/:moreCategory?" component={OngoingUpComingPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
                         <Route path="/userInfo" component={UserInfo} />
 

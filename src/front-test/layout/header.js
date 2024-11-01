@@ -124,7 +124,7 @@ const Header = ({toggleModal}) => {
             <div className='sub-header'>
                 <div className='list eventinfo-list'>
                     <Link to={'/freeAndPaidPage'}><p>무료 / 유료 행사</p></Link>
-                    <p>진행 / 개최예정 행사</p>
+                    <Link to={'/ongoingUpComingPage'}><p>진행 / 개최예정 행사</p></Link>
                 </div>
                 <div className='list notice-list'>
                     <Link to={'/noticePage'}><p>공지사항</p></Link>

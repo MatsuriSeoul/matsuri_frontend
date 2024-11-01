@@ -1,6 +1,7 @@
 import {Link, useParams} from 'react-router-dom';
 import {useEffect, useState} from "react";
 import axios from "axios";
+import moment from "moment/moment";
 
 const BoxList =[
     {id: 1},
@@ -15,50 +16,62 @@ const BoxList =[
 
 const Article = () =>{
 
-    const [freeEvents, setFreeEvents] = useState([]);
-    const [paidEvents, setPaidEvents] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showOngoing, setShowOngoing] = useState(true); // 진행 중인 행사를 기본으로 설정
 
-    const fetchFreeEvents = async () => {
+    // API 호출 함수
+    const fetchEvents = async () => {
+        setIsLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8080/api/events/free`);
-            setFreeEvents(response.data);
+            const response = await axios.get(`http://localhost:8080/api/events/scheduled`);
+            setEvents(response.data);
         } catch (error) {
-            console.error('이벤트를 가져오는 중 오류 발생:', error);
+            console.error('행사 데이터를 가져오는 중 오류 발생:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
-    const fetchPaidEvents = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/api/events/paid`);
-            setPaidEvents(response.data);
-        } catch (error) {
-            console.error('이벤트를 가져오는 중 오류 발생:', error);
-        }
-    };
+
     useEffect(() => {
-        fetchFreeEvents();
-        fetchPaidEvents();
+        fetchEvents();
     }, []);
+
+    // 진행 중인 행사 필터링
+    const ongoingEvents = events.filter(event => {
+        const today = moment();
+        const startDate = event.beginDe ? moment(event.beginDe) : moment(event.rcptbgndt, "YYYY-MM-DD HH:mm:ss.S");
+        const endDate = event.endDe ? moment(event.endDe) : moment(event.rcptenddt, "YYYY-MM-DD HH:mm:ss.S");
+        return today.isBetween(startDate, endDate, 'day', '[]');
+    });
+
+    // 진행 예정인 행사 필터링
+    const upcomingEvents = events.filter(event => {
+        const today = moment();
+        const startDate = event.beginDe ? moment(event.beginDe) : moment(event.rcptbgndt, "YYYY-MM-DD HH:mm:ss.S");
+        return startDate.isAfter(today, 'day');
+    });
 
     return(
         <>
             <section className="sec sec1">
-                <Link to={'/freeAndPaidPage/free'}>
+                <Link to={'/ongoingUpComingPage/ongoing'}>
                     <p className="more-btn">더보기 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg></p>
                 </Link>
                 <div className="sec1-container container">
                     <div className="title-hashtag">
                         <div className="design-point"></div>
-                        <h1 className="title">무료 행사</h1>
-                        <p className="sub-title">운영자가 추천하는 무료 행사입니다.</p>
+                        <h1 className="title">개최중인 행사</h1>
+                        <p className="sub-title">운영자가 추천하는 개최중인 행사입니다.</p>
                         <div className="hashtag">
-                            <p>#공짜로</p>
+                            <p>#어서빨리!</p>
                             <p>#즐길 수 있다고??</p>
                             <p>#궁금하지않아?</p>
                             <p>#여기에 다 있어!!</p>
                         </div>
                     </div>
                     <div className="img-list">
-                            {freeEvents.slice(0, 6).map((event) => (
+                            {ongoingEvents.slice(0, 6).map((event) => (
                                 <Link to={event.svcid ? `/eventDetailPage/seoul-events/${event.svcid}/seoul-events` : `/eventDetailPage/gyeonggi-events/${event.id}/gyeonggi-events`} className='box'>
                                     <div className="img"
                                          style={{
@@ -76,23 +89,23 @@ const Article = () =>{
                 </div> 
             </section>    
             <section className="sec sec2">
-                <Link to={'/freeAndPaidPage/paid'}>
+                <Link to={'/ongoingUpComingPage/upComing'}>
                     <p className="more-btn">더보기 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg></p>
                 </Link>
                 <div className="sec2-container container">
                     <div className="title-hashtag">
                         <div className="design-point"></div>
-                        <h1 className="title">유료 행사</h1>
-                        <p className="sub-title">운영자가 추천하는 유료 행사입니다.</p>
+                        <h1 className="title">개최예정 행사</h1>
+                        <p className="sub-title">운영자가 추천하는 개최예정 행사입니다.</p>
                         <div className="hashtag">
-                            <p>#내.돈.내.산</p>
-                            <p>#유료인 만큼</p>
-                            <p>#더 재밌는 행사가</p>
+                            <p>#두근두근</p>
+                            <p>#기대할 만한</p>
+                            <p>#곧 있을 행사가</p>
                             <p>#많을 거예요</p>
                         </div>
                     </div>
                     <div className="img-list">
-                            {paidEvents.slice(0, 6).map((event) => (
+                            {upcomingEvents.slice(0, 6).map((event) => (
                                 <Link to={event.svcid ? `/eventDetailPage/seoul-events/${event.svcid}/seoul-events` : `/eventDetailPage/gyeonggi-events/${event.id}/gyeonggi-events`} className='box'>
                                     <div className="img"
                                          style={{

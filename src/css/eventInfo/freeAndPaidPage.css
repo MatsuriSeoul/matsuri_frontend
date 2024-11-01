@@ -122,6 +122,11 @@
     color: #333333;
     margin-bottom: 14px;
     text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .fapp .container .img-list .box .address{
     font-size: 16px;
@@ -181,6 +186,11 @@
     color: #333333;
     margin-bottom: 14px;
     text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .morearticle .event-list .box .address{
     font-size: 16px;
