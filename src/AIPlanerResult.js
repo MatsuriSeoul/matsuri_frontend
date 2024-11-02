@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import KakaoMapPlaner from './KakaoMapPlaner';
 import axios from "axios";
+import CommentEventList from "./CommentEventList";
+import ReviewComponent from "./ReviewComponent";
+import AIPlanerCommentList from "./AIPlanerCommentList";
 
 const AIPlanerResult = () => {
     const location = useLocation();
@@ -22,7 +25,12 @@ const AIPlanerResult = () => {
         '38': '쇼핑',
         '39': '음식'
     };
-
+// AIPlanerResult 컴포넌트 내
+    const getEncodedCategory = (contenttypeid) => {
+        const encodedCategory = categoryMap[contenttypeid] || 'default-category';
+        console.log("Encoded Category for contenttypeid:", contenttypeid, "is", encodedCategory);
+        return encodedCategory;
+    };
     // 데이터 그룹화
     const locations = Object.keys(result.dayPlans).reduce((acc, day) => {
         acc[day] = result.dayPlans[day].map((event, index) => ({
@@ -377,6 +385,14 @@ const AIPlanerResult = () => {
                     ) : (
                         <p>이미지가 없습니다.</p>
                     )}
+                    {/*네이버 블로그 리뷰 */}
+                    <ReviewComponent query={detail.title} />
+                    {/* 댓글 기능 추가 */}
+                    <AIPlanerCommentList
+                        category={getEncodedCategory(selectedEvent.contenttypeid)}
+                        contentid={selectedEvent.contentid}
+                        contenttypeid={selectedEvent.contenttypeid}
+                    />
                 </div>
             )}
             <div style={styles.mapContainer}>
