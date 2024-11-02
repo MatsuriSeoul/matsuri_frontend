@@ -87,20 +87,22 @@ const Section1 = () =>{
                     ) : (
                         events.length > 0 ? ( // 이벤트 데이터가 있을 경우
                             events.map((event, index) => (
-                                <div
-                                    key={index}
-                                    className={`box box${index}`}
-                                    style={{
-                                        backgroundImage: `url(${event.firstimage || event.imgurl})`, // 이미지 URL을 url()로 감싸야 합니다.
-                                        backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
-                                        backgroundPosition: 'center', // 이미지를 중앙에 위치
-                                    }}
-                                >
-                                    <div className="txt">
-                                        <h4 className="title">{event.title || event.svcnm}</h4>
-                                        <p className="address">{event.addr1}</p>
+                                <Link to={activeTab === '서울특별시' ? `/eventDetailPage/seoul-events/${event.svcid}/seoul-events` : `/eventDetailPage/gyeonggi-events/${event.id}/gyeonggi-events`} className='recommend'>
+                                    <div
+                                        key={index}
+                                        className={`box box${index}`}
+                                        style={{
+                                            backgroundImage: `url(${event.firstimage || event.imgurl})`, // 이미지 URL을 url()로 감싸야 합니다.
+                                            backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
+                                            backgroundPosition: 'center', // 이미지를 중앙에 위치
+                                        }}
+                                    >
+                                        <div className="txt">
+                                            <h4 className="title">{event.title || event.svcnm}</h4>
+                                            <p className="address">{event.addr1}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))
                         ) : (
                             <p className='event-x'>이벤트가 없습니다.</p> // 이벤트가 없을 때 표시할 내용
@@ -135,4 +137,4 @@ const Section1 = () =>{
         </section>
     )
 }
-                export default Section1;
+export default Section1;

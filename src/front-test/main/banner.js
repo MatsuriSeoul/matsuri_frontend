@@ -169,13 +169,15 @@ const Banner = () => {
           >
             {events.slice(0, slicenum).map((event) => (
                 <SwiperSlide>
-                  <div className='event-img'
-                       style={{
-                         backgroundImage: `url(${event.firstimage})`, // 이미지 URL을 url()로 감싸야 합니다.
-                         backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
-                         backgroundPosition: 'center', // 이미지를 중앙에 위치
-                       }}
-                  ></div>
+                  <Link to={`/eventDetailPage/events/${currentEvent.contentid}/${currentEvent.contenttypeid}`}>
+                    <div className='event-img'
+                         style={{
+                           backgroundImage: `url(${event.firstimage})`, // 이미지 URL을 url()로 감싸야 합니다.
+                           backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
+                           backgroundPosition: 'center', // 이미지를 중앙에 위치
+                         }}
+                    ></div>
+                  </Link>
                 </SwiperSlide>
             ))}
           </Swiper>
