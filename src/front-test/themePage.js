@@ -14,9 +14,9 @@ import Footer from "./layout/footer"
 
 const theme = [
     {id:1, title: "행사", imgUrl: "/img/category/행사.jpg"},
-    {id:2, title: "관광지", imgUrl: "/img/category/관광지.jpg"},
+    {id:2, title: "여행코스", imgUrl: "/img/category/여행코스.jpg"},
     {id:3, title: "문화시설", imgUrl: "/img/category/문화시설.jpg"},
-    {id:4, title: "여행코스", imgUrl: "/img/category/여행코스.jpg"},
+    {id:4, title: "관광지", imgUrl: "/img/category/관광지.jpg"},
     {id:5, title: "숙박", imgUrl: "/img/category/숙박.jpg"},
     {id:6, title: "음식", imgUrl: "/img/category/음식.jpg"},
     {id:7, title: "쇼핑", imgUrl: "/img/category/쇼핑.jpg"},

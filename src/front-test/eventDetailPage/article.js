@@ -10,6 +10,7 @@ import KakaoMap from "../../KakaoMap";
 import LikeButton from "../../LikeButton";
 import CommentEventList from "../../CommentEventList";
 import {useAuth} from "../../AuthContext";
+import ReviewComponent from "../../ReviewComponent";
 
 
 
@@ -32,7 +33,9 @@ const Article = () => {
     28: "leisure-sports",   //레포츠
     32: "local-events",     //숙박
     38: "shopping-events",  //쇼핑
-    39: "food-events"       //음식
+    39: "food-events",       //음식
+    'seoul-events': "seoul-events",
+    'gyeonggi-events': "gyeonggi-events"
   };
 
   const likeCategoryTypeMap = {
@@ -43,7 +46,9 @@ const Article = () => {
     28: "LeisureSportsEventDetail",
     32: "LocalEventDetail",
     38: "ShoppingEventDetail",
-    39: "FoodEventDetail"
+    39: "FoodEventDetail",
+    'seoul-events': "SeoulEventDetail",
+    'gyeonggi-events': "GyeonggiEventDetail"
   };
 
   let categoryType = categoryTypeMap[contenttypeid] || "unknown";
@@ -148,9 +153,22 @@ const Article = () => {
         console.error('유사한 여행지 불러오기 실패', error);
       }
     };
+    // 서울/경기 유사한 여행지 정보 가져오기
+    const seoulfetchSimilarEvents = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/events/15/similar-events`);
+        setSimilarEvents(response.data.slice(0, 6));
+      } catch (error) {
+        console.error('유사한 여행지 불러오기 실패', error);
+      }
+    };
 
-    if(contenttypeid === 'seoulevent'){
+    if(contenttypeid === 'seoul-events'){
       fetchSeoulEventDetail();
+      seoulfetchSimilarEvents();
+    }else if(contenttypeid === 'gyeonggi-events'){
+      fetchGyeonggiEventDetail();
+      seoulfetchSimilarEvents();
     }
     else{
       fetchDetail();
@@ -264,14 +282,14 @@ const Article = () => {
     window.scrollTo({ top: position, behavior: 'smooth' });
   };
 
-  if (!detail || !intro) return <div>Loading...</div>;
+  if (!detail) return <div>Loading...</div>;
 
   return (
       <div className='edp-container'>
         <article className="edp-article">
           <div className="detail-title">
-            <h1 className="title">{detail.title}</h1>
-            <p className="address">{detail.addr1}</p>
+            <h1 className="title">{detail.title || detail.svcnm}</h1>
+            <p className="address">{detail.addr1 || detail.placenm}</p>
             <p className="sup-info">더 자세한 내용은 링크를 통해 확인하세요.
               <div className='link' onClick={pageLinkCopy}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -321,20 +339,20 @@ const Article = () => {
                   }}
                   className="mySwiper edpArticle-swiper"
               >
-                {images.map((image, index) => (
-                    <SwiperSlide key={index}>
-                      <div className='detail-img'
-                           style={{
-                             backgroundImage: `url('${image.originimgurl}')`,
-                             backgroundSize: 'cover',
-                             backgroundPosition: 'center',
-                             backgroundRepeat: 'no-repeat'
-                           }}
-                      ></div>
-                    </SwiperSlide>
-                ))}
 
-                {/* pagination-count */}
+                {images.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div
+                      className='detail-img'
+                      style={{
+                        backgroundImage: `url('${image.originimgurl}')`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat'
+                  }}
+                  ></div>
+                </SwiperSlide>
+                ))}
                 <div className="swiper-pagination-info">
                   <p>
                     {currentSlide} / {totalSlides}
@@ -345,9 +363,23 @@ const Article = () => {
                 <div className="swiper-button swiper-button-next"></div>
               </Swiper>
           ) : (
-              <img src='/img/default_img.jpeg' className='default_img'></img>
+              <>
+                {detail.imgurl ? (
+                      <div
+                          className='default_img'
+                          style={{
+                            backgroundImage: `url('${detail.imgurl}')`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat'
+                          }}
+                      ></div>
+                  ) : (
+                      <img src='/img/default_img.jpeg' className='default_img' alt='Default'/>
+                  )}
+              </>
           )}
-          <div className="detail-info">
+            <div className="detail-info">
             <h1 className="title">상세정보</h1>
             <p className="info-txt">
               {detail.overview}
@@ -355,130 +387,128 @@ const Article = () => {
           </div>
 
           {/* 지도 표시 부분 */}
-          {detail.mapx && detail.mapy ? (
-              <KakaoMap mapX={detail.mapx} mapY={detail.mapy} title={detail.title}/>
+          {(detail.mapx || detail.mapX || detail.x) && (detail.mapy || detail.mapY || detail.y)  ? (
+              <KakaoMap mapX={detail.mapx || detail.mapX || detail.x} mapY={detail.mapy || detail.mapY || detail.y} title={detail.title || detail.svcnm}/>
           ) : (
               <div></div>
           )}
 
-          <ul className="info-list">
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                관람 가능 연령
-              </p>
-              <p className="propertyValue">{intro.agelimit || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                예매처
-              </p>
-              <p className="propertyValue">{intro.bookingplace || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                할인 정보
-              </p>
-              <p className="propertyValue">{intro.discountinfofestival || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                행사 장소
-              </p>
-              <p className="propertyValue">{intro.eventplace || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                행사 시작일
-              </p>
-              {intro.eventstartdate ? (
-                  <p className="propertyValue">{intro.eventstartdate.slice(0, 4)}.
-                    {intro.eventstartdate.slice(4, 6)}.
-                    {intro.eventstartdate.slice(6)}</p>
-              ) : (
-                  <p className="propertyValue">-</p>
-              )}
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                행사 종료일
-              </p>
-              {intro.eventenddate ? (
-                  <p className="propertyValue">{intro.eventenddate.slice(0, 4)}.
-                    {intro.eventenddate.slice(4, 6)}.
-                    {intro.eventenddate.slice(6)}</p>
-              ) : (
-                  <p className="propertyValue">-</p>
-              )}
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                행사 프로그램
-              </p>
-              <p className="propertyValue">{intro.program || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                관람 소요 시간
-              </p>
-              <p className="propertyValue">{intro.spendtimefestival || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                이용 요금
-              </p>
-              <p className="propertyValue">{intro.usetimefestival || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                주최자 정보
-              </p>
-              <p className="propertyValue">{intro.sponsor1 || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                주최자 연락처
-              </p>
-              <p className="propertyValue">{intro.sponsor1tel || '-'}</p>
-            </li>
-            <li>
-              <p className="propertyName">
-                <div className="bullet"></div>
-                주관사 정보
-              </p>
-              <p className="propertyValue">{intro.sponsor2 || '-'}</p>
-            </li>
-          </ul>
+          {/*<ul className="info-list">*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      관람 가능 연령*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.agelimit || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      예매처*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.bookingplace || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      할인 정보*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.discountinfofestival || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      행사 장소*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.eventplace || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      행사 시작일*/}
+          {/*    </p>*/}
+          {/*    {intro.eventstartdate ? (*/}
+          {/*        <p className="propertyValue">{intro.eventstartdate.slice(0, 4)}.*/}
+          {/*          {intro.eventstartdate.slice(4, 6)}.*/}
+          {/*          {intro.eventstartdate.slice(6)}</p>*/}
+          {/*    ) : (*/}
+          {/*        <p className="propertyValue">-</p>*/}
+          {/*    )}*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      행사 종료일*/}
+          {/*    </p>*/}
+          {/*    {intro.eventenddate ? (*/}
+          {/*        <p className="propertyValue">{intro.eventenddate.slice(0, 4)}.*/}
+          {/*          {intro.eventenddate.slice(4, 6)}.*/}
+          {/*          {intro.eventenddate.slice(6)}</p>*/}
+          {/*    ) : (*/}
+          {/*        <p className="propertyValue">-</p>*/}
+          {/*    )}*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      행사 프로그램*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.program || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      관람 소요 시간*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.spendtimefestival || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      이용 요금*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.usetimefestival || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      주최자 정보*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.sponsor1 || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      주최자 연락처*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.sponsor1tel || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*  <li>*/}
+          {/*    <p className="propertyName">*/}
+          {/*      <div className="bullet"></div>*/}
+          {/*      주관사 정보*/}
+          {/*    </p>*/}
+          {/*    <p className="propertyValue">{intro.sponsor2 || '-'}</p>*/}
+          {/*  </li>*/}
+          {/*</ul>*/}
 
           <div className="hashtag">
             <div className="tag">#음식</div>
             <div className="tag">#맛집</div>
           </div>
-          <CommentEventList category={apitype} contentid={contentid} contenttypeid={contenttypeid} />
+          {categoryType === 'seoul-events' ? (
+              <CommentEventList category="seoul-events" svcid={detail.svcid} />
+          ) : (
+              <CommentEventList category={apitype} contentid={contentid} contenttypeid={contenttypeid} />
+          )}
         </article>
         <div className='side-container'>
           <div className='sub-sticky'></div>
           <aside className='sidebar'>
-            <div className='hashtag-box'>
-              <p>#공짜로</p>
-              <p>#즐길 수 있다고??</p>
-              <p>#궁금하지않아?</p>
-              <p>#여기에 다 있어!!</p>
-            </div>
             <div className='recommend-list'>
-              <h2 className='main-title'>유료행사는 어떠신가요?</h2>
+              <h2 className='main-title'>유사한 여행지 추천</h2>
               {similarEvents.slice(0, 8).map((event) => (
-                  <div className='recommend'>
+                  <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`} className="recommend">
                     <div className='txt'>
                       <h3 className='title'>{event.title || event.svcnm}</h3>
                       <p className='addr'>{event.addr1 || event.placenm}</p>
@@ -491,8 +521,10 @@ const Article = () => {
                            backgroundPosition: 'center',
                          }}
                     ></div>
-                  </div>
+                  </Link>
               ))}
+              {/*네이버 블로그 리뷰 */}
+              <ReviewComponent query={detail.title} />
             </div>
           </aside>
         </div>

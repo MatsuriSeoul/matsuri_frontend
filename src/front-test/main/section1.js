@@ -117,8 +117,8 @@ const Section1 = () =>{
                 </div>
                 {notices.length > 0 ? (
                     <ul className="announcement-list">
-                        {notices.map(notice => (
-                            <Link to={`/noticePage/${notice.id}`}>
+                        {notices.slice(0, 5).map((notice, index) => (
+                            <Link to={`/noticePage/${notice.id}`} className={`link${index}`}>
                                 <li>
                                     <div className="icon">공지</div>
                                     <p className="announcement-info">{notice.title}</p>
