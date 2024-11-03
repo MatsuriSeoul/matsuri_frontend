@@ -74,7 +74,7 @@ const NoticeView = () => {
                 },
             });
             alert("공지사항이 삭제되었습니다.");
-            history.push("/api/notice"); // 공지사항 목록으로 리디렉션
+            history.push("/api/noticePage"); // 공지사항 목록으로 리디렉션
         } catch (error) {
             console.error('공지사항 삭제 오류.', error);
         }
