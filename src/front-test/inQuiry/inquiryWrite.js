@@ -27,7 +27,7 @@ const IQWrite = () => {
             alert('문의사항 등록 완료!');
             history.push('/inQuiryPage');
         } catch (error) {
-            console.error('문의사항 등록 오류:', error);
+
         }
     };
     const handleCancle = () =>{

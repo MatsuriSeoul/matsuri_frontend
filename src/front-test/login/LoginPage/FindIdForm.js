@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const FindIdForm = () =>{
+const FindIdForm = ({ closeModal }) =>{
     const [findType, setFindType ] = useState('phone');
     const [checkNum, setCheckNum ] = useState(false);
 
@@ -23,22 +23,19 @@ const FindIdForm = () =>{
     const handleSendCode = async (e) => {
         e.preventDefault();
         setLoading(true); // 로딩 상태 시작
-        console.log('name:', name);
-        console.log('identities:', identities);
-        console.log('findType:', findType);
+
 
         try {
             const data = { name, identifier: identities, option: findType };
 
-            console.log('Data to be sent:', data); // 데이터 확인
 
             await axios.post('/api/user-recovery/send-verification-code', data);
 
             setSentCode(true);
             alert(`인증번호가 ${findType === 'email' ? '이메일' : '문자'}로 발송되었습니다.`);
+            closeModal();
         } catch (error) {
             setError('가입된 정보가 없습니다.');
-            console.error('Error:', error); // 에러 메시지 확인
             setCheckNum(true);
         } finally {
             setLoading(false); // 로딩 상태 종료
@@ -72,14 +69,15 @@ const FindIdForm = () =>{
 
         try {
             const data = { name, identifier: identities, option: findType, code: verificationCode };
-            console.log("아이디 복구를 위한 데이터:", data); // 데이터 확인
+
             const response = await axios.post('/api/user-recovery/recover-userid', data);
-            console.log("서버 응답 데이터:", response.data); // 응답 데이터 확인
+
             alert(`귀하의 ID는 ${response.data.userId} 입니다.`);
             // 상태 초기화
             resetState();
+            closeModal();
         } catch (error) {
-            console.error('아이디 찾기에 실패했습니다.', error); // 에러 로그 추가
+
             if (error.response && error.response.status === 404) {
                 setError('해당 아이디를 찾을 수 없습니다.');
             } else {
@@ -115,20 +113,24 @@ const FindIdForm = () =>{
             </div>
             <div className="bottomBox">
                 <div className="InputBox">
-                    <input type="text" placeholder="이름 입력" className="username input-info"></input>
+                    <input type="text" placeholder="이름 입력" className="username input-info"
+                           value={name}
+                           onChange={(e) => setName(e.target.value)}
+                           required
+                    ></input>
                     <div className='usernumber-box'>
                         {findType === 'email' ? (
                             <input placeholder={`${findType} 입력`} className="usernumber input-info"
                                    type="email"
-                                   value={name}
-                                   onChange={(e) => setName(e.target.value)}
+                                   value={identities}
+                                   onChange={(e) => setIdentities(e.target.value)}
                                    required
                             ></input>
                         ) : (
                             <input placeholder={`${findType} 입력`} className="usernumber input-info"
                                    type="tel"
-                                   value={name}
-                                   onChange={(e) => setName(e.target.value)}
+                                   value={identities}
+                                   onChange={(e) => setIdentities(e.target.value)}
                                    required
                             ></input>
                         )}

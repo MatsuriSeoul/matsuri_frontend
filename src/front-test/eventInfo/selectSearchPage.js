@@ -8,6 +8,7 @@ import Footer from '../layout/footer';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/eventInfo/selectSearchPage.css'
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const MainEvent = [
     { id: 1 },
@@ -105,7 +106,7 @@ const SelectSearchPage = () =>{
                 });
                 return gyeonggiResponse.data;
             } catch (error) {
-                console.error("경기 이벤트 호출 실패:", error);
+
             }
         }
         // 서울 이벤트 조회
@@ -119,7 +120,7 @@ const SelectSearchPage = () =>{
                 });
                 return seoulResponse.data;
             } catch (error) {
-                console.error("서울 이벤트 호출 실패:", error);
+
             }
         }
         return [];
@@ -132,8 +133,7 @@ const SelectSearchPage = () =>{
             let apiUrl = `http://localhost:8080/api/events/search`;
 
             const fullRegionName = regionMap[region] || '';
-            console.log('fullRegionName: ' + fullRegionName);
-            console.log('category: ' + category);
+
 
             // 서울 또는 경기의 특정 카테고리면 해당 API로 리다이렉트
             const additionalEvents = await fetchAdditionalEvents(region, category);
@@ -223,7 +223,6 @@ const SelectSearchPage = () =>{
 // eventenddate, eventstartdate
     return(
         <div className='ssp'>
-            <Header></Header>
             <div className='headerbar'></div>
             <section className='banner'>
                 <h1 className='title'>어떤 행사를 원하시나요?</h1>
@@ -262,7 +261,8 @@ const SelectSearchPage = () =>{
                     <>
                         <div className='main-event'>
                             {mainResults.slice(0, 3).map((event, index) => (
-                                <div
+                                <Link
+                                    to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`}
                                     className={`event event${event.id} ${activeIndex === index ? 'active' : ''}`}
                                     onMouseEnter={() => setActiveIndex(index)}
                                     style={{
@@ -286,7 +286,7 @@ const SelectSearchPage = () =>{
                                             <button className='btn'></button>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                         <div className='events-container'>
@@ -295,7 +295,7 @@ const SelectSearchPage = () =>{
                             </div>
                             <div className='event-list'>
                                 {results.slice(0, visibleCount).map((event) => (
-                                    <div className='event'>
+                                    <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`} className='event'>
                                         <div className='event-img'
                                              style={{
                                                  backgroundImage: `url(${event.firstimage || event[1] || '/img/default_img.jpeg'})`, // 이미지 URL을 url()로 감싸야 합니다.
@@ -313,7 +313,7 @@ const SelectSearchPage = () =>{
                                                     event.eventenddate.slice(6)}
                                             </p>
                                         )}
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                             {visibleCount < results.length && (

@@ -19,9 +19,9 @@ const InQuiryView = () => {
             setInquiry(response.data);
             setTitle(response.data.title);
             setContent(response.data.content);
-            console.log('response.data: ' + response.data);
+
         } catch (error) {
-            console.error('문의 조회 오류:', error);
+
         }
     };
     const handleCommentSubmit = () => {
@@ -49,7 +49,7 @@ const InQuiryView = () => {
             });
             alert('문의가 삭제되었습니다.');
         } catch (error) {
-            console.error('문의 삭제 오류:', error);
+
         }
     };
 
@@ -65,7 +65,7 @@ const InQuiryView = () => {
             alert('문의가 수정되었습니다.');
 
         } catch (error) {
-            console.error('문의 수정 오류:', error);
+
         }
     };
     if (!inquiry) {

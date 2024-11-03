@@ -12,7 +12,7 @@ const ReviewComponent = ({ query }) => {
                 });
                 setReviews(response.data);
             } catch (error) {
-                console.error('Error fetching reviews:', error);
+
             }
         };
 
@@ -34,7 +34,7 @@ const ReviewComponent = ({ query }) => {
                 window.open(link, '_blank');
             }
         } catch (error) {
-            console.error('Error following link:', error);
+
             window.open(link, '_blank'); // 오류가 발생할 경우 원래 링크 열기
         }
     };

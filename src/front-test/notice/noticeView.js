@@ -22,7 +22,7 @@ const NoticeView = () => {
 
             return payload.userId;
         } catch (error) {
-            console.error("토큰에서 사용자 ID 추출 오류:", error);
+
             return null;
         }
     };
@@ -45,7 +45,7 @@ const NoticeView = () => {
             setImages(response.data.images);
             setFiles(response.data.files);
         } catch (error) {
-            console.error('공지사항 조회 오류.', error);
+
         }
     };
     useEffect(() => {
@@ -76,7 +76,7 @@ const NoticeView = () => {
             alert("공지사항이 삭제되었습니다.");
             history.push("/api/notice"); // 공지사항 목록으로 리디렉션
         } catch (error) {
-            console.error('공지사항 삭제 오류.', error);
+
         }
     };
 
@@ -95,7 +95,7 @@ const NoticeView = () => {
             const response = await axios.get(`/api/comment/notice/${noticeId}`);
             setComments(response.data);
         } catch (error) {
-            console.log('댓글을 불러오는 데 실패했습니다.', error);
+
         }
     };
 
@@ -112,7 +112,7 @@ const NoticeView = () => {
                 });
                 setUser(response.data);  // 사용자 정보 저장
             } catch (error) {
-                console.log('사용자 정보를 가져오는 데 실패했습니다.', error);
+
             }
         };
 
@@ -128,7 +128,7 @@ const NoticeView = () => {
             });
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (error) {
-            console.log('댓글 삭제 실패', error);
+
         }
     };
 
@@ -145,7 +145,7 @@ const NoticeView = () => {
             setIsEditing(false);
             fetchNotice();
         } catch (error) {
-            console.error('Error updating notice', error);
+
         }
     };
 
@@ -167,7 +167,7 @@ const NoticeView = () => {
             setEditingCommentId(null);  // 수정 모드 해제
             setEditedContent("");
         } catch (error) {
-            console.log('댓글 수정 실패', error);
+
         }
     };
 

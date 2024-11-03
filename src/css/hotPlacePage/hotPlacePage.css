@@ -160,12 +160,15 @@
 .hotplacepage .hpp-sec .img-list{
     display: flex;
     width: 800px;
-    justify-content: space-between;
     flex-wrap: wrap;
 }
 .hotplacepage .hpp-sec .img-list a{
-    width: calc(25% - 16px);
+    width: calc(25% - 12px);
+    margin-right: 16px;
     margin-bottom: 30px;
+}
+.hotplacepage .hpp-sec .img-list a:nth-child(4n){
+    margin-right: 0;
 }
 .hotplacepage .hpp-sec .img-list .box{
     width: 100%;
@@ -300,6 +303,7 @@
 }
 .hotplacepage .sidebar .recommend-list .recommend .txt{
     width: 185px;
+    min-width: 185px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -315,13 +319,15 @@
     white-space: nowrap;
 }
 .hotplacepage .sidebar .recommend-list .recommend .txt p{
-    display: block;
-    font-size: 12px;
-    line-height: 18px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     color: #999;
+    display: -webkit-box;
+    font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    width: 100%;
+    margin-top: 2px;
 }
 .hotplacepage .sidebar .recommend-list .recommend .img{
     width: 100%;

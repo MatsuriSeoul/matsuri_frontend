@@ -25,7 +25,7 @@ const FNoticePage = () =>{
                 setNotices(response.data);
                 setAllNotices(response.data); // 전체 공지사항 저장
             } catch (error) {
-                console.error('Error fetching notices', error);
+
             }
         };
         fetchNotices();
@@ -122,7 +122,6 @@ const FNoticePage = () =>{
 
     return(
         <div className="noticepage">
-            <Header></Header>
             <div className='headerbar'></div>
             <section
               className="banner"

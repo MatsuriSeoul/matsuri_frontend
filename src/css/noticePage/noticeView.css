@@ -1,6 +1,7 @@
 .noticeView-container {
     width: 60%;
     margin: 0 auto;
+    margin-bottom: 100px;
 }
 .noticeView-container .image-css{
     width: auto;

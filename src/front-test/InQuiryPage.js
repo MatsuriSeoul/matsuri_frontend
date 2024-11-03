@@ -22,7 +22,7 @@ const InQuiryPage = () =>{
                 setInquiries(response.data);
                 setAllInquiries(response.data);
             } catch (error) {
-                console.error('Error fetching inquiries:', error);
+
                 setInquiries([]);
             }
         };
@@ -142,7 +142,6 @@ const InQuiryPage = () =>{
 
     return(
         <div className="noticepage">
-            <Header></Header>
             <div className='headerbar'></div>
             <section
               className="banner"

@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 const Section1 = () =>{
     //section1_logic
-    const [activeTab, setActiveTab] = useState('경기도'); // 기본 선택된 탭을 '경기도'로 설정
+    const [activeTab, setActiveTab] = useState('서울특별시'); // 기본 선택된 탭을 '경기도'로 설정
     const [events, setEvents] = useState([]); // 이벤트 데이터를 저장할 상태
     const [isLoading, setIsLoading] = useState(false); // 데이터 로딩 상태
 
@@ -18,7 +18,7 @@ const Section1 = () =>{
             });
             setEvents(response.data); // 가져온 데이터를 상태에 저장
         } catch (error) {
-            console.error(`${activeTab} 지역 행사를 가져오는 중 오류 발생`, error); // 오류 발생 시 로그 출력
+
         } finally {
             setIsLoading(false); // 로딩 종료
         }
@@ -54,7 +54,7 @@ const Section1 = () =>{
                 const response = await axios.get('/api/notice');
                 setNotices(response.data);
             } catch (error) {
-                console.error('Error fetching notices', error);
+
             }
         };
         fetchNotices();
@@ -70,14 +70,14 @@ const Section1 = () =>{
                 </div>
                 <div className="area-category">
                     <div
-                        className={`left ${activeTab === '경기도' ? 'active' : ''}`}
-                        onClick={() => handleTabChange('경기도')}>
+                        className={`left ${activeTab === '서울특별시' ? 'active' : ''}`}
+                        onClick={() => handleTabChange('서울특별시')}>
                         <p>경기도 추천 행사</p>
                     </div>
                     <div className="wall"></div>
-                    <div className={`right ${activeTab === '서울특별시' ? 'active' : ''}`}
-                         onClick={() => handleTabChange('서울특별시')}>
-                        <p>서울 추천 행사</p>
+                    <div className={`right ${activeTab === '경기도' ? 'active' : ''}`}
+                         onClick={() => handleTabChange('경기도')}>
+                        <p>경기도 추천 행사</p>
                     </div>
                 </div>
                 <h4 className="comment">당신에게 운영자가 추천하고 싶은 행사 입니다!</h4>
@@ -86,8 +86,8 @@ const Section1 = () =>{
                         <p>데이터 로딩 중...</p>
                     ) : (
                         events.length > 0 ? ( // 이벤트 데이터가 있을 경우
-                            events.map((event, index) => (
-                                <Link to={activeTab === '서울특별시' ? `/eventDetailPage/seoul-events/${event.svcid}/seoul-events` : `/eventDetailPage/gyeonggi-events/${event.id}/gyeonggi-events`} className='recommend'>
+                            events.slice(0, 4).map((event, index) => (
+                                <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`} className='recommend'>
                                     <div
                                         key={index}
                                         className={`box box${index}`}

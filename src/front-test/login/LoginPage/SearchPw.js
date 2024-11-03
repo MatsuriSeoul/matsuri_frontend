@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 
 
-const SearchPw = () => {
+const SearchPw = ({ closeModal }) => {
     const [findType, setFindType ] = useState('phone');
     const [checkNum, setCheckNum ] = useState(false);
 
@@ -10,10 +10,9 @@ const SearchPw = () => {
         setFindType(type);
         setCodeSent(false); // 탭 변경 시 인증번호 전송 상태 초기화
         setVerified(false); // 인증번호 검증 상태 초기화
-        // setError('');
-        // setUserId(''); // 사용자 ID 초기화
-        // setIdentifier(''); // 이메일 또는 전화번호 초기화
-        // setVerificationCode(''); // 인증번호 초기화
+        setUserId(''); // 사용자 ID 초기화
+        setIdentifier(''); // 이메일 또는 전화번호 초기화
+        setVerificationCode(''); // 인증번호 초기화
     }
 
 
@@ -22,7 +21,6 @@ const SearchPw = () => {
     const [verificationCode, setVerificationCode] = useState(''); // 인증번호 입력값
     const [codeSent, setCodeSent] = useState(false); // 인증번호 전송 여부 확인
     const [verified, setVerified] = useState(false); // 인증번호 검증 여부 확인
-    const [error, setError] = useState(''); // 에러 메시지 상태
 
     // 상태 초기화 함수
     const resetForm = () => {
@@ -31,13 +29,11 @@ const SearchPw = () => {
         setVerificationCode('');
         setCodeSent(false);
         setVerified(false);
-        setError('');
     };
 
     // 인증번호 전송 요청
     const handleSendCode = async (event) => {
         event.preventDefault();
-        setError(''); // 에러 초기화
 
         try {
             const response = await axios.post('/api/password-recovery/send-verification-code', {
@@ -49,15 +45,13 @@ const SearchPw = () => {
             setCodeSent(true); // 인증번호 전송 완료
         } catch (error) {
             setCheckNum(true);
-            console.error('인증번호 전송에 실패했습니다.', error);
-            setError('인증번호 전송에 실패했습니다. 다시 시도해 주세요.');
+            alert('인증번호 전송에 실패했습니다. 다시 시도해 주세요.');
         }
     };
 
     // 인증번호 검증 요청
     const handleVerifyCode = async (event) => {
         event.preventDefault();
-        setError(''); // 에러 메시지 초기화
 
         try {
             const response = await axios.post('/api/password-recovery/verify-code', {
@@ -70,18 +64,16 @@ const SearchPw = () => {
                 alert('인증에 성공했습니다.');
                 setVerified(true); // 인증 성공 상태
             } else {
-                setError('인증번호가 일치하지 않습니다.');
+                alert('인증번호가 일치하지 않습니다.');
             }
         } catch (error) {
-            console.error('인증번호 검증에 실패했습니다.', error);
-            setError('인증번호 검증에 실패했습니다. 다시 시도해 주세요.');
+            alert('인증번호 검증에 실패했습니다. 다시 시도해 주세요.');
         }
     };
 
     // 비밀번호 재설정 요청
     const handleRecovery = async (event) => {
         event.preventDefault();
-        setError(''); // 에러 메시지 초기화
 
         try {
             const response = await axios.post('/api/password-recovery/recover-password', {
@@ -93,9 +85,9 @@ const SearchPw = () => {
 
             alert(`귀하의 임시 비밀번호는 ${response.data.password} 입니다.`);
             resetForm(); // 폼 초기화
+            closeModal();
         } catch (error) {
-            console.error('비밀번호 찾기에 실패했습니다.', error);
-            setError('비밀번호 찾기 요청에 실패했습니다. 다시 시도해 주세요.');
+            alert('비밀번호 찾기 요청에 실패했습니다. 다시 시도해 주세요.');
         }
     };
 

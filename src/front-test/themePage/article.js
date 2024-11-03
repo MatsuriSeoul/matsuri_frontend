@@ -54,7 +54,7 @@ const Article = () =>{
 
             setEvents(uniqueEvents); // 상태 업데이트
         } catch (error) {
-            console.error('이벤트 정보 불러오기 실패 ', error);
+
         }
     };
 
@@ -125,7 +125,7 @@ const Article = () =>{
                 <p className="second">{themeItem}</p>
             </div>
 
-            <div className={`container ${themeItem === '관광지' ? 'active' : ''}`}>
+            <div className={`container ${themeItem === '여행코스' ? 'active' : ''}`}>
                 {currentPosts.map((event, index) => (
                     <div className="box" key={index}>
                         <div className="img"

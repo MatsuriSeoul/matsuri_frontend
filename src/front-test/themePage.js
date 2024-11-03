@@ -66,19 +66,11 @@ const ThemePage = () => {
     return (
         <div>
             <div className="themepage">
-                <Header></Header>
                 <section className="banner">
                     <div className="main-title">
                         <h1><b>다채로운 즐거움이 가득한 </b><br/>
                             웹 이름 추천 테마여행!
                         </h1>
-                        <div className="fullView-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                                 fill="#e8eaed">
-                                <path d="M450-450H220v-60h230v-230h60v230h230v60H510v230h-60v-230Z"/>
-                            </svg>
-                            <p>모든 테마 보기</p>
-                        </div>
                     </div>
                     <Swiper
                         ref={swiperRef}
@@ -96,15 +88,11 @@ const ThemePage = () => {
                     >
                         {theme.map((item, index) => (
                             <SwiperSlide key={index} onClick={() => handleSlideClick(index)}>
-                                <div className="theme-img"
-                                    style={{
-                                        backgroundImage: `url(${item.imgUrl})`,
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
-                                    }}
-                                >
-                                    <p className="in-txt">{item.title}</p>
-                                </div>
+                                <img className="theme-img"
+                                    src={`/img/category/${item.title}.jpg`}
+                                />
+                                <p className="in-txt">{item.title}</p>
+
                                 <div className="out-txt">
                                     <h3>{item.title}</h3>
                                     <p>여행에 장애가 되지 않도록 열린 여행을<br/>

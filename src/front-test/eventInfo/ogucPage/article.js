@@ -27,7 +27,7 @@ const Article = () =>{
             const response = await axios.get(`http://localhost:8080/api/events/scheduled`);
             setEvents(response.data);
         } catch (error) {
-            console.error('행사 데이터를 가져오는 중 오류 발생:', error);
+
         } finally {
             setIsLoading(false);
         }

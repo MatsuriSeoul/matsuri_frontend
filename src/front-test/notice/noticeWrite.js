@@ -85,7 +85,7 @@ const NoticeWrite = () => {
             setAttachmentNames([]);
             history.push('/noticePage');
         } catch (error) {
-            console.log("공지사항 업로드 에러", error);
+
         }
     };
 

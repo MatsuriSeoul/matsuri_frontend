@@ -4,8 +4,7 @@
 }
 
 .userProfileWrapper {
-    position: absolute;
-    /*position: fixed;*/
+    position: fixed;
     margin-top: 200px;
     margin-left: 300px;
 }
@@ -322,6 +321,9 @@
     padding: 20px;
     background-color: #fff;
     margin-top: 40px;
+}
+.myRecentContainer.lastContainer{
+    margin-bottom: 100px;
 }
 .myLikeContainer{
     width: 800px;

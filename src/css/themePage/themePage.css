@@ -83,8 +83,12 @@
 .themepage .banner .themepage-swiper .swiper-slide.swiper-slide-active .in-txt{
     display: none;
 }
-.themepage .banner .themepage-swiper .swiper-slide .theme-img .in-txt{
-    margin-bottom: 20px;
+.themepage .banner .themepage-swiper .swiper-slide .in-txt{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    bottom: 20px;
     color: #ffffff;
     z-index: 2;
 }

@@ -20,7 +20,7 @@ const Article = () => {
   const [detail, setDetail] = useState(null);
   const [intro, setIntro] = useState(null);
   // const [firstImage, setFirstImage] = useState(null);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(null);
   const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
   const { auth } = useAuth();
 
@@ -77,7 +77,6 @@ const Article = () => {
 
 
     } catch (error) {
-      console.error('로그 저장 중 오류:', error);
     }
   };
 
@@ -96,20 +95,19 @@ const Article = () => {
     const fetchSeoulEventDetail = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/events/seoul-events/${contentid}`);
-        console.log(response.data);  // 서버 응답을 콘솔에 출력
         setDetail(response.data);
+        setImages([1]);
       } catch (error) {
-        console.error('서울 이벤트 상세 정보 가져오기 실패: ' + error);
       }
     };
 
     const fetchGyeonggiEventDetail = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/events/gyeonggi-events/${contentid}`);
-        console.log(response.data);  // 서버 응답을 콘솔에 출력
         setDetail(response.data);
+        setImages([1]);
       } catch (error) {
-        console.error('경기 이벤트 상세 정보 가져오기 실패: ' + error);
+
       }
     };
 
@@ -118,9 +116,8 @@ const Article = () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/detail`);
         setDetail(response.data);
-        console.log('setDetail: ', response.data);
       } catch (error) {
-        console.error('상세 정보 불러오기 실패', error);
+
       }
     };
 
@@ -129,9 +126,8 @@ const Article = () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/${contenttypeid}/intro`);
         setIntro(response.data);
-        console.log('setIntro',response.data);
       } catch (error) {
-        console.error('소개 정보 불러오기 실패', error);
+
       }
     };
 
@@ -141,7 +137,7 @@ const Article = () => {
         const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/images`);
         setImages(response.data);
       } catch (error) {
-        console.error('이미지 정보 불러오기 실패', error);
+
       }
     };
 
@@ -151,7 +147,7 @@ const Article = () => {
         const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contenttypeid}/similar-events`);
         setSimilarEvents(response.data.slice(0, 6));
       } catch (error) {
-        console.error('유사한 여행지 불러오기 실패', error);
+
       }
     };
     // 서울/경기 유사한 여행지 정보 가져오기
@@ -160,7 +156,7 @@ const Article = () => {
         const response = await axios.get(`http://localhost:8080/api/events/15/similar-events`);
         setSimilarEvents(response.data.slice(0, 6));
       } catch (error) {
-        console.error('유사한 여행지 불러오기 실패', error);
+
       }
     };
 
@@ -188,7 +184,7 @@ const Article = () => {
       navigator.clipboard.writeText(url).then(() => {
         alert(`주소가 복사되었습니다.\n${url}`);
       }).catch(err => {
-        console.error('복사 실패:', err);
+
       });
     } else {
       alert('홈페이지 링크가 존재하지 않습니다.'); // URL이 없을 때 경고 메시지
@@ -243,7 +239,6 @@ const Article = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       const swiperInstance = swiperRef.current?.swiper;
-      console.log('Swiper Instance:', swiperInstance); // Swiper 인스턴스 로그
 
       if (swiperInstance) {
         const updateProgress = () => {
@@ -495,57 +490,60 @@ const Article = () => {
                       <p>추천행사</p>
                   </div>
               </nav>
-              {images.length > 0 ? (
-                  <Swiper
-                      ref={swiperRef}
-                      slidesPerView={1}
-                      modules={[Navigation]}
-                      navigation={{
-                          prevEl: ".swiper-button-prev",
-                          nextEl: ".swiper-button-next",
+              {detail.imgurl ? (
+                  <div
+                      className='default_img'
+                      style={{
+                          backgroundImage: `url('${detail.imgurl}')`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat'
                       }}
-                      className="mySwiper edpArticle-swiper"
-                  >
-
-                      {images.map((image, index) => (
-                          <SwiperSlide key={index}>
-                              <div
-                                  className='detail-img'
-                                  style={{
-                                      backgroundImage: `url('${image.originimgurl}')`,
-                                      backgroundSize: 'cover',
-                                      backgroundPosition: 'center',
-                                      backgroundRepeat: 'no-repeat'
-                                  }}
-                              ></div>
-                          </SwiperSlide>
-                      ))}
-                      <div className="swiper-pagination-info">
-                          <p>
-                              {currentSlide} / {totalSlides}
-                          </p>
-                      </div>
-
-                      <div className="swiper-button swiper-button-prev"></div>
-                      <div className="swiper-button swiper-button-next"></div>
-                  </Swiper>
+                  ></div>
               ) : (
                   <>
-                      {detail.imgurl ? (
-                          <div
-                              className='default_img'
-                              style={{
-                                  backgroundImage: `url('${detail.imgurl}')`,
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center',
-                                  backgroundRepeat: 'no-repeat'
+                    {images ? (
+                          <Swiper
+                              ref={swiperRef}
+                              slidesPerView={1}
+                              modules={[Navigation]}
+                              navigation={{
+                                  prevEl: ".swiper-button-prev",
+                                  nextEl: ".swiper-button-next",
                               }}
-                          ></div>
+                              className="mySwiper edpArticle-swiper"
+                          >
+
+                              {images.map((image, index) => (
+                                  <SwiperSlide key={index}>
+                                      <div
+                                          className='detail-img'
+                                          style={{
+                                              backgroundImage: `url('${image.originimgurl}')`,
+                                              backgroundSize: 'cover',
+                                              backgroundPosition: 'center',
+                                              backgroundRepeat: 'no-repeat'
+                                          }}
+                                      ></div>
+                                  </SwiperSlide>
+                              ))}
+                              <div className="swiper-pagination-info">
+                                  <p>
+                                      {currentSlide} / {totalSlides}
+                                  </p>
+                              </div>
+
+                              <div className="swiper-button swiper-button-prev"></div>
+                              <div className="swiper-button swiper-button-next"></div>
+                          </Swiper>
                       ) : (
-                          <img src='/img/default_img.jpeg' className='default_img' alt='Default'/>
+                          <>
+                              <img src='/img/default_img.jpeg' className='default_img' alt='Default'/>
+                          </>
                       )}
                   </>
               )}
+
               <div className="detail-info">
                   <h1 className="title">상세정보</h1>
                   {contenttypeid === 'seoul-events' ? (

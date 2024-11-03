@@ -23,7 +23,7 @@ const Article = () =>{
             const response = await axios.get(`http://localhost:8080/api/events/free`);
             setFreeEvents(response.data);
         } catch (error) {
-            console.error('이벤트를 가져오는 중 오류 발생:', error);
+
         }
     };
     const fetchPaidEvents = async () => {
@@ -31,7 +31,7 @@ const Article = () =>{
             const response = await axios.get(`http://localhost:8080/api/events/paid`);
             setPaidEvents(response.data);
         } catch (error) {
-            console.error('이벤트를 가져오는 중 오류 발생:', error);
+
         }
     };
     useEffect(() => {

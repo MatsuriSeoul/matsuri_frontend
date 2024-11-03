@@ -22,7 +22,7 @@ const FreeAndPaidPage = () =>{
             const response = await axios.get(`http://localhost:8080/api/events/free`);
             setFreeEvents(response.data);
         } catch (error) {
-            console.error('이벤트를 가져오는 중 오류 발생:', error);
+
         }
     };
     const fetchPaidEvents = async () => {
@@ -30,7 +30,7 @@ const FreeAndPaidPage = () =>{
             const response = await axios.get(`http://localhost:8080/api/events/paid`);
             setPaidEvents(response.data);
         } catch (error) {
-            console.error('이벤트를 가져오는 중 오류 발생:', error);
+
         }
     };
     useEffect(() => {
@@ -40,7 +40,6 @@ const FreeAndPaidPage = () =>{
 
     return(
         <div className="fapp">
-            <Header></Header>
             <div className='headerbar'></div>
             <section className='banner'>
                 <h1 className='title'>어떤 행사를 원하시나요?</h1>

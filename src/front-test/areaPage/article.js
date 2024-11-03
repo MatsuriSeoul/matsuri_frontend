@@ -19,7 +19,10 @@ const Article = () =>{
         충북: '충청북도',
         경남: '경상남도',
         경북: '경상북도',
-        제주: '제주특별자치도'
+        제주: '제주특별자치도',
+        대구: '대구광역시',
+        광주: '광주광역시',
+        세종: '세종특별자치시',
     };
 
     const linkAreaList = {
@@ -48,7 +51,7 @@ const Article = () =>{
                 const response = await axios.get('http://localhost:8080/api/seoul-events/titles-and-images');
                 setSeoulEvents(response.data);
             } catch (error) {
-                console.error('Error fetching Seoul events', error);
+
             }
         };
         // 경기도 관련 데이터 가져오기
@@ -57,7 +60,7 @@ const Article = () =>{
                 const response = await axios.get('http://localhost:8080/api/gyeonggi-events/titles-and-images');
                 setGyeonggiEvents(response.data);
             } catch (error) {
-                console.error('경기도 행사 데이터를 가져오는 중 오류 발생', error);
+
             }
         };
 
@@ -74,7 +77,7 @@ const Article = () =>{
                     axios.get(`http://localhost:8080/api/shopping-events/${event.contentid}/detail`);
                 });
             } catch (error) {
-                console.error('Error fetching Shopping events', error);
+
             }
         };
 
@@ -91,7 +94,7 @@ const Article = () =>{
                     axios.get(`http://localhost:8080/api/food-events/${event.contentid}/detail`);
                 });
             } catch (error) {
-                console.error('Error fetching Food events', error);
+
             }
         };
 
@@ -108,7 +111,7 @@ const Article = () =>{
                     axios.get(`http://localhost:8080/api/local-events/${event.contentid}/detail`);
                 });
             } catch (error) {
-                console.error('Error fetching Local events', error);
+
             }
         };
 
@@ -125,7 +128,7 @@ const Article = () =>{
                     axios.get(`http://localhost:8080/api/cultural-facilities/${event.contentid}/detail`);
                 });
             } catch (error) {
-                console.error('Error fetching Cultural Facilities', error);
+
             }
         };
 
@@ -152,7 +155,7 @@ const Article = () =>{
                 setTourEvents(eventsWithDetails);
 
             } catch (error) {
-                console.error('Error fetching Tour events', error);
+
             }
         };
 
@@ -169,7 +172,7 @@ const Article = () =>{
                     axios.get(`http://localhost:8080/api/tourist-attractions/${event.contentid}/detail`);
                 });
             } catch (error) {
-                console.error('Error fetching Tourist Attractions', error);
+
             }
         };
 
@@ -186,7 +189,7 @@ const Article = () =>{
                     axios.get(`http://localhost:8080/api/travel-courses/${event.contentid}/detail`);
                 });
             } catch (error) {
-                console.error('Error fetching Travel Courses', error);
+
             }
         };
 
@@ -232,7 +235,7 @@ const Article = () =>{
                 </div>
                 <div className="list recommened_destinations">
                     {travelCourses.slice(0, 4).map((event, index) => (
-                        <div key={index} className='box'>
+                        <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`} className='box'>
                             {event.firstimage !== null ? (
                                 <div className="img"
                                      style={{
@@ -247,7 +250,7 @@ const Article = () =>{
 
                             <h3 className="name">{event.title || event[0]}</h3>
                             <p className="address">{event.addr1}</p>
-                        </div>
+                        </Link>
                     ))}
                 </div>
                 <div className="title">
@@ -258,8 +261,8 @@ const Article = () =>{
                 </div>
                 <div className="list recommened_food">
                     {foodEvents.slice(0, 4).map((event, index) => (
-                        <div key={index} className='box'>
-                            {event.firstimage !== null ? (
+                        <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`} className='box'>
+                            {event.firstimage ? (
                                 <div className="img"
                                      style={{
                                          backgroundImage: `url(${event.firstimage || event[1]})`,
@@ -272,7 +275,7 @@ const Article = () =>{
                             )}
                             <h3 className="name">{event.title || event[0]}</h3>
                             <p className="address">{event.addr1}</p>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
