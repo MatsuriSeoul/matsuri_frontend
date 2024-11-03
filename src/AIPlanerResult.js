@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import KakaoMapPlaner from './KakaoMapPlaner';
 import axios from "axios";
-import ReviewComponent from "./ReviewComponent";
 import CommentEventList from "./CommentEventList";
+import ReviewComponent from "./ReviewComponent";
+import AIPlanerCommentList from "./AIPlanerCommentList";
 
 const AIPlanerResult = () => {
     const location = useLocation();
@@ -24,17 +25,12 @@ const AIPlanerResult = () => {
         '38': '쇼핑',
         '39': '음식'
     };
-
-    // 디코딩 함수
-    const decodeCategory = (category) => {
-        try {
-            return decodeURIComponent(category);
-        } catch (error) {
-            console.warn('Category decoding failed:', error);
-            return category; // 디코딩 실패 시 원래 값 반환
-        }
+// AIPlanerResult 컴포넌트 내
+    const getEncodedCategory = (contenttypeid) => {
+        const encodedCategory = categoryMap[contenttypeid] || 'default-category';
+        console.log("Encoded Category for contenttypeid:", contenttypeid, "is", encodedCategory);
+        return encodedCategory;
     };
-
     // 데이터 그룹화
     const locations = Object.keys(result.dayPlans).reduce((acc, day) => {
         acc[day] = result.dayPlans[day].map((event, index) => ({
@@ -126,7 +122,6 @@ const AIPlanerResult = () => {
     // 각 contenttypeid에 따라 추가 정보를 렌더링하는 함수
     const renderAdditionalInfo = () => {
         if (!selectedEvent || !detail || !intro) return null; // detail과 intro가 로드되었는지 확인
-        console.log("Selected Category:", categoryMap[selectedEvent.contenttypeid] || 'default-category');
 
 
         switch (selectedEvent.contenttypeid) {
@@ -393,8 +388,8 @@ const AIPlanerResult = () => {
                     {/*네이버 블로그 리뷰 */}
                     <ReviewComponent query={detail.title} />
                     {/* 댓글 기능 추가 */}
-                    <CommentEventList
-                        category={decodeCategory(categoryMap[selectedEvent.contenttypeid] || 'default-category')}
+                    <AIPlanerCommentList
+                        category={getEncodedCategory(selectedEvent.contenttypeid)}
                         contentid={selectedEvent.contentid}
                         contenttypeid={selectedEvent.contenttypeid}
                     />

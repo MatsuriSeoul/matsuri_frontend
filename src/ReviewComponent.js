@@ -40,23 +40,20 @@ const ReviewComponent = ({ query }) => {
     };
 
     return (
-        <div>
-            <h2>🔥 {query} 관련 리뷰 🔥</h2>
+        <div className='blog-container'>
+            <h2 className='main-title'>🔥 관련 리뷰 🔥</h2>
             {reviews.length > 0 ? (
-                <ul style={{listStyleType: 'none', padding: 0}}>
-                    {reviews.map((review, index) => (
-                        <li key={index} style={{marginBottom: '15px'}}>
-                            <a
-                                href="#"
-                                onClick={() => handleLinkClick(review.link)}
-                                rel="noopener noreferrer"
-                                style={{fontWeight: 'bold', textDecoration: 'none', cursor: 'pointer'}}
-                            >
-                                {review.title}
-                            </a>
-                        </li>
+                <div className='blog'>
+                    {reviews.slice(0, 8).map((review, index) => (
+                    <a href="#"
+                       onClick={() => handleLinkClick(review.link)}
+                       rel="noopener noreferrer"
+                       className='blog-recommend'>
+                            <h3 className='title'>{review.title}</h3>
+                    </a>
                     ))}
-                </ul>
+                </div>
+
             ) : (
                 <p>리뷰 데이터를 불러올 수 없습니다.</p>
             )}

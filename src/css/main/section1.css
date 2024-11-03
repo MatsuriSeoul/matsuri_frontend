@@ -74,9 +74,12 @@
     display: flex;
     justify-content: space-between;
 }
-.main_sec1 .recommend .area-info-box .box{
+.main_sec1 .recommend .area-info-box a{
     width: calc(25% - 10px);
-    background-color: #fac5f4;
+    height: 100%;
+}
+.main_sec1 .recommend .area-info-box .box{
+    width: 100%;
     height: 100%;
     position: relative;
     display: flex;
@@ -153,6 +156,9 @@
     flex-direction: column;
     background-color: #ffffff;
 }
+.main_sec1 .announcement .announcement-list .link4 li{
+    border-bottom: none;
+}
 .main_sec1 .announcement .announcement-list li{
     height: 80px;
     width: 100%;
@@ -172,10 +178,15 @@
     color: #ffffff;
     margin-left: 22px;
     margin-right: 16px;
+    text-wrap: nowrap;
 }
 .main_sec1 .announcement .announcement-list li .announcement-info{
     font-size: 16px;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70%;
 }
 .main_sec1 .event-x{
     width: 100%;

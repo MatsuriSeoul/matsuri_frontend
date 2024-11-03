@@ -76,6 +76,8 @@ import AIPlanerResult from "./AIPlanerResult";
 import NoticeWrite from "./front-test/notice/noticeWrite";
 import InQuiryView from "./front-test/inQuiry/inquiryView";
 import IQWrite from "./front-test/inQuiry/inquiryWrite";
+import OngoingUpComingPage from "./front-test/eventInfo/OngoingUpComingPage";
+import AIPlanerCommentList from "./AIPlanerCommentList";
 
 
 function App() {
@@ -176,6 +178,7 @@ function App() {
                         <Route path="/inQuiryPage/inquiryView/:id" component={InQuiryView} />
                         <Route path="/inQuiryPage" component={InQuiryPage} />
                         <Route path="/selectSearchPage" component={SelectSearchPage} />
+                        <Route path="/ongoingUpComingPage/:moreCategory?" component={OngoingUpComingPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
                         <Route path="/userInfo" component={UserInfo} />
 
@@ -193,7 +196,7 @@ function App() {
                         <Route path="/plan-section2" component={AIPlanerSection2} />    {/*AI여행 플래너*/}
                         <Route path="/plan-section3" component={AIPlanerSection3} />    {/*AI여행 플래너*/}
                         <Route path="/plan-result" component={AIPlanerResult} />    {/*AI여행 플래너*/}
-
+                        <Route path="/api/comment/aiplaner/:category/:contentid/:contenttypeid/detail" component={AIPlanerCommentList}/>
 
                     </Switch>
                     <LoginForm

@@ -58,7 +58,7 @@
 .main_banner .swiper-container .banner-swiper{
     float: right;
     transform: translateX(70px);
-    width: 900px;
+    width: 1000px;
     position: relative;
     border-radius: 6px 0px 0px 6px;
 }
