@@ -169,7 +169,7 @@ const Banner = () => {
           >
             {events.slice(0, slicenum).map((event) => (
                 <SwiperSlide>
-                  <Link to={`/eventDetailPage/events/${currentEvent.contentid}/${currentEvent.contenttypeid}`}>
+                  <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`}>
                     <div className='event-img'
                          style={{
                            backgroundImage: `url(${event.firstimage})`, // 이미지 URL을 url()로 감싸야 합니다.
