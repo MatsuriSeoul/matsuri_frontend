@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import KakaoMapPlaner from './KakaoMapPlaner';
 import axios from "axios";
+import ReviewComponent from "./ReviewComponent";
+import CommentEventList from "./CommentEventList";
 
 const AIPlanerResult = () => {
     const location = useLocation();
@@ -21,6 +23,16 @@ const AIPlanerResult = () => {
         '32': '숙박',
         '38': '쇼핑',
         '39': '음식'
+    };
+
+    // 디코딩 함수
+    const decodeCategory = (category) => {
+        try {
+            return decodeURIComponent(category);
+        } catch (error) {
+            console.warn('Category decoding failed:', error);
+            return category; // 디코딩 실패 시 원래 값 반환
+        }
     };
 
     // 데이터 그룹화
@@ -114,6 +126,7 @@ const AIPlanerResult = () => {
     // 각 contenttypeid에 따라 추가 정보를 렌더링하는 함수
     const renderAdditionalInfo = () => {
         if (!selectedEvent || !detail || !intro) return null; // detail과 intro가 로드되었는지 확인
+        console.log("Selected Category:", categoryMap[selectedEvent.contenttypeid] || 'default-category');
 
 
         switch (selectedEvent.contenttypeid) {
@@ -377,6 +390,14 @@ const AIPlanerResult = () => {
                     ) : (
                         <p>이미지가 없습니다.</p>
                     )}
+                    {/*네이버 블로그 리뷰 */}
+                    <ReviewComponent query={detail.title} />
+                    {/* 댓글 기능 추가 */}
+                    <CommentEventList
+                        category={decodeCategory(categoryMap[selectedEvent.contenttypeid] || 'default-category')}
+                        contentid={selectedEvent.contentid}
+                        contenttypeid={selectedEvent.contenttypeid}
+                    />
                 </div>
             )}
             <div style={styles.mapContainer}>
