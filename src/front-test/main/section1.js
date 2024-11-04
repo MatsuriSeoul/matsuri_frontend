@@ -72,7 +72,7 @@ const Section1 = () =>{
                     <div
                         className={`left ${activeTab === '서울특별시' ? 'active' : ''}`}
                         onClick={() => handleTabChange('서울특별시')}>
-                        <p>경기도 추천 행사</p>
+                        <p>서울 추천 행사</p>
                     </div>
                     <div className="wall"></div>
                     <div className={`right ${activeTab === '경기도' ? 'active' : ''}`}

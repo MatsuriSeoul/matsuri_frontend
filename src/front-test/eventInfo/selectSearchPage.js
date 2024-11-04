@@ -23,7 +23,7 @@ const SelectSearchPage = () =>{
     const [mainResults, setMainResults] = useState([]); // 메인 검색 결과 저장
     const [error, setError] = useState(null); // 에러 메시지 저장
 
-    const [dateselected, setDateSelected] = useState(null);
+    const [dateselected, setDateSelected] = useState({ value: '', label: '전체' });
     const [areaselected, setAreaSelected] = useState(null);
     const [categoryselected, setCategorySelected] = useState(null);
 
@@ -34,18 +34,19 @@ const SelectSearchPage = () =>{
     const [firstLoad, setFirstLoad] = useState(null);
 
     const dateOptions = [
-        { value: '1월', label: '1월' },
-        { value: '2월', label: '2월' },
-        { value: '3월', label: '3월' },
-        { value: '4월', label: '4월' },
-        { value: '5월', label: '5월' },
-        { value: '6월', label: '6월' },
-        { value: '7월', label: '7월' },
-        { value: '8월', label: '8월' },
-        { value: '9월', label: '9월' },
-        { value: '10월', label: '10월' },
-        { value: '11월', label: '11월' },
-        { value: '12월', label: '12월' },
+        { value: '', label: '전체' },
+        { value: '1', label: '1월' },
+        { value: '2', label: '2월' },
+        { value: '3', label: '3월' },
+        { value: '4', label: '4월' },
+        { value: '5', label: '5월' },
+        { value: '6', label: '6월' },
+        { value: '7', label: '7월' },
+        { value: '8', label: '8월' },
+        { value: '9', label: '9월' },
+        { value: '10', label: '10월' },
+        { value: '11', label: '11월' },
+        { value: '12', label: '12월' },
     ];
     const areaOptions = [
         { value: '서울', label: '서울' },
@@ -94,7 +95,7 @@ const SelectSearchPage = () =>{
     ];
 
     // API 데이터 호출 함수 (경기, 서울 추가)
-    const fetchAdditionalEvents = async (region, category) => {
+    const fetchAdditionalEvents = async (region, category, date) => {
 
         // 경기 이벤트 조회
         if (region === '경기' && (category === '축제/공연/행사' || category === '전시' || category === '교육' || category === '공연')) {
@@ -104,6 +105,7 @@ const SelectSearchPage = () =>{
                         category: category  // 카테고리를 파라미터로 전달
                     }
                 });
+                console.log('gyeonggi-api');
                 return gyeonggiResponse.data;
             } catch (error) {
 
@@ -118,6 +120,7 @@ const SelectSearchPage = () =>{
                         category: category  // 카테고리를 파라미터로 전달
                     }
                 });
+                console.log('seoul-api');
                 return seoulResponse.data;
             } catch (error) {
 
@@ -127,7 +130,7 @@ const SelectSearchPage = () =>{
     };
 
     // 검색 버튼 클릭 시 데이터 검색
-    const handleSearch = async (region, category) => {
+    const handleSearch = async (region, category, date) => {
         try {
             // 기본 검색 API URL
             let apiUrl = `http://localhost:8080/api/events/search`;
@@ -136,7 +139,7 @@ const SelectSearchPage = () =>{
 
 
             // 서울 또는 경기의 특정 카테고리면 해당 API로 리다이렉트
-            const additionalEvents = await fetchAdditionalEvents(region, category);
+            const additionalEvents = await fetchAdditionalEvents(region, category, date);
 
             if (additionalEvents.length > 0) {
                 setResults(additionalEvents);
@@ -158,7 +161,7 @@ const SelectSearchPage = () =>{
             } else if (category === '여행코스') {
                 apiUrl = `http://localhost:8080/api/travel-courses/by-region`;
             } else if (category === '축제/공연/행사') {
-                apiUrl = `http://localhost:8080/api/events/by-region`;
+                apiUrl = `http://localhost:8080/api/events/by-month-and-region`;
             } else if (category === '관광지') {
                 apiUrl = `http://localhost:8080/api/tourist-attractions/by-region`;
             }
@@ -166,17 +169,15 @@ const SelectSearchPage = () =>{
             // API 호출 및 데이터 설정
             const response = await axios.get(apiUrl, {
                 params: {
+                    month : date,
                     region: fullRegionName, // 매핑된 지역 이름 전달
-                    startDate: startDate ? startDate.toISOString().split('T')[0] : '',
-                    endDate: endDate ? endDate.toISOString().split('T')[0] : ''
+
                 }
             });
 
             const mainresponse = await axios.get('http://localhost:8080/api/events/by-region', {
                 params: {
                     region: fullRegionName, // 매핑된 지역 이름 전달
-                    startDate: startDate ? startDate.toISOString().split('T')[0] : '',
-                    endDate: endDate ? endDate.toISOString().split('T')[0] : ''
                 }
             });
             setResults(response.data); // 결과 데이터 설정
@@ -196,9 +197,9 @@ const SelectSearchPage = () =>{
             return;
         }
 
-        handleSearch(areaselected.value, categoryselected.value);
+        handleSearch(areaselected.value, categoryselected.value, dateselected.value);
 
-        setDateSelected(null);
+        setDateSelected({ value: '', label: '전체' });
         setAreaSelected(null);
         setCategorySelected(null);
     };
@@ -214,7 +215,7 @@ const SelectSearchPage = () =>{
     };
 
     const handleLoadMore = () => {
-      setVisibleCount((prevCount) => prevCount + 18);
+        setVisibleCount((prevCount) => prevCount + 18);
     };
 
     if (error) {
@@ -231,12 +232,12 @@ const SelectSearchPage = () =>{
             </section>
             <section className='article'>
                 <form className='selectform' onSubmit={handleSubmit}>
-                    {/*<Select
-                              onChange={onChangeDateSelect}
-                              options={dateOptions}
-                              value={dateselected}
-                              placeholder="시기"
-                            />*/}
+                    <Select
+                        onChange={onChangeDateSelect}
+                        options={dateOptions}
+                        value={dateselected}
+                        placeholder="시기"
+                    />
                     <Select
                         onChange={onChangeAreaSelect}
                         options={areaOptions}
