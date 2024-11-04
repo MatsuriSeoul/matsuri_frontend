@@ -207,7 +207,7 @@ const UserInfo = () => {
 
                 setLikedEvents(flattenedEvents);
             } catch (error) {
-                console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
+
             }
         };
 
@@ -219,7 +219,7 @@ const UserInfo = () => {
                 });
                 setLikedComments(response.data);
             } catch (error) {
-                console.error('좋아요한 댓글 불러오기 실패:', error);
+
             }
         };
 
@@ -230,7 +230,7 @@ const UserInfo = () => {
                 });
                 setAuthoredComments(response.data);
             } catch (error) {
-                console.error('작성한 댓글 불러오기 실패:', error);
+
             }
         };
 
@@ -270,7 +270,7 @@ const UserInfo = () => {
                 alert('사용 가능한 이메일입니다.');
             }
         } catch (error) {
-            console.error('이메일 중복 검사 오류', error);
+
             alert('이메일 중복 검사 중 오류가 발생했습니다.');
         }
     };
@@ -286,7 +286,7 @@ const UserInfo = () => {
             setEmailVerificationSent(true);
             alert('인증번호가 발송되었습니다.');
         } catch (error) {
-            console.error('인증번호 발송 오류', error);
+
             alert('인증번호 발송 실패');
         }
     };
@@ -302,7 +302,7 @@ const UserInfo = () => {
                 alert('인증번호가 일치하지 않습니다.');
             }
         } catch (error) {
-            console.error('인증번호 검증 오류', error);
+
         }
     };
 
@@ -327,7 +327,7 @@ const UserInfo = () => {
             setVerificationCode('');
             toggleEditMode('userEmail');
         } catch (error) {
-            console.error('이메일 변경 실패', error);
+
             setMessage('이메일 변경에 실패했습니다.');
         }
     };
@@ -374,7 +374,7 @@ const UserInfo = () => {
             setMessage(`${fieldName}이(가) 업데이트되었습니다.`);
             toggleEditMode(fieldName);
         } catch (error) {
-            console.error(`${fieldName} 업데이트 실패`, error);
+
             setMessage(`${fieldName} 업데이트에 실패했습니다.`);
         }
     };
@@ -416,7 +416,7 @@ const UserInfo = () => {
 
             setSelectedImage(null); // 이미지 선택 필드 초기화
         } catch (error) {
-            console.error("프로필 이미지 업데이트 실패", error);
+
             setMessage("프로필 이미지 업데이트에 실패했습니다.");
         }
     };
@@ -437,7 +437,7 @@ const UserInfo = () => {
                 profileImage: null
             }));
         } catch (error) {
-            console.error("프로필 이미지 삭제 실패", error);
+
             setMessage("프로필 이미지 삭제에 실패했습니다.");
         }
     };
@@ -701,7 +701,7 @@ const UserInfo = () => {
                         )}
                     </div>
                 </div>
-                <div className="myRecentContainer">
+                <div className="myRecentContainer lastContainer">
                     <div className="headText">내가 작성한 여행톡</div>
                     <div className='recentSwiper-wrapper'>
                         {authoredComments.length > 0 ? (

@@ -27,7 +27,7 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
                 }
                 setComments(response.data);
             } catch (error) {
-                console.error('댓글을 불러오는 데 실패했습니다.', error);
+
             }
         };
 
@@ -41,7 +41,7 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
             });
             setUser(response.data);
         } catch (error) {
-            console.error('사용자 정보를 가져오는 데 실패했습니다.', error);
+
         }
     };
 
@@ -63,7 +63,7 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
                 });
                 fetchComments(); // 이미지 삭제 후 댓글 목록 갱신
             } catch (error) {
-                console.error('이미지 삭제 실패:', error);
+
             }
         };
 
@@ -76,7 +76,7 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
             });
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (error) {
-            console.error('댓글 삭제 실패', error);
+
         }
     };
 
@@ -108,7 +108,7 @@ const CommentEventList = ({ category, contentid, contenttypeid, svcid }) => {
             setNewImages([]);
             setImagePreviews([]);
         } catch (error) {
-            console.error('댓글 수정 실패', error);
+
         }
     };
 

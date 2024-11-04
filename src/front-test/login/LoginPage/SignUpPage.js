@@ -3,7 +3,7 @@ import Select from 'react-select';
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
-const SignUpPage = () => {
+const SignUpPage = ({ closeModal }) => {
     //backend
     const [userId, setUserId] = useState('');
     const [userName, setUserName] = useState('');
@@ -149,9 +149,9 @@ const SignUpPage = () => {
         };
 
         try {
-            console.log('userInfo: ' + userInfo.userBirthday);
             const response = await axios.post('/api/users/save', userInfo);
             alert('회원가입 성공');
+            closeModal();
             history.push('/');
         } catch (error) {
             if (error.response) {

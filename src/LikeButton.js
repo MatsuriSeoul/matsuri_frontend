@@ -29,10 +29,9 @@ const LikeButton = ({ contentId, contentType }) => {  // contentType 추가
                     setLike(response.data.isLiked); // 사용자가 좋아요를 눌렀는지 확인
                     setLikeCount(Number(response.data.likeCount) || 0); // 좋아요 숫자 설정, NaN 방지
                 } catch (error) {
-                    console.error('좋아요 상태 불러오기 실패:', error);
+
                 }
             } else {
-                console.log('사용자가 로그인되어 있지 않습니다.');
             }
         };
         fetchLikeStatus();
@@ -64,7 +63,7 @@ const LikeButton = ({ contentId, contentType }) => {  // contentType 추가
             }
             setLike(!like); // 좋아요 상태 반전
         } catch (error) {
-            console.error('좋아요 처리 실패:', error);
+
         }
     };
 
@@ -78,7 +77,7 @@ const LikeButton = ({ contentId, contentType }) => {  // contentType 추가
                 setLikedUsers([]); // 사용자 목록이 없는 경우 빈 배열로 설정
             }
         } catch (error) {
-            console.error('좋아요 사용자 목록 불러오기 실패:', error);
+
         }
     };
 

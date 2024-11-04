@@ -39,7 +39,7 @@ const Section2 = () =>{
                 setPopularEvents(response.data);
                 setLoading(false);
             } catch (error) {
-                console.error('인기 행사 데이터를 불러오는 중 오류 발생:', error);
+
                 setLoading(false);
             }
         };
@@ -87,9 +87,9 @@ const Section2 = () =>{
                     Authorization: `Bearer ${auth.token}`
                 }
             });
-            setPersonalizedRecommendations(response.data);  // 최대 4개의 추천 데이터만 저장
+            setPersonalizedRecommendations(response.data);
         } catch (error) {
-            console.error('개인화된 추천 데이터를 불러오는 중 오류 발생:', error);
+
         } finally {
             setLoading(false);  // 로딩 상태 종료
         }
@@ -124,11 +124,12 @@ const Section2 = () =>{
                     {popularEvents.length > 5 ? (
                         <div className='main-event'>
                             {popularEvents.slice(0, 6).map((event, index) => (
-                                <div
+                                <Link
+                                    to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`}
                                     className={`event event${index} ${activeIndex === index ? 'active' : ''}`}
                                     onMouseEnter={() => setActiveIndex(index)}
                                     style={{
-                                        backgroundImage: `url(${event.image || 'default_img.jpeg'})`, // 이미지 URL을 url()로 감싸야 합니다.
+                                        backgroundImage: `url(${event.image || '/img/default_img.jpeg'})`, // 이미지 URL을 url()로 감싸야 합니다.
                                         backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
                                         backgroundPosition: 'center', // 이미지를 중앙에 위치
                                     }}
@@ -136,7 +137,7 @@ const Section2 = () =>{
                                     <div className='txt'>
                                         <h1 className='event-title'>{event.title}</h1>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     ) : (
@@ -151,11 +152,12 @@ const Section2 = () =>{
                     {personalizedRecommendations.length > 5 ? (
                         <div className='main-event'>
                             {personalizedRecommendations.slice(0, 6).map((event, index) => (
-                                <div
+                                <Link
+                                    to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`}
                                     className={`event event${index} ${activeIndex === index ? 'active' : ''}`}
                                     onMouseEnter={() => setActiveIndex(index)}
                                     style={{
-                                        backgroundImage: `url(${event.image || 'default_img.jpeg'})`, // 이미지 URL을 url()로 감싸야 합니다.
+                                        backgroundImage: `url(${event.image || '/img/default_img.jpeg'})`, // 이미지 URL을 url()로 감싸야 합니다.
                                         backgroundSize: 'cover', // 이미지를 박스에 맞게 조절
                                         backgroundPosition: 'center', // 이미지를 중앙에 위치
                                     }}
@@ -163,7 +165,7 @@ const Section2 = () =>{
                                     <div className='txt'>
                                         <h1 className='event-title'>{event.title}</h1>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     ) : (

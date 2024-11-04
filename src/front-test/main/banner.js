@@ -61,16 +61,16 @@ const Banner = () => {
           }
         });
 
-        console.log('API Response:', response.data); // 응답 데이터 로그
+
 
         if (response.data && Array.isArray(response.data) && response.data.length > 0) {
           setEvents(response.data);
         } else {
-          console.log('행사를 찾을수 없거나 데이터 포맷 실패', response.data);
+
           setEvents([]);
         }
       } catch (error) {
-        console.error('행사 적용 실패', error);
+
         setError('행사 적용 실패');
       }
     };
@@ -169,7 +169,7 @@ const Banner = () => {
           >
             {events.slice(0, slicenum).map((event) => (
                 <SwiperSlide>
-                  <Link to={`/eventDetailPage/events/${currentEvent.contentid}/${currentEvent.contenttypeid}`}>
+                  <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`}>
                     <div className='event-img'
                          style={{
                            backgroundImage: `url(${event.firstimage})`, // 이미지 URL을 url()로 감싸야 합니다.

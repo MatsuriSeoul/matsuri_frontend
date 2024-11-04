@@ -12,6 +12,7 @@ import { Navigation } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import LoginPage from "./login/LoginPage";
 
 const AreaPage = () =>{
     const { areaId } = useParams();
@@ -36,9 +37,9 @@ const AreaPage = () =>{
         {name: "세종"},
     ]
 
+
     return(
         <seaction className="areapage">
-            <Header></Header>
             <sction className="areaPage-banner">
                 <h1 className="title">
                     {areaId} 지역 정보<br/>
@@ -78,19 +79,19 @@ const AreaPage = () =>{
                     <h2 className="title">핫플모아</h2>
                     <p className="txt">요즘 인기있는 여행지는 다 모였네!<br/>
                         지역별 핫플을 알려드려요!</p>
-                    <div className="link-btn">
+                    <Link to={'/hotPlacePage/서울'} className="link-btn">
                         <p>바로가기</p>
                         <img src="/img/areaPage/link-icon1.png"></img>
-                    </div>
+                    </Link>
                 </div>
                 <div className="link-box right">
-                    <h2 className="title">나의 행사</h2>
-                    <p className="txt">나의 성향을 분석한<br/>
-                        나만의 맞춤형 여행지 추천!</p>
-                    <div className="link-btn">
+                    <h2 className="title">행사 검색</h2>
+                    <p className="txt">내가 원하는 여행지를<br/>
+                        지역과 카테고리 선택을 통한 여행지 추천!</p>
+                    <Link to={'/selectSearchPage'} className="link-btn">
                         <p>바로가기</p>
                         <img src="/img/areaPage/link-icon2.png"></img>
-                    </div>
+                    </Link>
                 </div>
             </div>
             <Footer/>

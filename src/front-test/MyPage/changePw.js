@@ -74,7 +74,7 @@ const ChangePw = ({ closeModal }) => {
                 history.push('/');
             }
         } catch (error) {
-            console.error('비밀번호 변경 중 오류 발생:', error); // 오류 로그 확인
+
 
             if (error.response && error.response.status === 400) {
                 alert(error.response.data);  // 서버 응답에 따른 메시지 처리

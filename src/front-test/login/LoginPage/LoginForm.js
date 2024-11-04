@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import axios from "axios";
 import DecodingInfo from "../../../DecodingInfo";
 
-const LoginForm = () => {
+const LoginForm = ({ closeModal }) => {
     const [isChecked, setIsChecked] = useState(false);
 
     const toggleCheck = () => {
@@ -25,12 +25,9 @@ const LoginForm = () => {
             });
             if (response.data && response.data.token) { // 응답에 토큰이 있으면
                 const decodedToken = DecodingInfo(response.data.token); // 토큰 디코딩
-                // console.log(decodedToken);
 
                 const userIdFromToken = decodedToken ? parseInt(decodedToken.sub, 10) : null;
                 const userRoleFromToken = decodedToken ? decodedToken.role : null; // userRole 가져오기
-
-                // console.log("User Role from Token:", userRoleFromToken);
 
                 if (!isNaN(userIdFromToken)) {
                     localStorage.setItem('token', response.data.token); // 로컬스토리지에 토큰 저장
@@ -48,6 +45,7 @@ const LoginForm = () => {
                     setUserId('');
                     setUserPassword('');
 
+                    closeModal();
                     history.push('/'); // 홈 페이지로 이동
                 } else {
                     alert('로그인 정보가 올바르지 않습니다. 다시 확인해주세요.') // 에러 메시지

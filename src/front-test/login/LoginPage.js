@@ -20,10 +20,10 @@ const LoginPage = ({ content, closeModal, openModal }) => {
     return(
         <div className="login-background" onMouseDown={handleBackgroundClick}>
             <div className="login-container" onMouseDown={handleContentClick}>
-                {content === 'login' && <LoginForm/>}
-                {content === 'findId' && <FindIdForm/>}
-                {content === 'findPw' && <SearchPw/>}
-                {content === 'signUp' && <SignUpPage/>}
+                {content === 'login' && <LoginForm closeModal={closeModal}/>}
+                {content === 'findId' && <FindIdForm closeModal={closeModal}/>}
+                {content === 'findPw' && <SearchPw closeModal={closeModal}/>}
+                {content === 'signUp' && <SignUpPage closeModal={closeModal}/>}
                 {content === 'login' && (
                     <div className="helpBtn-wrapper">
                         <div className="findPw" onClick={() => openModal('findPw')}>비밀번호 찾기</div>
