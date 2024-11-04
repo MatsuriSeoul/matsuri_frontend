@@ -23,7 +23,6 @@ const AIPlanerCommentList = ({ category, contentid, contenttypeid }) => {
 
 // 상태가 업데이트된 후 실제 데이터가 들어갔는지 확인합니다.
     useEffect(() => {
-        console.log("Rendered with category:", category, "contentid:", contentid, "contenttypeid:", contenttypeid);
         fetchComments();
     }, [category, contentid, contenttypeid]);
     return (

@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import KakaoMapPlaner from './KakaoMapPlaner';
 import axios from "axios";
-import CommentEventList from "./CommentEventList";
 import ReviewComponent from "./ReviewComponent";
 import AIPlanerCommentList from "./AIPlanerCommentList";
 
 const AIPlanerResult = () => {
     const location = useLocation();
-    const { result, region, category, duration } = location.state;
+    const { result, region, category, duration, categories } = location.state;
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [detail, setDetail] = useState(null);
+    const [planResult, setPlanResult] = useState(result); // 초기 여행 계획 결과를 상태로 설정
     const [intro, setIntro] = useState(null);
     const [images, setImages] = useState([]);
+    const [locations, setLocations] = useState({}); // 변경된 locations 상태 변수
 
     // contenttypeid와 카테고리명을 매핑하는 맵
     const categoryMap = {
@@ -25,21 +26,24 @@ const AIPlanerResult = () => {
         '38': '쇼핑',
         '39': '음식'
     };
-// AIPlanerResult 컴포넌트 내
+    // AIPlanerResult 컴포넌트 내
     const getEncodedCategory = (contenttypeid) => {
         const encodedCategory = categoryMap[contenttypeid] || 'default-category';
-        console.log("Encoded Category for contenttypeid:", contenttypeid, "is", encodedCategory);
         return encodedCategory;
     };
     // 데이터 그룹화
-    const locations = Object.keys(result.dayPlans).reduce((acc, day) => {
-        acc[day] = result.dayPlans[day].map((event, index) => ({
-            ...event,
-            index: index + 1,
-            category: categoryMap[event.contenttypeid] // contenttypeid를 기반으로 카테고리 추가
-        }));
-        return acc;
-    }, {});
+    useEffect(() => {
+        const updatedLocations = Object.keys(planResult.dayPlans).reduce((acc, day) => {
+            acc[day] = planResult.dayPlans[day].map((event, index) => ({
+                ...event,
+                index: index + 1,
+                category: categoryMap[event.contenttypeid],
+            }));
+            return acc;
+        }, {});
+
+        setLocations(updatedLocations); // locations 상태 업데이트
+    }, [planResult]); // planResult가 변경될 때만 실행
 
     // 이벤트 클릭 핸들러
     const handleEventClick = (event) => {
@@ -50,6 +54,36 @@ const AIPlanerResult = () => {
         setSelectedEvent(event);
     };
 
+    //여행 새로고침
+    const refreshPlan = async () => {
+        try {
+            const response = await axios.post('/api/openai/refresh-plan', {
+                region,
+                categories: categories && categories.length > 0 ? categories : [category],
+                duration,
+            });
+
+            console.log("새로고침 응답 데이터:", response.data);
+            const newPlanResult = response.data;
+            setPlanResult(newPlanResult); // 새로운 계획 데이터로 상태 업데이트
+
+            // 업데이트된 계획 데이터로 locations도 갱신
+            const updatedLocations = Object.keys(newPlanResult.dayPlans).reduce((acc, day) => {
+                acc[day] = newPlanResult.dayPlans[day].map((event, index) => ({
+                    ...event,
+                    index: index + 1,
+                    category: categoryMap[event.contenttypeid],
+                }));
+                return acc;
+            }, {});
+
+            console.log("업데이트된 locations 데이터:", updatedLocations);
+            setLocations(updatedLocations); // locations 상태 업데이트
+        } catch (error) {
+            console.error("여행 계획 새로고침 실패:", error);
+        }
+    };
+
     // selectedEvent가 변경될 때마다 상세 정보 API 호출
     useEffect(() => {
         if (selectedEvent) {
@@ -57,8 +91,10 @@ const AIPlanerResult = () => {
             fetchDetail(selectedEvent.contentid, category);
             fetchIntro(selectedEvent.contentid, selectedEvent.contenttypeid, category);
             fetchImages(selectedEvent.contentid);
+            console.log("Updated planResult:", planResult);
         }
-    }, [selectedEvent]);
+    }, [selectedEvent],[planResult]);
+
 
     // 카테고리와 이벤트 ID에 따라 API 호출
     const getCategoryEndpoint = (category) => {
@@ -314,14 +350,17 @@ const AIPlanerResult = () => {
         <div style={styles.container}>
             <div style={styles.sidebar}>
                 <h2 style={styles.title}>
-                    {region} 지역의 {category} 카테고리로 {duration} 동안의 추천 여행 계획
+                    {region} 지역의 {category || categories.join(', ')} 카테고리로 {duration} 동안의 추천 여행 계획
                 </h2>
+                <button onClick={refreshPlan} style={styles.refreshButton}>
+                    여행 계획 다시 세우기
+                </button>
                 <div style={styles.planSection}>
-                    {Object.keys(result.dayPlans).map((day, dayIndex) => (
+                    {Object.keys(locations).map((day, dayIndex) => (
                         <div key={dayIndex} style={styles.daySection}>
                             <h3 style={styles.dayTitle}>{day}</h3>
                             <ul style={styles.eventList}>
-                                {result.dayPlans[day].map((event, index) => (
+                                {locations[day].map((event, index) => (
                                     <li
                                         key={index}
                                         style={styles.eventCard}
@@ -329,7 +368,7 @@ const AIPlanerResult = () => {
                                     >
                                         <span style={styles.eventNumber}>{index + 1}</span>
                                         <img
-                                            src={event.image !== "이미지 없음" ? event.image : "/placeholder.jpg"}
+                                            src={event.image !== '이미지 없음' ? event.image : '/placeholder.jpg'}
                                             alt={event.title}
                                             style={styles.eventImage}
                                         />
@@ -337,7 +376,7 @@ const AIPlanerResult = () => {
                                             <h4 style={styles.eventTitle}>{event.title}</h4>
                                             <p style={styles.eventAddress}>주소: {event.addr1}</p>
                                             <p style={styles.eventTime}>
-                                                {event.time ? `${event.time}: ` : ""}{event.recommendation}
+                                                {event.time ? `${event.time}: ` : ''}{event.recommendation}
                                             </p>
                                         </div>
                                     </li>
@@ -349,19 +388,28 @@ const AIPlanerResult = () => {
                 <div style={styles.aiMessageSection}>
                     <h3 style={styles.aiMessageTitle}>AI 추천 메시지</h3>
                     <div style={styles.aiMessageContent}>
-                        {result.aiResponse && (
-                            <div style={{whiteSpace: 'pre-line'}}>
-                                {result.aiResponse}
+                        {planResult.aiResponse && (
+                            <div style={{ whiteSpace: 'pre-line' }}>
+                                {planResult.aiResponse}
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-            {selectedEvent && detail && intro && ( // 모든 필드가 로드된 후에 렌더링
+            {selectedEvent && detail && intro && (
                 <div style={styles.detailContainer}>
                     <h2 style={styles.detailTitle}>{selectedEvent.title}</h2>
+                    <div style={styles.detailContainer}>
+                        {/* Link를 사용하여 상세 페이지로 이동하는 버튼 */}
+                        <Link
+                            to={`/${getCategoryEndpoint(categoryMap[selectedEvent.contenttypeid])}/${selectedEvent.contentid}/${selectedEvent.contenttypeid}/detail`}
+                            style={styles.detailButton}
+                        >
+                            상세 페이지로!
+                        </Link>
+                    </div>
                     <img
-                        src={selectedEvent.image !== "이미지 없음" ? selectedEvent.image : "/placeholder.jpg"}
+                        src={selectedEvent.image !== '이미지 없음' ? selectedEvent.image : '/placeholder.jpg'}
                         alt={selectedEvent.title}
                         style={styles.detailImage}
                     />
@@ -376,18 +424,16 @@ const AIPlanerResult = () => {
                             {images.map((image, index) => (
                                 <div key={index} style={{ marginBottom: '20px' }}>
                                     <p>원본 이미지:</p>
-                                    <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="100"/>
+                                    <img src={image.originimgurl} alt={`원본 이미지 ${index + 1}`} width="100" />
                                     <p>썸네일 이미지:</p>
-                                    <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="100"/>
+                                    <img src={image.smallimageurl} alt={`썸네일 이미지 ${index + 1}`} width="100" />
                                 </div>
                             ))}
                         </div>
                     ) : (
                         <p>이미지가 없습니다.</p>
                     )}
-                    {/*네이버 블로그 리뷰 */}
                     <ReviewComponent query={detail.title} />
-                    {/* 댓글 기능 추가 */}
                     <AIPlanerCommentList
                         category={getEncodedCategory(selectedEvent.contenttypeid)}
                         contentid={selectedEvent.contentid}
@@ -396,7 +442,7 @@ const AIPlanerResult = () => {
                 </div>
             )}
             <div style={styles.mapContainer}>
-                <KakaoMapPlaner locations={locations} selectedEvent={selectedEvent}/>
+                <KakaoMapPlaner locations={locations} selectedEvent={selectedEvent} />
             </div>
         </div>
     );
@@ -407,6 +453,7 @@ const styles = {
     sidebar: {width: '400px', padding: '20px', overflowY: 'auto', backgroundColor: '#f5f5f5'},
     title: {textAlign: 'center', fontSize: '24px', marginBottom: '20px', color: '#333'},
     planSection: {marginBottom: '20px' },
+    refreshButton: { padding: '10px 20px', marginBottom: '20px', cursor: 'pointer', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px' },
     daySection: { marginBottom: '10px' },
     dayTitle: { fontSize: '20px', color: '#555', marginBottom: '5px' },
     eventList: { listStyleType: 'none', padding: 0 },
@@ -420,7 +467,17 @@ const styles = {
     aiMessageSection: { padding: '15px', backgroundColor: '#f9f9f9', borderRadius: '8px', marginTop: '10px' },
     aiMessageTitle: { fontSize: '18px', marginBottom: '10px', color: '#555' },
     aiMessageContent: { fontSize: '16px', color: '#333' },
-
+    detailButton: {
+        display: 'block',
+        textAlign: 'center',
+        padding: '10px 20px',
+        marginBottom: '20px',
+        backgroundColor: '#007bff',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '5px',
+        textDecoration: 'none' // 버튼 스타일을 위한 텍스트 장식 제거
+    },
     // 새로운 구조로 map과 detail을 감싸는 컨테이너 추가
     mapAndDetailContainer: { display: 'flex', flex: 1, height: '100vh', position: 'relative' },
 

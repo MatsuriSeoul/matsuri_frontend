@@ -197,6 +197,7 @@ function App() {
                         <Route path="/plan-section3" component={AIPlanerSection3} />    {/*AI여행 플래너*/}
                         <Route path="/plan-result" component={AIPlanerResult} />    {/*AI여행 플래너*/}
                         <Route path="/api/comment/aiplaner/:category/:contentid/:contenttypeid/detail" component={AIPlanerCommentList}/>
+                        <Route path="/api/openai/refresh-plan" component={AIPlanerResult}/>
 
                     </Switch>
                     <LoginForm
