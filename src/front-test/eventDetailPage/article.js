@@ -24,7 +24,6 @@ const Article = () => {
   const [similarEvents, setSimilarEvents] = useState([]);  // 유사한 여행지 데이터 상태
   const { auth } = useAuth();
 
-
   const categoryTypeMap = {
     12: "tourist-attractions",  //관광지
     14: "cultural-facilities",  //문화시설
@@ -54,7 +53,7 @@ const Article = () => {
   let categoryType = categoryTypeMap[contenttypeid] || "unknown";
   let likeCategoryType = likeCategoryTypeMap[contenttypeid] || "UnknownDetail";
 
-  // 클릭 로그 저장 로직 추가
+    // 클릭 로그 저장 로직 추가
   const logClick = async (contentId, contentTypeId) => {
     if (!auth || !auth.token) {
 
@@ -84,9 +83,8 @@ const Article = () => {
     categoryType = categoryTypeMap[contenttypeid] || "unknown";
     likeCategoryType = likeCategoryTypeMap[contenttypeid] || "UnknownDetail";
 
-    // 페이지에 접근할 때 클릭 로그를 저장
-    logClick(contentid, contenttypeid);  // 로그 저장 로직 실행
-
+      // 페이지에 접근할 때 클릭 로그를 저장
+      logClick(contentid, contenttypeid);  // 로그 저장 로직 실행
     window.scrollTo({
       top: 0,
       // behavior: 'smooth' // 부드러운 스크롤 효과
@@ -124,7 +122,7 @@ const Article = () => {
     // 소개 정보 API 불러오기 (외부 API에서)
     const fetchIntro = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/${contenttypeid}/intro`);
+          const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contentid}/${contenttypeid}/intro`);
         setIntro(response.data);
       } catch (error) {
 
@@ -141,15 +139,15 @@ const Article = () => {
       }
     };
 
-    // 유사한 여행지 정보 가져오기
-    const fetchSimilarEvents = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contenttypeid}/similar-events`);
-        setSimilarEvents(response.data.slice(0, 6));
-      } catch (error) {
-
-      }
-    };
+      // 유사한 여행지 정보 가져오기
+      const fetchSimilarEvents = async () => {
+          try {
+              const response = await axios.get(`http://localhost:8080/api/${categoryType}/${contenttypeid}/similar-events`);
+              setSimilarEvents(response.data.slice(0, 6));
+          } catch (error) {
+              console.error('유사한 여행지 정보 불러오기 실패', error);
+          }
+      };
     // 서울/경기 유사한 여행지 정보 가져오기
     const seoulfetchSimilarEvents = async () => {
       try {
@@ -160,12 +158,28 @@ const Article = () => {
       }
     };
 
+    const fetchSigunguDetail = async () => {
+        try {
+            const apiKey = '13jkaARutXp/OwAHynRnYjP7BJuMVGIZx2Ki3dRMaDlcBqrfZHC9Zk97LCCuLyKfiR2cVhyWy59t96rPwyWioA=='; // API 키 설정
+            const url = `http://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${apiKey}&contentId=${contentid}&defaultYN=Y&addrinfoYN=Y&overviewYN=Y&mapinfoYN=Y&firstImageYN=Y&MobileOS=ETC&MobileApp=AppTest&_type=json`;
+            const response = await axios.get(url);
+            const item = response.data.response.body.items.item[0];  // 상세 정보의 첫 번째 항목
+            setDetail(item);
+        } catch (error) {
+        }
+    };
+
     if(contenttypeid === 'seoul-events'){
       fetchSeoulEventDetail();
       seoulfetchSimilarEvents();
     }else if(contenttypeid === 'gyeonggi-events'){
       fetchGyeonggiEventDetail();
       seoulfetchSimilarEvents();
+    }else if(apitype === 'sigungu'){
+        fetchSigunguDetail();
+        fetchIntro();
+        fetchImages();
+        fetchSimilarEvents();
     }
     else{
       fetchDetail();
@@ -284,6 +298,7 @@ const Article = () => {
     };
     // 각 contenttypeid에 따라 추가 정보를 렌더링하는 함수
     const renderAdditionalInfo = () => {
+
 
         if (!intro) {
             return;
@@ -443,7 +458,6 @@ const Article = () => {
         return txt.value;
     };
 
-
   if (!detail) return <div>Loading...</div>;
 
   return (
@@ -465,6 +479,19 @@ const Article = () => {
               <div className="icons">
                   <div className="likeView">
                       <LikeButton contentId={contentid} contentType={likeCategoryType}/>
+                      <div className="view">
+                          <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="24px"
+                              viewBox="0 -960 960 960"
+                              width="24px"
+                              fill="#e8eaed"
+                          >
+                              <path
+                                  d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/>
+                          </svg>
+                          <p className="view-count">230</p> {/*이 조회수 값 넣어주시면됩니다.*/}
+                      </div>
                   </div>
                   <div className="right">
                   </div>
@@ -611,7 +638,7 @@ const Article = () => {
               {categoryType === 'seoul-events' ? (
                   <CommentEventList category="seoul-events" svcid={detail.svcid}/>
               ) : (
-                  <CommentEventList category={apitype} contentid={contentid} contenttypeid={contenttypeid}/>
+                  <CommentEventList category={categoryType} contentid={contentid} contenttypeid={contenttypeid}/>
               )}
           </article>
           <div className='side-container'>
