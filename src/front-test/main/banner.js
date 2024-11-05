@@ -61,16 +61,14 @@ const Banner = () => {
           }
         });
 
-
-
         if (response.data && Array.isArray(response.data) && response.data.length > 0) {
-          setEvents(response.data);
+          // 배열을 무작위로 섞어 설정
+          const shuffledEvents = response.data.sort(() => Math.random() - 0.5);
+          setEvents(shuffledEvents);
         } else {
-
           setEvents([]);
         }
       } catch (error) {
-
         setError('행사 적용 실패');
       }
     };
