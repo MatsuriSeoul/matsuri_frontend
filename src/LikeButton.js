@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import './LikeButton.css';
 
 const LikeButton = ({ contentId, contentType }) => {  // contentType 추가
     const [like, setLike] = useState(false); // 좋아요 여부

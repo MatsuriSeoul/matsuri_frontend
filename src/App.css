@@ -55,6 +55,12 @@
   border: 1px solid #ddd; /* 약간의 테두리 추가 */
 }
 
+.default_img {
+  width: 100%; /* 부모 요소의 너비에 맞추어 자동 조정 */
+  height: auto; /* 비율을 유지하면서 높이를 자동 조정 */
+  object-fit: contain; /* 원본 비율 유지, 부모 요소에 맞게 조정 */
+}
+
 .mypage-container {
   padding: 20px;
 }

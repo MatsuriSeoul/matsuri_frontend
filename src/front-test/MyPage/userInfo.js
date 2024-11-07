@@ -476,7 +476,7 @@ const UserInfo = () => {
                     <div className="profileName">{userInfo.userName}</div>
                     <div className="profileEmail">{userInfo.userEmail}</div>
                     <div className='ch-img'>
-                        <input type="file" name="profileImage" onChange={handleImageChange} ref={fileInputRef}
+                        <input type="file" accept="image/*" name="profileImage" onChange={handleImageChange} ref={fileInputRef}
                                style={{display: 'none'}}/>
                         <button className='change-btn' onClick={handleButtonClick}>프로필 수정</button>
                         {userInfo.profileImage && (

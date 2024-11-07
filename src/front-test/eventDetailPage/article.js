@@ -4,6 +4,7 @@ import { Navigation } from "swiper/modules";
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 
+import '../../App.css';
 import "swiper/css";
 import "swiper/css/navigation";
 import KakaoMap from "../../KakaoMap";
@@ -479,7 +480,6 @@ const Article = () => {
               </div>
               <div className="icons">
                   <div className="likeView">
-                      <LikeButton contentId={contentid} contentType={likeCategoryType}/>
                       <div className="view">
                           <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -637,6 +637,11 @@ const Article = () => {
               <div className="hashtag">
                   <div className="tag">#음식</div>
                   <div className="tag">#맛집</div>
+              </div>
+              <div className="icons">
+                  <div className="likeView">
+                      <LikeButton contentId={contentid} contentType={likeCategoryType}/>
+                  </div>
               </div>
               {categoryType === 'seoul-events' ? (
                   <CommentEventList category="seoul-events" svcid={detail.svcid}/>
