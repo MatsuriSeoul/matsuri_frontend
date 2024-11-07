@@ -169,6 +169,7 @@
     font-size: 16px;
     font-weight: 400;
     color: #111111;
+    cursor: pointer;
 }
 .noticepage .article .pagination .num.active{
     background-color: #3E3E3E;

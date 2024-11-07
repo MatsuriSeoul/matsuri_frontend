@@ -15,7 +15,26 @@
     padding: 40px;
     background-color: #ffffff;
     border-radius: 20px;
+    position: relative;
 }
+.login-container .close-btn{
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e7e7e7;
+}
+.login-container .close-btn svg{
+    width: 80%;
+    height: 80%;
+    fill: #000000;
+}
+
 .login-container .logo{
     text-align: center;
     font-size: 40px;

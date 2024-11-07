@@ -70,15 +70,15 @@ const Header = ({toggleModal}) => {
             <div className='header-container'>
                 <Link to={'/'}>
                     <div className="logo">
-                        <img src="/img/main_logo.png" alt="Main Logo" />
+                        <img src="/img/main_logo.PNG" alt="Main Logo" />
                     </div>
                 </Link>
                 <nav className="navigation">
-                    <Link to={'/mainpage'}><p className={`col ${pageName === 'mainpage' ? 'active' : ''}`}>홈</p></Link>
+                    <Link to={'/'}><p className={`col ${pageName === 'mainpage' ? 'active' : ''}`}>홈</p></Link>
                     <Link to={'/themePage'}><p className={`col ${themepageName === 'themePage' ? 'active' : ''}`}>테마</p></Link>
                     <Link to={'/areaPage/서울'}><p className={`col ${pageName === 'areaPage' ? 'active' : ''}`}>지역</p></Link>
                     <Link to={'/selectSearchPage'}><p className={`col ${pageName === 'selectSearchPage' ? 'active' : ''}`}>행사정보</p></Link>
-                    <p className={`col ${pageName === 'aaa' ? 'active' : ''}`}>나의 행사</p>
+                    <Link to={'/plan-section1'}><p className={`col ${pageName === 'aaa' ? 'active' : ''}`}>나의 행사</p></Link>
                     <Link to={'/noticePage'}><p className={`col lastcol ${pageName === 'noticePage' ? 'active' : ''}`}>공지사항</p></Link>
                 </nav>
                 <div className="right">

@@ -20,8 +20,11 @@ const SignUpPage = ({ closeModal }) => {
     const [codeSent, setCodeSent] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [birthdayError, setBirthdayError] = useState('');
-
+    const [userPasswordError, setUserPasswordError] = useState('');
     const history = useHistory();
+    const [monthselected, setMonthSelected] = useState(null);
+    const [dayselected, setDaySelected] = useState(null);
+    const [yearselected, setYearSelected] = useState(null);
 
     // 전화번호 형식 검사 함수 (숫자 10~11자리만 허용)
     const validatePhone = (phone) => {
@@ -57,15 +60,32 @@ const SignUpPage = ({ closeModal }) => {
     // 비밀번호 확인 로직
     useEffect(() => {
         if (userPassword && userPasswordConfirm) {
-            if (userPassword === userPasswordConfirm) {
-                setPasswordError(validatePassword(userPassword));  // 조건 검증 추가
-            } else {
+            if (userPassword !== userPasswordConfirm) {
                 setPasswordError('입력한 비밀번호와 일치하지 않습니다.');
+            } else {
+                setPasswordError('');
             }
         } else {
             setPasswordError('');
         }
+
+        if(userPassword){
+            setUserPasswordError(validatePassword(userPassword));  // 조건 검증 추가
+        }else{
+            setUserPasswordError('');
+        }
+
     }, [userPassword, userPasswordConfirm]);
+
+    useEffect( () =>{
+        if(yearselected && monthselected && dayselected){
+            if (yearselected.value > 2011) {
+                setBirthdayError('만 14세 미만은 가입할 수 없습니다.');
+            }else{
+                setBirthdayError('');
+            }
+        }
+    }, [yearselected, monthselected, dayselected])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -134,10 +154,6 @@ const SignUpPage = ({ closeModal }) => {
             return;
         }
 
-        if (yearselected.value > 2011) {
-            alert('만 14세 미만은 가입할 수 없습니다.');
-            return;
-        }
 
         const userInfo = {
             userId,
@@ -265,9 +281,7 @@ const SignUpPage = ({ closeModal }) => {
     };
 
     //frontend
-    const [monthselected, setMonthSelected] = useState(null);
-    const [dayselected, setDaySelected] = useState(null);
-    const [yearselected, setYearSelected] = useState(null);
+
 
     const yearOptions = [];
     for (let year = 2024; year >= 1910; year--) {
@@ -352,11 +366,13 @@ const SignUpPage = ({ closeModal }) => {
                 </div>
             </div>
             <div className="inputBox-pw inputBox">
-                <div className="inputBox-headText">비밀번호</div>
+                <div className="inputBox-headText">비밀번호
+                    <p>*대문자, 특수문자 포함해서 8자리 이상으로 이루어진 비밀번호</p>
+                </div>
                 <input type="password" placeholder="비밀번호" className="text-field"
                        value={userPassword} onChange={(e) =>
                     setUserPassword(e.target.value)} required></input>
-                <div className="warningMsg">*대문자, 특수문자 포함해서 8자리 이상으로 이루어진 비밀번호</div>
+                <div className="warningMsg">{userPasswordError}</div>
             </div>
             <div className="inputBox-checkPw inputBox">
                 <div className="inputBox-headText">비밀번호 확인</div>
@@ -387,6 +403,7 @@ const SignUpPage = ({ closeModal }) => {
                         placeholder="일"
                     />
                 </div>
+                <div className="warningMsg">{birthdayError}</div>
             </div>
             <div className='inputBox-name inputBox'>
                 <div className='inputBox-headText'>닉네임</div>
@@ -417,7 +434,7 @@ const SignUpPage = ({ closeModal }) => {
                 </button>
                 <input placeholder='인증번호' className='text-field'
                        value={verificationCode} onChange={(e) =>
-                        setVerificationCode(e.target.value)}></input>
+                    setVerificationCode(e.target.value)}></input>
                 <button type="button" className='overlapCheck check2'
                         onClick={verifyCode}>인증번호 확인
                 </button>

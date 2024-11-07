@@ -229,13 +229,11 @@ const Article = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
+      if (window.scrollY > 400) {
         setIsFixed(true);
-        if (window.scrollY >= 2250) {
-          setActiveTab('tab4');
-        } else if (window.scrollY >= 1550) {
+        if (window.scrollY >= 1800) {
           setActiveTab('tab3');
-        } else if (window.scrollY >= 900) {
+        } else if (window.scrollY >= 950) {
           setActiveTab('tab2');
         }
       } else {
@@ -501,23 +499,18 @@ const Article = () => {
               </div>
               <nav className={`scroll-tab ${isFixed ? 'active' : ''}`}>
                   <div className={`tab tab2 ${activeTab === 'tab1' ? 'active' : ''}`}
-                       onClick={() => scrollToTop(300)}>
+                       onClick={() => scrollToTop(400)}>
                       <p>사진보기</p>
                   </div>
                   <div className="wall"></div>
                   <div className={`tab tab2 ${activeTab === 'tab2' ? 'active' : ''}`}
-                       onClick={() => scrollToTop(900)}>
+                       onClick={() => scrollToTop(950)}>
                       <p>상세보기</p>
                   </div>
                   <div className="wall"></div>
                   <div className={`tab tab3 ${activeTab === 'tab3' ? 'active' : ''}`}
-                       onClick={() => scrollToTop(1550)}>
+                       onClick={() => scrollToTop(1800)}>
                       <p>여행톡</p>
-                  </div>
-                  <div className="wall"></div>
-                  <div className={`tab tab4 ${activeTab === 'tab4' ? 'active' : ''}`}
-                       onClick={() => scrollToTop(2250)}>
-                      <p>추천행사</p>
                   </div>
               </nav>
               {detail.imgurl ? (

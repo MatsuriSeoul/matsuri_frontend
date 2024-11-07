@@ -193,12 +193,13 @@ const InQuiryPage = () =>{
                 </div>
                 {totalPages > 0 ? (
                     <div className="pagination">
-                        <div
+                        <button
+                            type='button'
                             onClick={handlePreviousPage}
                             className={`btn prevbtn ${currentPage === 1 ? 'active' : ''}`}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555555"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
-                        </div>
+                        </button>
                         <div className="pagenumber">
                             {pageButtons.map(pageNumber => (
                                 <div
@@ -210,12 +211,13 @@ const InQuiryPage = () =>{
                                 </div>
                             ))}
                         </div>
-                        <div
+                        <button
+                            type='button'
                             onClick={handleNextPage}
                             className={`btn nextbtn ${currentPage === totalPages ? 'active' : ''}`}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555555"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
-                        </div>
+                        </button>
                     </div>
                 ) : (<></>)}
                 <form className='post-search' onSubmit={handleSubmit}>
