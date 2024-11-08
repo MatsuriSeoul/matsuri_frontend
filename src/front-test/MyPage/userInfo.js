@@ -366,6 +366,38 @@ const UserInfo = () => {
                 return;
             }
 
+            // 닉네임 유효성 검사
+            if (fieldName === 'userName') {
+                const userName = userInfo.userName;
+
+                // 닉네임 길이 검사 (6자 이상 12자 이하)
+                if (userName.length < 6 || userName.length > 12) {
+                    alert('닉네임은 6자 이상 12자 이하여야 합니다.');
+                    return;
+                }
+
+                // 닉네임 형식 검사 (허용된 특수문자: -, _ 만 사용 가능)
+                const userNameRegex = /^[a-zA-Z0-9-_]+$/;
+                if (!userNameRegex.test(userName)) {
+                    alert('닉네임에는 -, _ 이외의 특수문자를 사용할 수 없습니다.');
+                    return;
+                }
+
+                // 닉네임 중복 검사
+                const duplicateCheckResponse = await axios.get(`/api/users/check-username`, {
+                    params: { userName },
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (duplicateCheckResponse.data.isDuplicate) {
+                    alert('이미 사용 중인 닉네임입니다.');
+                    return;
+                }
+            }
+
+
             await axios.put(`/api/users/profile`, { [fieldName]: userInfo[fieldName] }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
