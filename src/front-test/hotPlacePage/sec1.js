@@ -28,7 +28,7 @@ const Sec1 = ({ tourEvents }) =>{
             </div>
             <div className="img-list">
                 {tourEvents.slice(0, 8).map((event, index) => (
-                    <Link to={`/eventDetailPage/events/${event.contentid}/${event.contenttypeid}`}>
+                    <Link to={`/eventDetailPage/sigungu/${event.contentid}/${event.contenttypeid || event.contentTypeId}`}>
                         <div className="box" key={index}>
                             <div className="img"
                                  style={{

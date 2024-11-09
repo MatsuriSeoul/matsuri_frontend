@@ -157,3 +157,14 @@
 .signUp-wrapper .inputBox-checkPw.inputBox .text-field{
     margin-bottom: 0;
 }
+
+.signUp-wrapper .inputBox-pw .inputBox-headText{
+    display: flex;
+    align-items: flex-end;
+}
+.signUp-wrapper .inputBox-pw .inputBox-headText p{
+    margin-left: 16px;
+    font-size: 12px;
+    color: #FF7474;
+    font-weight: 800;
+}

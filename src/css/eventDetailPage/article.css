@@ -92,15 +92,16 @@
     background-color: #ffffff;
     width: 100%;
     top: 0;
+    cursor: pointer;
 }
-/*.edp-article .scroll-tab.active{*/
-/*    position: fixed;*/
-/*    width: calc(100% - 980px);*/
-/*    top: 90px;*/
-/*    z-index: 10;*/
-/*}*/
+.edp-article .scroll-tab.active{
+    position: fixed;
+    width: calc(100% - 903px);
+    top: 90px;
+    z-index: 10;
+}
 .edp-article .scroll-tab .tab{
-    width: calc(25% - 1px);
+    width: calc(33.3% - 1px);
     height: 100%;
     display: flex;
     justify-content: center;

@@ -1,0 +1,18 @@
+.like {
+    display: flex;
+    align-items: center; /* 하트와 숫자를 수직 중앙으로 맞추기 */
+}
+
+.like button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.like-count {
+    margin-left: 8px; /* 하트와 숫자 사이의 간격 설정 */
+    font-size: 16px;  /* 숫자의 크기 설정 */
+    line-height: 1;  /* 숫자 텍스트의 세로 간격을 설정하여 하트와 균형을 맞추기 */
+}

@@ -369,6 +369,7 @@
     font-size: 14px;
     font-weight: 400;
     color: #555555;
+    cursor: pointer;
 }
 .tp-article .pagination .num.active{
     background-color: #333333;

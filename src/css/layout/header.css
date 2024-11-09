@@ -1,6 +1,8 @@
 .header{
-    /*position: fixed;*/
+    position: fixed;
     z-index: 99;
+    width: 100vw;
+    top: 0;
 }
 .header .header-container{
     height: 90px;
@@ -15,7 +17,7 @@
     transition: 0.3s;
     overflow: hidden;
     display: flex;
-    padding-left: 824px;
+    padding-left: 840px;
 }
 .header .sub-header .list{
     display: flex;
@@ -54,8 +56,8 @@
 }
 
 .header .logo{
-    width: 126px;
-    height: 22px;
+    width: 129px;
+    height: 24px;
 }
 .header .navigation{
     display: flex;

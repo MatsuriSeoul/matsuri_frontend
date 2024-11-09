@@ -26,7 +26,7 @@ const Sec2 = ({foodEvents}) =>{
             </div>
             <div className="img-list">
                 {foodEvents.map((event, index) => (
-                    <Link to={`/eventDetailPage/food-events/${event.contentid}/${event.contenttypeid}`}>
+                    <Link to={`/eventDetailPage/sigungu/${event.contentid}/${event.contenttypeid || event.contentTypeId}`}>
                         <div className="box" key={index}>
                             <div className="img"
                                  style={{
