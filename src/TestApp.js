@@ -198,6 +198,22 @@ function TestApp() {
                         <Route path="/plan-result" component={AIPlanerResult} />    {/*AI여행 플래너*/}
                         <Route path="/api/comment/aiplaner/:category/:contentid/:contenttypeid/detail" component={AIPlanerCommentList}/>
 
+
+                        {/*AI*/}
+                        <Route path="/api/openai/prompt" component={openAITest}/>
+                        <Route path="/api/openai/personalized-recommendation/:userId" component={UserRecommendations}/>
+                        <Route path="/api/clicks/log" component={EventItem}/>
+                        <Route path="/api/clicks/personalized" component={UserRecommendations}/>
+                        <Route path="/api/clicks/personalized/recommendation" component={UserRecommendations}/>
+                        <Route path="/api/clicks/category-data" component={UserRecommendations}/>
+                        <Route path="/api/clicks/popular" component={PopularEvents}/>
+                        <Route path="/plan-section1" component={AIPlanerSection1} />    {/*AI여행 플래너*/}
+                        <Route path="/plan-section2" component={AIPlanerSection2} />    {/*AI여행 플래너*/}
+                        <Route path="/plan-section3" component={AIPlanerSection3} />    {/*AI여행 플래너*/}
+                        <Route path="/plan-result" component={AIPlanerResult} />    {/*AI여행 플래너*/}
+                        <Route path="/api/comment/aiplaner/:category/:contentid/:contenttypeid/detail" component={AIPlanerCommentList}/>
+                        <Route path="/api/openai/refresh-plan" component={AIPlanerResult}/>
+
                     </Switch>
                     <LoginForm
                         isOpen={isLoginOpen}

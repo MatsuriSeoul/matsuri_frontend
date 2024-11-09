@@ -63,7 +63,6 @@ const AIPlanerResult = () => {
                 duration,
             });
 
-            console.log("새로고침 응답 데이터:", response.data);
             const newPlanResult = response.data;
             setPlanResult(newPlanResult); // 새로운 계획 데이터로 상태 업데이트
 
@@ -77,7 +76,6 @@ const AIPlanerResult = () => {
                 return acc;
             }, {});
 
-            console.log("업데이트된 locations 데이터:", updatedLocations);
             setLocations(updatedLocations); // locations 상태 업데이트
         } catch (error) {
             console.error("여행 계획 새로고침 실패:", error);
@@ -91,7 +89,6 @@ const AIPlanerResult = () => {
             fetchDetail(selectedEvent.contentid, category);
             fetchIntro(selectedEvent.contentid, selectedEvent.contenttypeid, category);
             fetchImages(selectedEvent.contentid);
-            console.log("Updated planResult:", planResult);
         }
     }, [selectedEvent],[planResult]);
 
