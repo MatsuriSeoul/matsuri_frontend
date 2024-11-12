@@ -94,6 +94,9 @@ function MainNavigation() {
                     <li><Link to={'/freeAndPaidPage'}>freeAndPaidPage</Link></li>
                     <li><Link to={'/userInfo'}>myPage</Link></li>
                     <li><Link to={'/noticePage/1'}>NoticeDetailPage</Link></li>
+                    <li><Link to={'/aiPlannerPage'}>aiPlannerPage(디자인)</Link></li>
+                    <li><Link to={'/aiRecommendPage'}>aiRecommendPage(디자인)</Link></li>
+
                 </ul>
             </nav>
         </>

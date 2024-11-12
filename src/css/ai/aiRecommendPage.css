@@ -1,0 +1,448 @@
+.AIRP{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* recommend-list */
+.AIRP .recommend-list{
+    width: 20%;
+    background-color: #ffffff;
+    height: 100%;
+}
+.AIRP .recommend-list .main-title{
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    height: 60px;
+    border-bottom: 1px solid #cccccc;
+}
+.AIRP .recommend-list .main-title svg{
+    width: 32px;
+    height: 32px;
+    fill: #333333;
+}
+.AIRP .recommend-list .main-title .title{
+    color: #333333;
+    font-weight: 500;
+    font-size: 24px;
+    margin-left: 20px;
+}
+.AIRP .recommend-list .choose-category{
+    padding: 20px;
+    background-color: #8a96ff;
+}
+.AIRP .recommend-list .choose-category .user-title{
+    font-size: 22px;
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+.AIRP .recommend-list .choose-category .user-title b{
+    font-weight: 600;
+}
+.AIRP .recommend-list .choose-category .container{
+    background-color: #ffffff;
+    width: 100%;
+    border-radius: 10px;
+    padding: 16px;
+}
+.AIRP .recommend-list .choose-category .container .categorys{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px;
+}
+.AIRP .recommend-list .choose-category .container .categorys div{
+    background-color: #8a96ff;
+    width: 80px;
+    height: 80px;
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    padding: 2px;
+}
+.AIRP .recommend-list .choose-category .container .categorys p{
+    color: #ffffff;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+}
+.AIRP .recommend-list .choose-category .container .categorys div:nth-child(1){
+    margin-left: 0px;
+}
+.AIRP .recommend-list .choose-category .container .reload{
+    height: 50px;
+    width: 100%;
+    background-color: #8a96ff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.AIRP .recommend-list .choose-category .container .reload:hover{
+    background-color: #6776ff;
+}
+.AIRP .recommend-list .choose-category .container .reload p{
+    color: #ffffff;
+}
+.AIRP .recommend-list .choose-category .container .reload svg{
+    width: 24px;
+    height: 24px;
+    margin-left: 6px;
+}
+.AIRP .recommend-list .planner{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.AIRP .recommend-list .planner .day{
+    margin-bottom: 24px;
+}
+.AIRP .recommend-list .planner .day .title{
+    background-color: #6272ff;
+    width: 80px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 16px;
+}
+.AIRP .recommend-list .planner .day .title .arrow-right{
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent; /* 위쪽은 투명 */
+    border-bottom: 20px solid transparent; /* 아래쪽은 투명 */
+    border-left: 20px solid #6272ff; /* 왼쪽에 파란색 화살표 */
+    position: absolute;
+    top: 50%; /* 직사각형 높이 중앙 */
+    right: -20px; /* 직사각형의 오른쪽 끝에 위치 */
+    transform: translateY(-50%); /* 수직 중앙 정렬 */
+}
+
+.AIRP .recommend-list .planner .day .title h3{
+    font-size: 22px;
+    font-weight: 500;
+    color: #ffffff;
+}
+.AIRP .recommend-list .planner .day .plan{
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    margin-bottom: 16px;
+}
+.AIRP .recommend-list .planner .day .plan .num{
+    font-size: 20px;
+    width: 24px;
+    max-width: 24px;
+    font-weight: 500;
+    color: #333333;
+}
+.AIRP .recommend-list .planner .day .plan .img{
+    width: 80px;
+    min-width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    background-color: blanchedalmond;
+    margin-left: 16px;
+}
+.AIRP .recommend-list .planner .day .plan .plan-info{
+    margin-left: 10px;
+    width: 100%;
+}
+.AIRP .recommend-list .planner .day .plan .plan-info .category{
+    background-color: #6272ff;
+    padding: 4px 8px;
+    width: fit-content;
+    border-radius: 6px 6px 0px 0px;
+    margin-bottom: 8px;
+}
+.AIRP .recommend-list .planner .day .plan .plan-info .category p{
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+}
+.AIRP .recommend-list .planner .day .plan .plan-info .plan-title{
+    font-size: 18px;
+    color: #333333;
+    font-weight: 500;
+    margin-bottom: 2px;
+    white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;
+    width: 70%;
+}
+.AIRP .recommend-list .planner .day .plan .plan-info .addr{
+    font-size: 14px;
+    color: #666666;
+    font-weight: 300;
+    white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;
+    width: 70%;
+}
+.AIRP .recommend-list .wall{
+    width: 100%;
+    height: 40px;
+    background-color: #eeeeee;
+}
+
+
+/* map */
+.AIRP .map{
+    width: 80%;
+    background-color: rgb(167, 167, 167);
+    height: 100%;
+}
+.AIRP .detail-side{
+    position: absolute;
+    top: 0;
+    right: -20%;
+    width: 20%;
+    height: 100%;
+    background-color: #ffffff;
+    transition: 0.3s;   
+    overflow-y: auto;
+}
+
+.AIRP .detail-side::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비를 4px로 설정하여 얇게 */
+}
+
+/* 스크롤바 배경 */
+.AIRP .detail-side::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 스크롤바 배경 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+}
+
+/* 스크롤바 */
+.AIRP .detail-side::-webkit-scrollbar-thumb {
+    background: #888; /* 스크롤바 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+}
+
+/* 스크롤바에 마우스를 올렸을 때 */
+.AIRP .detail-side::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 마우스 오버 시 색상 변경 */
+}
+.AIRP .detail-side.active{
+    right: 0;
+}
+.AIRP .open-btn{
+    height: 70px;
+    width: 20px;
+    background-color: #dadada;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.AIRP .open-btn.active{
+    right: 20%;
+}
+.AIRP .open-btn svg{
+    fill: #000000;
+    width: 20px;
+    height: 20px;
+    transform: rotate(180deg);
+    transition: 0;
+}
+
+.AIRP .open-btn.active svg{
+    transform: rotate(0deg);
+}
+
+.AIRP .detail-side .container{
+    overflow: hidden;
+}
+.AIRP .detail-side .container .main-img{
+    width: 100%;
+    height: 267px;
+    background-color: blanchedalmond;
+}
+.AIRP .detail-side .container .info-box{
+    padding: 24px 20px 0px;
+    margin-top: -10px;
+    z-index: 1;
+    border-radius: 10px 10px 0 0;
+    background-color: #ffffff;
+}
+.AIRP .detail-side .container .arrow-title{
+    background: linear-gradient(#8791ffa1, #8791ff);
+    width: 100%;
+    height: 46px;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    border-radius: 6px 6px 0 0;
+}
+.AIRP .detail-side .container .arrow-title h3{
+    margin-top: -10px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+}
+/* .AIRP .detail-side .container .arrow-title{
+    background-color: #6272ff;
+    width: 80px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 6px 6px 0px 0px;
+}
+.AIRP .detail-side .container .arrow-title h3{
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+} */
+.AIRP .detail-side .container .info-title{
+    padding: 20px 20px 10px;
+}
+.AIRP .detail-side .container .info-title .category{
+    background-color: #6272ff;
+    padding: 4px 8px;
+    width: fit-content;
+    border-radius: 6px 6px 0px 0px;
+    margin-bottom: 8px;
+}
+.AIRP .detail-side .container .info-title .category p{
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+}
+.AIRP .detail-side .container .info-title .title{
+    font-size: 26px;
+    font-weight: 600;
+    white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;
+    width: fit-content;
+    padding-bottom: 1px;
+    border-bottom: 1px solid #333333;
+    max-width: 100%;
+    margin-bottom: 4px;
+}
+.AIRP .detail-side .container .info-content .content{
+    display: -webkit-box;      
+    -webkit-line-clamp: 10;     
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;   
+    color: #111111;
+    font-size: 16px;
+    font-weight: 400;
+}
+.AIRP .detail-side .container .info-title .addr{
+    font-size: 18px;
+    font-weight: 400;
+    color: #333333;
+    white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.AIRP .detail-side .container .sub-info .sub-info-list .list{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 6px;
+}
+.AIRP .detail-side .container .sub-info .sub-info-list .list .label{
+    width: 25%;
+    white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;
+    color: #111111;
+    font-weight: 500;
+    border-right: 1px solid #333333;
+    margin-right: 5%;
+}
+.AIRP .detail-side .container .sub-info .sub-info-list .list .value{
+    width: 70%;
+    white-space: nowrap;         
+    overflow: hidden;            
+    text-overflow: ellipsis;
+    color: #111111;
+    font-weight: 400;
+}
+.AIRP .detail-side .container .img-list{
+    width: 100%;
+    padding: 0px 20px;
+    height: 220px;
+    margin-top: 30px;
+}
+.AIRP .detail-side .container .img-list .mySwiper{
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.AIRP .detail-side .container .img-list .detail-img{
+    height: 100%;
+    background-color: #6272ff;
+}
+.AIRP .detail-side .container .img-list:hover .swiper-button{
+    opacity: 1;
+}
+.AIRP .detail-side .container .img-list .swiper-button{
+    width: 26px;
+    height: 26px;
+    background-color: #ffffff80;
+    border-radius: 50%;
+    opacity: 0;
+    transition: 0.2s;
+}
+.AIRP .detail-side .container .img-list .swiper-button-prev,
+.AIRP .detail-side .container .img-list .swiper-button-next{
+    color: #000000;
+}
+.AIRP .detail-side .container .img-list .swiper-button-prev::after,
+.AIRP .detail-side .container .img-list .swiper-button-next::after{
+    font-size: 16px;
+    font-weight: 600;
+}
+.AIRP .detail-side .container .img-list .swiper-button-prev::after{
+    margin-right: 2px;
+}
+.AIRP .detail-side .container .img-list .swiper-button-next::after{
+    margin-left: 2px;
+}
+.AIRP .detail-side .container .img-list .swiper-button-disabled{
+    display: none;
+}
+.AIRP .detail-side .container .review-list{
+    margin-bottom: 40px;
+}
+.AIRP .detail-side .container .review-list .review{
+    margin-left: 16px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+    color: #111111;
+    font-weight: 500;
+}
+.AIRP .detail-side .container .review-list .review::before{
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #111111;
+    position: absolute;
+    left: -10px;
+    top: 25%;
+}

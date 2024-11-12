@@ -1,0 +1,124 @@
+.aiPlannerPage{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 180px;
+    background: linear-gradient(#442fffb9, #7f2fffb2);
+}
+.aiPlannerPage .title-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.aiPlannerPage .title-box .title{
+    color: #ffffff;
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+.aiPlannerPage .title-box .page-num{
+    display: flex;
+    align-items: center;
+    margin-bottom: 60px;
+}
+.aiPlannerPage .title-box .page-num .num{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #999999;
+    background-color: #99999941;
+    transition: 0.3s;
+}
+.aiPlannerPage .title-box .page-num .num p{
+    color: #d4d4d4;
+    font-size: 18px;
+    font-weight: 500;
+}
+.aiPlannerPage .title-box .page-num .line{
+    width: 40px;
+    border-bottom: 1px dashed #999999;
+    transition: 0.3s;
+}
+.aiPlannerPage .title-box .page-num .line.active{
+    border-bottom: 1px dashed #ffffff;
+}
+.aiPlannerPage .title-box .page-num .num.active{
+    border: 2px solid #ffffff;
+    background-color: #ffffff41;
+}
+.aiPlannerPage .title-box .page-num .num.active p{
+    color: #ffffff;
+}
+.aiPlannerPage .title-box .instructions{
+    font-weight: 500;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.aiPlannerPage .sec{
+    display: none;
+    width: 40%;
+    height: 150px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+.aiPlannerPage .sec.active{
+    display: flex;
+}
+.aiPlannerPage .sec .name{
+    width: calc(20% - 12px);
+    padding: 6px 0px;
+    margin-right: 15px;
+    border: 1px solid #ffffff77;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+.aiPlannerPage .sec .name:nth-child(5n){
+    margin-right: 0;
+}
+.aiPlannerPage .sec.categorySec .name:nth-child(8){
+    margin-right: 0;
+}
+.aiPlannerPage .sec .name p{
+    text-align: center;
+    color: #ffffff77;
+    font-weight: 500;
+}
+.aiPlannerPage .sec .name.active{
+    border: 1px solid #ffffff;
+}
+.aiPlannerPage .sec .name.active p{
+    color: #ffffff;
+}
+.aiPlannerPage .navigation-box{
+    margin-top: 80px;
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+.aiPlannerPage .navigation-box .next-btn{
+    margin-left: auto;
+}
+.aiPlannerPage .navigation-box .btn{
+    padding: 8px 20px;
+    background-color: #ffffffd0;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+    cursor: pointer;
+    display: block;
+}
+.aiPlannerPage .navigation-box .btn.active{
+    display: none;
+}
+
+

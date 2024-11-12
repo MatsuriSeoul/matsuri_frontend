@@ -78,6 +78,8 @@ import InQuiryView from "./front-test/inQuiry/inquiryView";
 import IQWrite from "./front-test/inQuiry/inquiryWrite";
 import OngoingUpComingPage from "./front-test/eventInfo/OngoingUpComingPage";
 import AIPlanerCommentList from "./AIPlanerCommentList";
+import AIPlannerPage from "./front-test/aiPlannerPage";
+import AIRecommendPage from "./front-test/aiRecommendPage";
 
 
 function TestApp() {
@@ -181,6 +183,8 @@ function TestApp() {
                         <Route path="/ongoingUpComingPage/:moreCategory?" component={OngoingUpComingPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
                         <Route path="/userInfo" component={UserInfo} />
+                        <Route path="/aiPlannerPage" component={AIPlannerPage} />
+                        <Route path="/aiRecommendPage" component={AIRecommendPage} />
 
                         <Route path="/:category/events/:contentid/:contenttypeid/detail" component={EventDetail} />
 
