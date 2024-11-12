@@ -18,7 +18,7 @@ const KakaoMapPlaner = ({ locations, selectedEvent }) => {
                 const colors = {
                     '1일차': '#0077FF',
                     '2일차': '#D2691E',
-                    '3일차': '#32CD32',
+                    '3일차': '#9d85e1',
                 };
 
                 // 일차별로 데이터 그룹화 및 선 그리기
@@ -30,14 +30,21 @@ const KakaoMapPlaner = ({ locations, selectedEvent }) => {
                         linePath.push(markerPosition);
                         bounds.extend(markerPosition);
 
+                        // 기본 아이콘을 빈 이미지로 설정
+                        const emptyImage = new window.kakao.maps.MarkerImage(
+                            "", // 이미지 URL 비우기
+                            new window.kakao.maps.Size(1, 1), // 1x1 크기의 이미지로 설정
+                            { offset: new window.kakao.maps.Point(0, 0) } // 아이콘 크기 설정
+                        );
+
                         // 마커 생성
-                        const marker = new window.kakao.maps.Marker({ position: markerPosition, map });
+                        const marker = new window.kakao.maps.Marker({ position: markerPosition, map, image: emptyImage,});
 
                         // 번호 표시 오버레이
                         new window.kakao.maps.CustomOverlay({
                             map,
                             position: marker.getPosition(),
-                            content: `<div style="background:#fff;border:1px solid #000;border-radius:3px;padding:2px;font-size:12px;text-align:center;width:24px;height:24px">${event.index}</div>`,
+                            content: `<div class="map-num" style="background-color: ${colors[day]};">${event.index}</div>`,
                         });
                     });
 
@@ -84,12 +91,12 @@ const KakaoMapPlaner = ({ locations, selectedEvent }) => {
                 borderRadius: '8px',
                 boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.3)',
                 fontSize: '16px',
-                zIndex: 1000,
+                zIndex: 1,
                 lineHeight: '1.8',
             }}>
                 <p><span style={{ color: '#0077FF', fontSize: '20px' }}>■</span> 1일차</p>
                 <p><span style={{ color: '#D2691E', fontSize: '20px' }}>■</span> 2일차</p>
-                <p><span style={{ color: '#32CD32', fontSize: '20px' }}>■</span> 3일차</p>
+                <p><span style={{ color: '#9d85e1', fontSize: '20px' }}>■</span> 3일차</p>
             </div>
         </div>
     );

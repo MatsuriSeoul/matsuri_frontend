@@ -13,11 +13,11 @@ const AIPlanerCommentList = ({ category, contentid, contenttypeid }) => {
                 if (response.data && Array.isArray(response.data)) {
                     setComments(response.data);
                 } else {
-                    console.warn("Unexpected response format or empty data:", response.data);
+
                 }
             }
         } catch (error) {
-            console.error('Failed to fetch comments:', error);
+
         }
     };
 
@@ -26,10 +26,9 @@ const AIPlanerCommentList = ({ category, contentid, contenttypeid }) => {
         fetchComments();
     }, [category, contentid, contenttypeid]);
     return (
-        <div className="comment-list-container">
-            <h2>댓글 목록</h2>
+        <div className="comment-list-container info-box">
             {comments.length === 0 ? (
-                <p>아직 댓글이 없어요</p>
+                <p className='txt-x'>아직 댓글이 없어요</p>
             ) : (
                 comments.map((comment) => (
                     <div key={comment.id} className="comment-box">

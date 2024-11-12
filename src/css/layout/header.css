@@ -3,6 +3,10 @@
     z-index: 99;
     width: 100vw;
     top: 0;
+    display: block;
+}
+.header.none{
+    display: none;
 }
 .header .header-container{
     height: 90px;

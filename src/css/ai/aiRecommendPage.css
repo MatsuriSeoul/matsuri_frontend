@@ -11,6 +11,27 @@
     width: 20%;
     background-color: #ffffff;
     height: 100%;
+    overflow-y: auto;
+}
+.AIRP .recommend-list::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비를 4px로 설정하여 얇게 */
+}
+
+/* 스크롤바 배경 */
+.AIRP .recommend-list::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 스크롤바 배경 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+}
+
+/* 스크롤바 */
+.AIRP .recommend-list::-webkit-scrollbar-thumb {
+    background: #888; /* 스크롤바 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+}
+
+/* 스크롤바에 마우스를 올렸을 때 */
+.AIRP .recommend-list::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 마우스 오버 시 색상 변경 */
 }
 .AIRP .recommend-list .main-title{
     display: flex;
@@ -151,6 +172,7 @@
     border-radius: 10px;
     background-color: blanchedalmond;
     margin-left: 16px;
+    overflow: hidden;
 }
 .AIRP .recommend-list .planner .day .plan .plan-info{
     margin-left: 10px;
@@ -192,6 +214,33 @@
     height: 40px;
     background-color: #eeeeee;
 }
+.AIRP .recommend-list .AIcomment .title{
+    background-color: #6272ff;
+    width: 130px;
+    color: #ffffff;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 16px;
+    margin-top: 40px;
+}
+.AIRP .recommend-list .AIcomment .title .arrow-right{
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent; /* 위쪽은 투명 */
+    border-bottom: 20px solid transparent; /* 아래쪽은 투명 */
+    border-left: 20px solid #6272ff; /* 왼쪽에 파란색 화살표 */
+    position: absolute;
+    top: 50%; /* 직사각형 높이 중앙 */
+    right: -20px; /* 직사각형의 오른쪽 끝에 위치 */
+    transform: translateY(-50%); /* 수직 중앙 정렬 */
+}
+.AIRP .recommend-list .AIcomment .comment{
+    padding: 0px 20px;
+    margin-bottom: 60px;
+}
 
 
 /* map */
@@ -209,6 +258,7 @@
     background-color: #ffffff;
     transition: 0.3s;   
     overflow-y: auto;
+    z-index: 2;
 }
 
 .AIRP .detail-side::-webkit-scrollbar {
@@ -233,6 +283,7 @@
 }
 .AIRP .detail-side.active{
     right: 0;
+    z-index: 2;
 }
 .AIRP .open-btn{
     height: 70px;
@@ -248,6 +299,7 @@
     justify-content: center;
     transition: 0.3s;
     cursor: pointer;
+    z-index: 2;
 }
 .AIRP .open-btn.active{
     right: 20%;
@@ -363,7 +415,6 @@
     margin-bottom: 6px;
 }
 .AIRP .detail-side .container .sub-info .sub-info-list .list .label{
-    width: 25%;
     white-space: nowrap;         
     overflow: hidden;            
     text-overflow: ellipsis;
@@ -371,6 +422,10 @@
     font-weight: 500;
     border-right: 1px solid #333333;
     margin-right: 5%;
+    min-width: 30%;
+    width: 30%;
+    font-size: 14px;
+    letter-spacing: -0.07em;
 }
 .AIRP .detail-side .container .sub-info .sub-info-list .list .value{
     width: 70%;
@@ -379,6 +434,7 @@
     text-overflow: ellipsis;
     color: #111111;
     font-weight: 400;
+    font-size: 14px;
 }
 .AIRP .detail-side .container .img-list{
     width: 100%;
@@ -401,7 +457,7 @@
 .AIRP .detail-side .container .img-list .swiper-button{
     width: 26px;
     height: 26px;
-    background-color: #ffffff80;
+    background-color: rgba(255, 255, 255, 0.27);
     border-radius: 50%;
     opacity: 0;
     transition: 0.2s;
@@ -434,15 +490,61 @@
     border-bottom: 1px solid #dddddd;
     position: relative;
     color: #111111;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.AIRP .detail-side .container .review-list .review::before{
+.AIRP .detail-side .container .review-list a{
+    position: relative;
+}
+.AIRP .detail-side .container .review-list a::before{
     content: '';
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background-color: #111111;
     position: absolute;
-    left: -10px;
+    left: 0;
     top: 25%;
+}
+.AIRP .txt-x{
+    text-align: center;
+}
+
+.AIRP .comment-list-container{
+    margin-bottom: 60px;
+}
+.AIRP .comment-box{
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cbcbcb;
+}
+.AIRP .comment-box .comment-content{
+    margin-bottom: 2px;
+}
+.AIRP .comment-box .comment-content p{
+    font-weight: 400;
+    color: #111111;
+}
+.AIRP .comment-box .comment-info{
+    font-size: 14px;
+    color: #7f7f7f;
+}
+.AIRP .comment-box .comment-info span{
+    font-size: 14px;
+    font-weight: 300;
+    color: #7f7f7f;
+}
+.map-num{
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 24px;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #9d85e1;
 }

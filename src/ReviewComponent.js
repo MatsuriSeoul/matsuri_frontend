@@ -40,22 +40,20 @@ const ReviewComponent = ({ query }) => {
     };
 
     return (
-        <div className='blog-container'>
-            <h2 className='main-title'>🔥 관련 리뷰 🔥</h2>
+        <div className='info-box review-list'>
             {reviews.length > 0 ? (
-                <div className='blog'>
+                <div>
                     {reviews.slice(0, 8).map((review, index) => (
                     <a href="#"
                        onClick={() => handleLinkClick(review.link)}
-                       rel="noopener noreferrer"
-                       className='blog-recommend'>
-                            <h3 className='title'>{review.title}</h3>
+                       rel="noopener noreferrer">
+                            <h3 className='review'>{review.title}</h3>
                     </a>
                     ))}
                 </div>
 
             ) : (
-                <p>리뷰 데이터를 불러올 수 없습니다.</p>
+                <p className='txt-x'>리뷰 데이터를 불러올 수 없습니다.</p>
             )}
         </div>
     );

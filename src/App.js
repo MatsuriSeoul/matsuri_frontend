@@ -80,6 +80,8 @@ import OngoingUpComingPage from "./front-test/eventInfo/OngoingUpComingPage";
 import AIPlanerCommentList from "./AIPlanerCommentList";
 import Header from "./front-test/layout/header";
 import LoginPage from "./front-test/login/LoginPage";
+import AIPlannerPage from "./front-test/aiPlannerPage";
+import AIRecommendPage from "./front-test/aiRecommendPage";
 
 
 function App() {
@@ -116,7 +118,10 @@ function App() {
                         <Route path="/ongoingUpComingPage/:moreCategory?" component={OngoingUpComingPage} />
                         <Route path="/freeAndPaidPage/:moreCategory?" component={FreeAndPaidPage} />
                         <Route path="/userInfo" component={UserInfo} />
+                        <Route path="/aiPlannerPage" component={AIPlannerPage} />
+                        <Route path="/aiRecommendPage" component={AIRecommendPage} />
                         <Route path="/" component={MainPage} />
+
 
                         <Route path="/:category/events/:contentid/:contenttypeid/detail" component={EventDetail} />
 
