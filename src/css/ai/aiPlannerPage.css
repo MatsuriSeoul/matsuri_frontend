@@ -82,7 +82,7 @@
 }
 .aiPlannerPage .sec .name{
     width: calc(20% - 12px);
-    padding: 6px 0px;
+    padding: 8px 0px;
     margin-right: 15px;
     border: 1px solid #ffffff77;
     border-radius: 20px;
@@ -99,6 +99,7 @@
     text-align: center;
     color: #ffffff77;
     font-weight: 500;
+    font-size: 18px;
 }
 .aiPlannerPage .sec .name.active{
     border: 1px solid #ffffff;

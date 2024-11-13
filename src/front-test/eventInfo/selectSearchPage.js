@@ -199,9 +199,9 @@ const SelectSearchPage = () =>{
 
         handleSearch(areaselected.value, categoryselected.value, dateselected.value);
 
-        setDateSelected({ value: '', label: '전체' });
-        setAreaSelected(null);
-        setCategorySelected(null);
+        // setDateSelected({ value: '', label: '전체' });
+        // setAreaSelected(null);
+        // setCategorySelected(null);
     };
 
     const onChangeDateSelect = (option) => {

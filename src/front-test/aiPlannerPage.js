@@ -13,6 +13,9 @@ const AIPlannerPage = () =>{
     const days = [
         '당일', '1박 2일', '2박 3일'
     ]
+    const sectionname = [
+        '지역', '카테고리', '기간'
+    ]
 
     const [activeSection, setActiveSection] = useState(0);
     const [daysActiveIndex, setDaysActiveIndex] = useState(null);
@@ -70,7 +73,7 @@ const AIPlannerPage = () =>{
                 if(activeIndices.length < 2){
                     alert('카테고리는 최소 2개 이상 선택해야 합니다.')
                 }else{
-                    alert('원하는 엑티비티을 선택해주세요.')
+                    alert('원하는 카테고리을 선택해주세요.')
                 }
 
             }
@@ -147,14 +150,14 @@ const AIPlannerPage = () =>{
                             </div>
                             <div className={`line ${activeSection >= 1 ? 'active' : ''}`}></div>
                             <div className={`num category ${activeSection >= 1 ? 'active' : ''}`}>
-                                <p>엑티비티</p>
+                                <p>카테고리</p>
                             </div>
                             <div className={`line ${activeSection >= 2 ? 'active' : ''}`}></div>
                             <div className={`num days ${activeSection >= 2 ? 'active' : ''}`}>
                                 <p>기간</p>
                             </div>
                         </div>
-                        <h3 className="instructions">원하는 지역을 선택 해주세요</h3>
+                        <h3 className="instructions">원하는 {sectionname[activeSection]}을 선택 해주세요</h3>
                     </div>
 
 

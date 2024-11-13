@@ -36,12 +36,16 @@
 }
 
 .login-container .logo{
-    text-align: center;
-    font-size: 40px;
-    font-weight: 900;
+    height: 90px;
+    margin: 0 auto;
+    width: 260px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
-.login-container .logo b{
-    font-size: 46px;
+.login-container .logo img{
+    width: 260px;
+    height: 260px;
 }
 .login-container .login-wrapper .topBox{
     display: flex;

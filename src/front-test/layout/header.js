@@ -64,22 +64,24 @@ const Header = ({toggleModal}) => {
     };
   }, []);
     return (
-        <header className={`header ${isActive ? 'active' : ''} ${isHovered ? 'on' : ''} ${pageName === 'aiPlannerPage' || pageName === 'aiRecommendPage' || pageName === 'userInfo' ? 'none' : ''}`}
+        <header className={`header ${isActive ? 'active' : ''} ${isHovered ? 'on' : ''} ${pageName === 'aiPlannerPage' || pageName === 'aiRecommendPage' ? 'none' : ''}`}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}>
             <div className='header-container'>
                 <Link to={'/'}>
                     <div className="logo">
-                        <img src="/img/main_logo.PNG" alt="Main Logo" />
+                        <img src="/img/mainlogo.png" alt="Main Logo" />
                     </div>
                 </Link>
                 <nav className="navigation">
-                    <Link to={'/'}><p className={`col ${pageName === 'mainpage' ? 'active' : ''}`}>홈</p></Link>
-                    <Link to={'/themePage'}><p className={`col ${themepageName === 'themePage' ? 'active' : ''}`}>테마</p></Link>
-                    <Link to={'/areaPage/서울'}><p className={`col ${pageName === 'areaPage' ? 'active' : ''}`}>지역</p></Link>
-                    <Link to={'/selectSearchPage'}><p className={`col ${pageName === 'selectSearchPage' ? 'active' : ''}`}>행사정보</p></Link>
+                    <Link to={'/'}><p className={`col ${pageName === '' ? 'active' : ''}`}>홈</p></Link>
+                    <Link to={'/themePage/관광지'}><p className={`col ${themepageName === 'themePage' ? 'active' : ''}`}>테마</p></Link>
+                    <Link to={'/areaPage/서울'}><p
+                        className={`col ${pageName === 'areaPage' || pageName === 'hotPlacePage' ? 'active' : ''}`}>지역</p>
+                    </Link>
+                    <Link to={'/selectSearchPage'}><p className={`col ${pageName === 'selectSearchPage' || pageName === 'freeAndPaidPage' || pageName === 'ongoingUpComingPage' ? 'active' : ''}`}>행사정보</p></Link>
                     <Link to={'/aiPlannerPage'}><p className={`col ${pageName === 'aaa' ? 'active' : ''}`}>AI플래너</p></Link>
-                    <Link to={'/noticePage'}><p className={`col lastcol ${pageName === 'noticePage' ? 'active' : ''}`}>공지사항</p></Link>
+                    <Link to={'/noticePage'}><p className={`col lastcol ${pageName === 'noticePage' || pageName === 'inQuiryPage' ? 'active' : ''}`}>공지사항</p></Link>
                 </nav>
                 <div className="right">
                     {/*<form className="search">*/}

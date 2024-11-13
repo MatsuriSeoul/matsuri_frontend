@@ -115,10 +115,10 @@ const LoginForm = ({ closeModal }) => {
     return(
         <form className='login-form' onSubmit={handleLogin}>
             <div className="logo">
-                대한민국 <b>핫</b>!스팟
+                <img src="/img/mainlogo.png" alt="Main Logo"/>
             </div>
             <div className="login-wrapper">
-                <div className="topBox">
+            <div className="topBox">
                     <div className="loginIcon"
                          style={{
                              backgroundImage: `url(/img/icon/login.png)`,
