@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {Link, useHistory, useLocation} from 'react-router-dom';
 
-import '../../css/layout/header.css';
 import AuthContext from "../../AuthContext";
 import axios from "axios";
+import '../../css/layout/header.css';
 
 const Header = ({toggleModal}) => {
     //로그인 관련 로직
@@ -64,7 +64,7 @@ const Header = ({toggleModal}) => {
     };
   }, []);
     return (
-        <header className={`header ${isActive ? 'active' : ''} ${isHovered ? 'on' : ''}`}
+        <header className={`header ${isActive ? 'active' : ''} ${isHovered ? 'on' : ''} ${pageName === 'aiPlannerPage' || pageName === 'aiRecommendPage' || pageName === 'userInfo' ? 'none' : ''}`}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}>
             <div className='header-container'>
@@ -78,7 +78,7 @@ const Header = ({toggleModal}) => {
                     <Link to={'/themePage'}><p className={`col ${themepageName === 'themePage' ? 'active' : ''}`}>테마</p></Link>
                     <Link to={'/areaPage/서울'}><p className={`col ${pageName === 'areaPage' ? 'active' : ''}`}>지역</p></Link>
                     <Link to={'/selectSearchPage'}><p className={`col ${pageName === 'selectSearchPage' ? 'active' : ''}`}>행사정보</p></Link>
-                    <Link to={'/plan-section1'}><p className={`col ${pageName === 'aaa' ? 'active' : ''}`}>나의 행사</p></Link>
+                    <Link to={'/aiPlannerPage'}><p className={`col ${pageName === 'aaa' ? 'active' : ''}`}>AI플래너</p></Link>
                     <Link to={'/noticePage'}><p className={`col lastcol ${pageName === 'noticePage' ? 'active' : ''}`}>공지사항</p></Link>
                 </nav>
                 <div className="right">

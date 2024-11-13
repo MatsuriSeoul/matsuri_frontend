@@ -11,15 +11,6 @@ import ChangePw from "./changePw";
 import {Navigation} from "swiper/modules";
 
 
-const SlideTest = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
-  ];
-
 const UserInfo = () => {
     const [userInfo, setUserInfo] = useState({
         userName: '',
