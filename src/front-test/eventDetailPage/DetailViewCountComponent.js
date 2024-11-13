@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const DetailViewComponent = () => {
+const DetailViewCountComponent = () => {
     const { contenttypeid, contentid } = useParams();
     const [viewCount, setViewCount] = useState(0);
     const token = localStorage.getItem("token");
@@ -45,4 +45,4 @@ const DetailViewComponent = () => {
     );
 };
 
-export default DetailViewComponent;
+export default DetailViewCountComponent;
