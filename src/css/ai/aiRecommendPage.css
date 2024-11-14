@@ -474,6 +474,7 @@
 }
 .AIRP .detail-side .container .img-list:hover .swiper-button{
     opacity: 1;
+    cursor: pointer;
 }
 .AIRP .detail-side .container .img-list .swiper-button{
     width: 26px;
