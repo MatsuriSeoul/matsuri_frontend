@@ -13,11 +13,11 @@ const Banner = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
 
-  const [currentSlide, setCurrentSlide] = useState(1);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const swiperRef = useRef(null);
   const [autoplaying, setAutoplaying] = useState(true);
 
-  const currentEvent = events[currentSlide - 1]; //slide에 맞는 txt 뿌려주기 위한 변수
+  let currentEvent = events[currentSlide - 1]; //slide에 맞는 txt 뿌려주기 위한 변수
 
   const slicenum = 7; //임시로 가져오는 갯수 지정
 
@@ -65,6 +65,7 @@ const Banner = () => {
           // 배열을 무작위로 섞어 설정
           const shuffledEvents = response.data.sort(() => Math.random() - 0.5);
           setEvents(shuffledEvents);
+          currentEvent = shuffledEvents[0]; //수정된부분
         } else {
           setEvents([]);
         }
