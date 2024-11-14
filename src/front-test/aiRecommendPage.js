@@ -13,6 +13,31 @@ import KakaoMapPlaner from "../KakaoMapPlaner";
 import ReviewComponent from "../ReviewComponent";
 import AIPlanerCommentList from "../AIPlanerCommentList";
 
+
+const cleanText = (text) => {
+    return text
+        .replace(/\n/g, ' ')      // \n을 공백으로 치환
+        .replace(/\*/g, '')       // *을 제거
+        .replace(/:/g, '')
+        .replace(/-/g, '');
+};
+
+// 날짜별로 일정을 추출하는 함수
+const getScheduleForDay = (text, day) => {
+    const cleantext = cleanText(text);
+    const regex = new RegExp(`(${day})(.*?)(?=(?:1일차|2일차|3일차|$))`, 's');  // 날짜별로 내용 추출
+    const match = cleantext.match(regex);
+    return match ? match[2].trim() : '';
+};
+
+// 특정 날짜의 세부 항목 (오전, 점심, 오후, 저녁) 추출
+const getScheduleForPartOfDay = (text, day, partOfDay) => {
+    const daySchedule = getScheduleForDay(text, day); // 해당 날짜에 맞는 전체 일정을 가져옴
+    const regex = new RegExp(`${partOfDay}(.*?)(?=(?:오전|점심|오후|저녁|$))`, 's'); // 오전, 점심, 오후, 저녁을 기준으로 추출하는 정규식
+    const match = daySchedule.match(regex);
+    return match ? match[1].trim() : ''; // 해당 시간대의 일정을 반환
+};
+
 const AIRecommendPage = () => {
     const [activeSidebar, setActiveSidebar] = useState(false);
 
@@ -28,6 +53,24 @@ const AIRecommendPage = () => {
     const [intro, setIntro] = useState(null);
     const [images, setImages] = useState([]);
     const [locations, setLocations] = useState({}); // 변경된 locations 상태 변수
+
+    const scheduleForDays = ['1일차', '2일차', '3일차']
+        .map(day => ({
+            day,
+            morning: getScheduleForPartOfDay(planResult.aiResponse, day, '오전'),
+            lunch: getScheduleForPartOfDay(planResult.aiResponse, day, '점심'),
+            afternoon: getScheduleForPartOfDay(planResult.aiResponse, day, '오후'),
+            evening: getScheduleForPartOfDay(planResult.aiResponse, day, '저녁')
+        }))
+        // 일정이 존재하는 일차만 필터링
+        .filter(content => content.morning || content.lunch || content.afternoon || content.evening);
+
+
+    console.log('planResult', planResult);
+
+    console.log('planResult.aiResponse', planResult.aiResponse);
+
+    console.log('scheduleForDays', scheduleForDays);
 
     // contenttypeid와 카테고리명을 매핑하는 맵
     const categoryMap = {
@@ -700,6 +743,8 @@ const AIRecommendPage = () => {
         };
         fetchData();
     }, [token]);
+
+
     return (
         <div className="AIRP">
             <div className="recommend-list">
@@ -769,15 +814,34 @@ const AIRecommendPage = () => {
                 </div>
                 <div className="wall"></div>
                 <div className="AIcomment">
-                    <div className="title">
-                        <div className="arrow-right"></div>
-                        <h3>AI 추천 메시지</h3>
-                    </div>
-                    <div className='comment'>
-                        <p>
-                            {planResult.aiResponse}
-                        </p>
-                    </div>
+                    <h3 className='container-title'>AI 추천 메시지</h3>
+                    {scheduleForDays.map((content, index) => (
+                        <li key={index} className='comment'>
+                            <div className="title">
+                                <div className="arrow-right"></div>
+                                <h3>{`${index + 1}일차`}</h3>
+                            </div>
+                            <div className='comment-box'>
+                                {content.morning && <div className='comment-text'><strong>오전:</strong><p>{content.morning}</p></div>}
+                                {content.lunch && <div className='comment-text'><strong>점심:</strong><p>{content.lunch}</p></div>}
+                                {content.afternoon && <div className='comment-text'><strong>오후:</strong><p>{content.afternoon}</p></div>}
+                                {content.evening && <div className='comment-text'><strong>저녁:</strong><p>{content.evening}</p></div>}
+                            </div>
+                        </li>
+                    ))}
+                    {/*{parsedPlan.slice(1).map((day, index) => (*/}
+                    {/*    <div key={index} className='comment'>*/}
+                    {/*        <div className="title">*/}
+                    {/*            <div className="arrow-right"></div>*/}
+                    {/*            <h3>{day.title}</h3>*/}
+                    {/*        </div>*/}
+                    {/*        <div className='comment-box'>*/}
+                    {/*            {day.morning && <p><b>-오전:</b> {day.morning}</p>}*/}
+                    {/*            {day.lunch && <p><b>-점심:</b> {day.lunch}</p>}*/}
+                    {/*            {day.afternoon && <p><b>-오후:</b> {day.afternoon}</p>}*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*))}*/}
                 </div>
             </div>
 
@@ -867,4 +931,5 @@ const AIRecommendPage = () => {
         </div>
     )
 }
+
 export default AIRecommendPage;

@@ -214,9 +214,19 @@
     height: 40px;
     background-color: #eeeeee;
 }
+.AIRP .recommend-list .AIcomment{
+    margin-bottom: 40px;
+}
+.AIRP .recommend-list .AIcomment .container-title{
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    text-align: center;
+}
 .AIRP .recommend-list .AIcomment .title{
     background-color: #6272ff;
-    width: 130px;
+    width: 80px;
     color: #ffffff;
     height: 40px;
     display: flex;
@@ -224,7 +234,6 @@
     align-items: center;
     position: relative;
     margin-bottom: 16px;
-    margin-top: 40px;
 }
 .AIRP .recommend-list .AIcomment .title .arrow-right{
     width: 0;
@@ -238,8 +247,20 @@
     transform: translateY(-50%); /* 수직 중앙 정렬 */
 }
 .AIRP .recommend-list .AIcomment .comment{
+    margin-bottom: 24px;
+}
+.AIRP .recommend-list .AIcomment .comment-box{
     padding: 0px 20px;
-    margin-bottom: 60px;
+    border: none;
+}
+.AIRP .recommend-list .AIcomment .comment-box .comment-text{
+    display: flex;
+    margin-bottom: 10px;
+}
+.AIRP .recommend-list .AIcomment .comment-box .comment-text strong{
+    margin-right: 8px;
+    text-wrap: nowrap;
+    width: 32px;
 }
 
 
