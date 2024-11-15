@@ -21,7 +21,7 @@ const MoreArticle = ({ongoing, upComing}) => {
                         <Link to={event.svcid ? `/eventDetailPage/seoul-events/${event.svcid}/seoul-events` : `/eventDetailPage/gyeonggi-events/${event.id}/gyeonggi-events`} className='box'>
                             <div className="img"
                                  style={{
-                                     backgroundImage: `url(${event.imageUrl || event.imgurl || '/img/default_img.jpeg'})`,
+                                     backgroundImage: `url(${(event.imageUrl && event.imageUrl !== '') || (event.imgurl && event.imgurl !== '') ? event.imageUrl || event.imgurl : '/img/default_img.jpeg'})`,
                                      backgroundSize: 'cover',
                                      backgroundPosition: 'center',
                                  }}
@@ -65,7 +65,7 @@ const MoreArticle = ({ongoing, upComing}) => {
 
                                 <div className="img"
                                      style={{
-                                         backgroundImage: `url(${event.imageUrl || event.imgurl || '/img/default_img.jpeg'})`,
+                                         backgroundImage: `url(${(event.imageUrl && event.imageUrl !== '') || (event.imgurl && event.imgurl !== '') ? event.imageUrl || event.imgurl : '/img/default_img.jpeg'})`,
                                          backgroundSize: 'cover',
                                          backgroundPosition: 'center',
                                      }}

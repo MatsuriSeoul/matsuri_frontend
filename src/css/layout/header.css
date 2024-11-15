@@ -118,6 +118,7 @@
 .header .right{
     display: flex;
     align-items: center;
+    width: 115.4px;
 }
 .header .right .search{
     position: relative;

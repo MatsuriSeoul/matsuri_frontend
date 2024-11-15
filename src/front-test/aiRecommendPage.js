@@ -25,7 +25,7 @@ const cleanText = (text) => {
 // 날짜별로 일정을 추출하는 함수
 const getScheduleForDay = (text, day) => {
     const cleantext = cleanText(text);
-    const regex = new RegExp(`(${day})(.*?)(?=(?:1일차|2일차|3일차|$))`, 's');  // 날짜별로 내용 추출
+    const regex = new RegExp(`(${day})(.*?)(?=(?:1일차|2일차|3일차|Day 1|Day 2|Day 3|$))`, 's');  // 날짜별로 내용 추출
     const match = cleantext.match(regex);
     return match ? match[2].trim() : '';
 };
@@ -54,7 +54,7 @@ const AIRecommendPage = () => {
     const [images, setImages] = useState([]);
     const [locations, setLocations] = useState({}); // 변경된 locations 상태 변수
 
-    const scheduleForDays = ['1일차', '2일차', '3일차']
+    const scheduleForDays = ['1일차', '2일차', '3일차', 'Day 1', 'Day 2', 'Day 3']
         .map(day => ({
             day,
             morning: getScheduleForPartOfDay(planResult.aiResponse, day, '오전'),
