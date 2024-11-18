@@ -78,23 +78,23 @@
     color: #ffffff;
 }
 .noticepage .article .post-list .thead .th-title.th1{
-    min-width: 122px;
+    min-width: 10%;
     text-align: center;
 }
 .noticepage .article .post-list .thead .th-title.th2{
-    min-width: 515px;
+    min-width: 50%;
     text-align: center;
 }
 .noticepage .article .post-list .thead .th-title.th3{
-    min-width: 190px;
+    min-width: 18%;
     text-align: center;
 }
 .noticepage .article .post-list .thead .th-title.th4{
-    min-width: 136px;
+    min-width: 12%;
     text-align: center;
 }
 .noticepage .article .post-list .thead .th-title.th5{
-    min-width: 136px;
+    min-width: 10%;
     text-align: center;
 }
 
@@ -112,22 +112,22 @@
 }
 .noticepage .article .post-list .post .division{
     font-weight: 500;
-    min-width: 122px;
+    min-width: 10%;
     text-align: center;
 }
 .noticepage .article .post-list .post .post-title{
-    min-width: 515px;
+    min-width: 50%;
 }
 .noticepage .article .post-list .post .author{
-    min-width: 190px;
+    min-width: 18%;
     text-align: center;
 }
 .noticepage .article .post-list .post .creation-date{
-    min-width: 136px;
+    min-width: 12%;
     text-align: center;
 }
 .noticepage .article .post-list .post .viewcnt{
-    min-width: 136px;
+    min-width: 10%;
     text-align: center;
 }
 .noticepage .article .pagination{

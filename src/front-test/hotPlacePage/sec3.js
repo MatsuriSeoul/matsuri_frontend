@@ -25,7 +25,7 @@ const Sec3 = ({localEvents}) =>{
                 </div>
             </div>
             <div className="img-list">
-                {localEvents.map((event, index) => (
+                {localEvents.slice(0, 8).map((event, index) => (
                     <Link to={`/eventDetailPage/sigungu/${event.contentid || event.contentId}/${event.contenttypeid || event.contentTypeId}`}>
                         <div className="box" key={index}>
                             <div className="img"
