@@ -4,6 +4,7 @@ import { Navigation } from "swiper/modules";
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 
+import "../../App.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import KakaoMap from "../../KakaoMap";
