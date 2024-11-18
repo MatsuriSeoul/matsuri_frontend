@@ -94,11 +94,9 @@ const InQuiryView = () => {
             <div className="post-info">
                 <div className='profile-picture'></div>
                 <div className='detail-wrap'>
-                    <p className='author-info'><b>작성자</b></p>
                     <p className='datetext'><b>작성일자</b></p>
                 </div>
                 <div className='detail-info'>
-                    <p className='author-name'>{<inquiry className="userId"></inquiry>}</p>
                     <div className='dateView'>
                         <p className='date'>{new Date(inquiry.createdTime).toLocaleString()}</p>
                         <p className='views'>답변상태 : {inquiry.status}</p>
