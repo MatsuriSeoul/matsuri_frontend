@@ -50,7 +50,18 @@ const NoticeView = () => {
     };
     useEffect(() => {
         const token = localStorage.getItem('token');
+        if (!token) {
+            alert('로그인이 필요한 기능입니다.');
+            history.push('/noticePage');
+            return;
+        }
+
         const userId = extractUserIdFromToken(token);
+        if (!userId) {
+            alert('로그인이 필요한 기능입니다.');
+            history.push('/noticePage');
+            return;
+        }
         setCurrentUserId(userId);
 
         fetchNotice();

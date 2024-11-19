@@ -45,7 +45,7 @@ const ReviewComponent = ({ query }) => {
                 <div>
                     {reviews.slice(0, 8).map((review, index) => (
                     <a href="#"
-                       onClick={() => handleLinkClick(review.link)}
+                       onClick={(e) => { e.preventDefault(); handleLinkClick(review.link); }}
                        rel="noopener noreferrer">
                             <h3 className='review'>{review.title}</h3>
                     </a>
