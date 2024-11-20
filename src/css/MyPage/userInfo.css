@@ -426,7 +426,7 @@
     width: 85%;
 }
 .myRecentContainer .authored-comment-item .date{
-
+    text-wrap: nowrap;
 }
 
 .myRecentContainer .recentSwiper-wrapper .like-comment,
